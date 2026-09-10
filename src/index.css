@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand: #800000;
+  --color-brand-light: #9e1a1a;
+  --color-brand-dark: #570000;
+  --color-concrete: #64748b;
+  --color-industrial: #0f172a;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background-color: #f8fafc;
+  color: #1e293b;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Outfit', system-ui, sans-serif;
+}
+
+/* Animations for Smooth Auto Scrolling Projects */
+@keyframes scrollVertical {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+@keyframes scrollHorizontal {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll-vertical {
+  animation: scrollVertical 20s linear infinite;
+}
+
+.animate-scroll-horizontal {
+  animation: scrollHorizontal 25s linear infinite;
+}
+
+.pause-on-hover:hover {
+  animation-play-state: paused;
+}
