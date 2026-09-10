@@ -1,81 +1,5 @@
 import React, { useState } from 'react'
 
-// DATA PRODUK BETON PRACETAK PT LISA CONCRETE INDONESIA
-const productsData = [
-  {
-    id: 'prod-1',
-    name: 'Box Culvert Monolith & RCBC',
-    category: 'Drainase & Saluran',
-    image: './images/products/box_culvert_1789013343710.jpg',
-    desc: 'Saluran beton pracetak berbentuk kotak berongga untuk gorong-gorong, crossing saluran air, dan jembatan bawah tanah berdaya dukung beban berat.',
-    specs: ['Dimensi: 400x400 mm s/d 4000x4000 mm', 'Mutu Beton: K-350 / fc 30 MPa s/d K-500', 'Sistem Joint: Male-Female Socket dengan Mastic Sealant', 'Aplikasi: Underpass, Crossing Drainase Tol, Saluran Primer']
-  },
-  {
-    id: 'prod-2',
-    name: 'U-Ditch & U-Gutter + Cover',
-    category: 'Drainase & Saluran',
-    image: './images/products/u_ditch_drain_1789013402878.jpg',
-    desc: 'Saluran air terbuka penampang U yang dapat dilengkapi dengan cover plat beton heavy duty maupun light duty untuk bahu jalan.',
-    specs: ['Tipe: Light Duty & Heavy Duty (Bisa dilalui kendaraan)', 'Dimensi: Lebar 300 mm s/d 2000 mm', 'Standar Mutu: ISO 9001 - K-350', 'Aplikasi: Drainase kawasan industri, perumahan, dan jalan raya']
-  },
-  {
-    id: 'prod-3',
-    name: 'CCSP (Concrete Corrugated Sheet Pile)',
-    category: 'Pondasi & Dinding Penahan',
-    image: './images/products/ccsp_sheet_pile_1789013633460.jpg',
-    desc: 'Turap beton bergelombang prategang (prestress) untuk penahan tanah bantaran sungai, tebing, dermaga, dan tanggul pelabuhan.',
-    specs: ['Tipe: W-325, W-350, W-400, W-450, W-500, W-600', 'Teknologi: Prestressing Strand JIS G 3536', 'Panjang: 6 meter s/d 18 meter per segmen', 'Aplikasi: Revetment sungai, dermaga maritim, penahan longsor']
-  },
-  {
-    id: 'prod-4',
-    name: 'Mini Pile (Square Prestressed Piles)',
-    category: 'Pondasi & Dinding Penahan',
-    image: './images/products/mini_piles_concrete_1789013422800.jpg',
-    desc: 'Pondasi tiang pancang beton prategang penampang persegi dengan daya dukung tinggi untuk gedung, pabrik, dan perumahan.',
-    specs: ['Ukuran Standar: 20x20 cm dan 25x25 cm', 'Kapasitas Beban: 25 - 45 Ton per tiang', 'Mutu Beton: K-450 / K-500', 'Sistem Sambungan: Joint Plat Baja Las Ujung']
-  },
-  {
-    id: 'prod-5',
-    name: 'I-Girder (Balok Jembatan Pracetak)',
-    category: 'Struktur Infrastruktur',
-    image: './images/products/bridge_i_girder_1789013383822.jpg',
-    desc: 'Balok prategang penampang I untuk jembatan bentang panjang dan flyover dengan tingkat presisi tinggi dan durability prima.',
-    specs: ['Bentang (Span): 16 meter s/d 40 meter', 'Tinggi Balok: H-90, H-125, H-170, H-210 cm', 'Metode: Post-Tensioning System', 'Aplikasi: Jembatan Tol, Flyover Jalan Nasional']
-  },
-  {
-    id: 'prod-6',
-    name: 'Pipa Beton (RCP & NRCP)',
-    category: 'Drainase & Saluran',
-    image: './images/products/concrete_pipes_1789013598484.jpg',
-    desc: 'Pipa beton bertulang (Reinforced Concrete Pipe) dan non-bertulang dengan proses pemadatan sentrifugal/vibrasi presisi.',
-    specs: ['Diameter: Dia. 300 mm s/d 2000 mm', 'Tipe Joint: Spigot & Socket / Flush Joint', 'Standar: ASTM C-76 / SNI 03-6368', 'Aplikasi: Gorong-gorong drainase, saluran limbah kota']
-  },
-  {
-    id: 'prod-7',
-    name: 'Tetrapod (Breakwater Pelindung Pantai)',
-    category: 'Khusus & Maritim',
-    image: './images/products/concrete_tetrapods_1789013619034.jpg',
-    desc: 'Struktur beton berkaki empat penahan abrasi pantai yang saling mengunci untuk memecah energi gelombang laut di pelabuhan dan pesisir.',
-    specs: ['Bobot Satuan: 1 Ton s/d 10 Ton', 'Mutu Beton: K-350 Tahan Sulfat & Air Laut', 'Aplikasi: Breakwater dermaga, pelabuhan, tanggul pesisir']
-  },
-  {
-    id: 'prod-8',
-    name: 'Road Barrier (Pembatas Jalan Beton)',
-    category: 'Khusus & Maritim',
-    image: './images/products/road_barrier_1789013363306.jpg',
-    desc: 'Pembatas jalur jalan raya tipe New Jersey & Osaka dengan interlocking connection yang kokoh dan aman bagi pengguna jalan.',
-    specs: ['Tipe: Osaka Type & New Jersey Barrier', 'Dimensi Standar: Panjang 100-200 cm, Tinggi 80 cm', 'Aplikasi: Median jalan tol, batas jalur proyek, gerbang tol']
-  },
-  {
-    id: 'prod-9',
-    name: 'Pagar Panel Beton Knock-Down',
-    category: 'Struktur Infrastruktur',
-    image: './images/products/precast_fence_panel_1789013441770.jpg',
-    desc: 'Sistem pagar pembatas modular panel dan kolom beton bertulang yang cepat dirakit untuk kawasan industri dan lahan perkebunan.',
-    specs: ['Ukuran Daun Panel: 240 x 40 x 5 cm', 'Tinggi Pagar: 160 cm s/d 320 cm', 'Struktur: Interlocking groove panel dengan kolom H', 'Aplikasi: Pengamanan perimeter pabrik, pergudangan, perumahan']
-  }
-]
-
 // DATA LOWONGAN KERJA PT LISA CONCRETE INDONESIA
 const initialJobs = [
   {
@@ -173,74 +97,23 @@ const initialJobs = [
   }
 ]
 
-// DATA PORTOFOLIO PROYEK
-const projectsList = [
-  {
-    title: 'Proyek Box Culvert Monolith Kawasan Pakuwon',
-    client: 'Pakuwon Group',
-    location: 'Surabaya, Jawa Timur',
-    year: '2020 - 2021',
-    product: 'Box Culvert Monolith & RCBC Heavy Duty',
-    desc: 'Pengadaan dan instalasi ratusan unit saluran box culvert monolith penampang besar untuk sistem drainase terpadu kawasan komersial & residensial Pakuwon Surabaya.'
-  },
-  {
-    title: 'Facade Dinding Beton Arsitektural Hotel Agogo',
-    client: 'Agogo Hotel Management',
-    location: 'Surabaya, Jawa Timur',
-    year: '2021 - 2022',
-    product: 'Precast Architectural Facade Panel',
-    desc: 'Penyediaan panel facade beton pracetak presisi tinggi dengan finishing estetis untuk fasad eksterior gedung bertingkat modern di Surabaya.'
-  },
-  {
-    title: 'Pagar Panel Beton Kawasan Industri Gudang Garam',
-    client: 'PT Gudang Garam Tbk',
-    location: 'Magetan, Jawa Timur',
-    year: '2021',
-    product: 'Pagar Panel Beton Knockdown & Kolom H',
-    desc: 'Pemasangan perimeter pengamanan pagar panel beton modular sepanjang ribuan meter di area fasilitas industri dan logistik Magetan.'
-  },
-  {
-    title: 'Proyek Pelabuhan & Tambang Batulicin',
-    client: 'Konsorsium Rekayasa Infrastruktur',
-    location: 'Batulicin, Kalimantan Selatan',
-    year: '2021 - 2022',
-    product: 'CCSP (Corrugated Sheet Pile) & Pipa Beton',
-    desc: 'Pemasangan turap CCSP prestressed untuk perkuatan dinding tebing dermaga dan pipa beton heavy duty untuk saluran pembuangan kawasan tambang.'
-  },
-  {
-    title: 'Drainase Jalan Nasional & Wilayah Denpasar',
-    client: 'Dinas PUPR Provinsi Bali',
-    location: 'Denpasar & Karangasem, Bali',
-    year: '2022 - 2024',
-    product: 'U-Ditch & U-Gutter + Heavy Duty Cover',
-    desc: 'Suplai produk saluran pracetak berstandar mutu tinggi untuk mengatasi genangan dan peremajaan sistem drainase perkotaan Bali.'
-  }
-]
-
 export default function App() {
   const [activeTab, setActiveTab] = useState('home')
   const [jobs] = useState(initialJobs)
-  const [products] = useState(productsData)
   
   // Search & Filters Karir
   const [searchKeyword, setSearchKeyword] = useState('')
   const [selectedLocation, setSelectedLocation] = useState('')
   const [selectedDept, setSelectedDept] = useState('')
 
-  // Product Category Filter
-  const [prodCategory, setProdCategory] = useState('Semua')
-
   // Modals state
   const [selectedJob, setSelectedJob] = useState(null)
   const [applyModalJob, setApplyModalJob] = useState(null)
-  const [selectedProduct, setSelectedProduct] = useState(null)
   const [trackingModalOpen, setTrackingModalOpen] = useState(false)
   const [trackingCode, setTrackingCode] = useState('')
   const [trackedResult, setTrackedResult] = useState(null)
   const [applySuccess, setApplySuccess] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [projectScrollMode, setProjectScrollMode] = useState('vertical')
-  const [isProjectPaused, setIsProjectPaused] = useState(false)
 
   // Filter Jobs
   const filteredJobs = jobs.filter(job => {
@@ -252,12 +125,7 @@ export default function App() {
     return matchKeyword && matchLocation && matchDept
   })
 
-  // Filter Products
-  const filteredProducts = prodCategory === 'Semua' 
-    ? products 
-    : products.filter(p => p.category === prodCategory)
-
-  // Track Application Handler
+  // Track Application Handler (Tahapan Resmi Sesuai Revisi: Tanpa MCU)
   const handleTrackApplication = (e) => {
     e.preventDefault()
     if (!trackingCode.trim()) return
@@ -266,15 +134,15 @@ export default function App() {
       name: 'Budi Santoso, S.T.',
       jobTitle: 'Precast Civil Engineer & Drafter',
       submittedDate: '04 September 2026',
-      status: 'Tahap Tes Teknis & Wawancara HR',
+      status: 'Tahap Wawancara User (Sedang Berjalan)',
       currentStep: 2,
       steps: [
-        { label: 'Administrasi & Verifikasi Dokumen', done: true, date: '05 Sep 2026' },
-        { label: 'Tes Gambar CAD / Teknis & Psikotes Online', done: true, date: '08 Sep 2026' },
-        { label: 'Wawancara HR & Profiling (Sedang Berjalan)', done: false, active: true, date: '12 Sep 2026' },
-        { label: 'Wawancara User (Engineering Manager)', done: false, date: 'Menunggu Hasil HR' },
-        { label: 'Pemeriksaan Kesehatan (MCU)', done: false, date: '-' },
-        { label: 'Offering Letter & Penandatanganan Kontrak', done: false, date: '-' }
+        { label: 'Administrasi & verifikasi dokumen', done: true, date: '05 Sep 2026' },
+        { label: 'Wawancara HR', done: true, date: '08 Sep 2026' },
+        { label: 'Wawancara User', done: false, active: true, date: '12 Sep 2026 (Sedang Berjalan)' },
+        { label: 'Psikotes', done: false, date: 'Menunggu Hasil Wawancara User' },
+        { label: 'Offering Letter', done: false, date: '-' },
+        { label: 'Onboarding', done: false, date: '-' }
       ]
     })
   }
@@ -300,16 +168,6 @@ export default function App() {
     }
   }
 
-  const handleSelectCategory = (cat) => {
-    setProdCategory(cat)
-    setActiveTab('produk')
-    setMobileMenuOpen(false)
-    const prodEl = document.getElementById('produk')
-    if (prodEl) {
-      prodEl.scrollIntoView({ behavior: 'smooth' })
-    }
-  }
-
   const handleJumpSection = (id, tabName) => {
     setActiveTab(tabName)
     setMobileMenuOpen(false)
@@ -331,15 +189,28 @@ export default function App() {
             </span>
             <span className="hidden sm:inline text-slate-600">|</span>
             <span>Member of <strong>DUSASPUN Group</strong></span>
+            <span className="hidden sm:inline text-slate-600">|</span>
+            <a 
+              href="https://www.lisaconcrete.com" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-amber-300 hover:text-white transition-colors flex items-center gap-1 font-semibold"
+            >
+              <span>🌐 Web Utama: www.lisaconcrete.com</span>
+              <span>&rarr;</span>
+            </a>
           </div>
           <div className="flex items-center gap-5 text-slate-300">
             <span className="flex items-center gap-1">
               📞 +62 31 7326070
             </span>
             <span className="hidden sm:inline text-slate-600">|</span>
-            <span className="flex items-center gap-1">
-              ✉️ marketing@lisaconcrete.com
-            </span>
+            <a 
+              href="mailto:admpersonnel@lisaconcrete.com" 
+              className="flex items-center gap-1 text-slate-300 hover:text-white transition-colors"
+            >
+              ✉️ admpersonnel@lisaconcrete.com
+            </a>
           </div>
         </div>
       </div>
@@ -437,145 +308,6 @@ export default function App() {
                           <p className="text-xs font-bold text-slate-800 group-hover/sub:text-brand">Fasilitas Pabrik &amp; Kantor</p>
                           <p className="text-[11px] text-slate-500">Head Office Surabaya, Plant Ngoro &amp; Bali</p>
                         </div>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* PRODUK WITH HOVER DROPDOWN */}
-              <div className="relative group py-2">
-                <a 
-                  href="#produk" 
-                  onClick={() => { setActiveTab('produk'); setProdCategory('Semua'); }}
-                  className={`px-3 py-2 rounded-xl whitespace-nowrap transition-colors flex items-center gap-1 cursor-pointer ${activeTab === 'produk' ? 'text-brand bg-red-50 font-black' : 'hover:text-brand hover:bg-slate-50'}`}
-                >
-                  <span>Produk</span>
-                  <svg className="w-3 h-3 text-slate-400 group-hover:text-brand group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" />
-                  </svg>
-                </a>
-
-                {/* Hover Dropdown */}
-                <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 translate-y-2 transition-all duration-200 z-50 pointer-events-none group-hover:pointer-events-auto">
-                  <div className="w-96 bg-white rounded-2xl shadow-2xl border border-slate-200/90 p-4 text-left normal-case">
-                    <div className="flex items-center justify-between pb-3 mb-2 border-b border-slate-100">
-                      <div>
-                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Katalog Beton Pracetak</span>
-                        <h4 className="text-xs font-black text-slate-900">Kategori Produk Unggulan</h4>
-                      </div>
-                      <span className="px-2.5 py-1 bg-amber-50 text-amber-700 text-[10px] font-bold rounded-full border border-amber-200">
-                        9 Produk Standar ISO
-                      </span>
-                    </div>
-
-                    <div className="space-y-1.5">
-                      {[
-                        { cat: 'Drainase & Saluran', icon: '🌊', count: '3 Produk', desc: 'Box Culvert, U-Ditch Drain, Pipa Beton' },
-                        { cat: 'Pondasi & Dinding Penahan', icon: '🧱', count: '2 Produk', desc: 'CCSP Sheet Pile, Square Mini Pile' },
-                        { cat: 'Struktur Infrastruktur', icon: '🌉', count: '3 Produk', desc: 'Bridge I-Girder, Road Barrier, Pagar Panel' },
-                        { cat: 'Khusus & Maritim', icon: '⚓', count: '1 Produk', desc: 'Concrete Tetrapod Pemecah Ombak' },
-                      ].map((item) => (
-                        <button
-                          key={item.cat}
-                          onClick={() => handleSelectCategory(item.cat)}
-                          className="w-full text-left p-2.5 rounded-xl hover:bg-red-50/60 transition-colors flex items-start gap-3 group/prod border border-transparent hover:border-red-100 cursor-pointer"
-                        >
-                          <span className="w-8 h-8 rounded-lg bg-slate-100 group-hover/prod:bg-brand group-hover/prod:text-white flex items-center justify-center text-sm shrink-0 transition-colors">
-                            {item.icon}
-                          </span>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center justify-between">
-                              <p className="text-xs font-bold text-slate-800 group-hover/prod:text-brand truncate">
-                                {item.cat}
-                              </p>
-                              <span className="text-[10px] text-slate-500 font-medium">
-                                {item.count}
-                              </span>
-                            </div>
-                            <p className="text-[11px] text-slate-500 truncate mt-0.5">
-                              {item.desc}
-                            </p>
-                          </div>
-                        </button>
-                      ))}
-                    </div>
-
-                    <div className="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between">
-                      <button
-                        onClick={() => handleSelectCategory('Semua')}
-                        className="text-[11px] font-bold text-brand hover:underline cursor-pointer"
-                      >
-                        Buka Semua 9 Produk Precast &rarr;
-                      </button>
-                      <a
-                        href="#kontak"
-                        onClick={() => handleJumpSection('kontak', 'kontak')}
-                        className="text-[10px] font-bold text-slate-600 hover:text-brand bg-slate-100 hover:bg-slate-200 px-2.5 py-1 rounded-lg"
-                      >
-                        Minta Penawaran
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* PROYEK WITH HOVER DROPDOWN */}
-              <div className="relative group py-2">
-                <a 
-                  href="#proyek" 
-                  onClick={() => handleJumpSection('proyek', 'proyek')}
-                  className={`px-3 py-2 rounded-xl whitespace-nowrap transition-colors flex items-center gap-1 cursor-pointer ${activeTab === 'proyek' ? 'text-brand bg-red-50 font-black' : 'hover:text-brand hover:bg-slate-50'}`}
-                >
-                  <span>Proyek</span>
-                  <svg className="w-3 h-3 text-slate-400 group-hover:text-brand group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" />
-                  </svg>
-                </a>
-
-                {/* Hover Dropdown */}
-                <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 translate-y-2 transition-all duration-200 z-50 pointer-events-none group-hover:pointer-events-auto">
-                  <div className="w-96 bg-white rounded-2xl shadow-2xl border border-slate-200/90 p-4 text-left normal-case">
-                    <div className="flex items-center justify-between pb-3 mb-2 border-b border-slate-100">
-                      <div>
-                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Portofolio &amp; Pengalaman</span>
-                        <h4 className="text-xs font-black text-slate-900">Proyek Unggulan Nasional</h4>
-                      </div>
-                      <span className="px-2 py-0.5 bg-slate-100 text-slate-600 text-[10px] font-bold rounded">
-                        1.000+ Proyek
-                      </span>
-                    </div>
-
-                    <div className="space-y-1">
-                      {projectsList.map((prj, i) => (
-                        <a
-                          key={i}
-                          href="#proyek"
-                          onClick={() => handleJumpSection('proyek', 'proyek')}
-                          className="p-2 rounded-xl hover:bg-red-50/60 flex items-center justify-between gap-3 transition-colors block group/p border border-transparent hover:border-red-100"
-                        >
-                          <div className="min-w-0">
-                            <p className="text-xs font-bold text-slate-800 group-hover/p:text-brand truncate">
-                              {prj.title}
-                            </p>
-                            <p className="text-[10px] text-slate-500 truncate mt-0.5">
-                              📍 {prj.location} • Klien: <span className="font-semibold text-slate-700">{prj.client}</span>
-                            </p>
-                          </div>
-                          <span className="text-[10px] font-mono text-slate-400 font-bold shrink-0 bg-slate-100 px-1.5 py-0.5 rounded">
-                            {prj.year}
-                          </span>
-                        </a>
-                      ))}
-                    </div>
-
-                    <div className="mt-3 pt-2 border-t border-slate-100">
-                      <a
-                        href="#proyek"
-                        onClick={() => handleJumpSection('proyek', 'proyek')}
-                        className="block text-center text-[11px] font-bold text-brand hover:underline"
-                      >
-                        Lihat Banner Animasi Portofolio &rarr;
                       </a>
                     </div>
                   </div>
@@ -686,6 +418,19 @@ export default function App() {
             {/* Action Buttons & Mobile Toggle */}
             <div className="flex items-center gap-2.5">
               <a 
+                href="https://www.lisaconcrete.com" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="hidden md:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-slate-300 hover:border-brand text-slate-700 hover:text-brand font-bold text-xs transition-colors whitespace-nowrap"
+                title="Kunjungi Website Utama PT Lisa Concrete Indonesia"
+              >
+                <span>Web Utama</span>
+                <svg className="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              </a>
+
+              <a 
                 href="#kontak" 
                 onClick={() => handleJumpSection('kontak', 'kontak')}
                 className="bg-brand hover:bg-brand-dark text-white px-5 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all shadow-md shadow-brand/20 flex items-center gap-2 whitespace-nowrap shrink-0"
@@ -730,20 +475,6 @@ export default function App() {
               >
                 Tentang Kami
               </a>
-              <a 
-                href="#produk" 
-                onClick={() => handleJumpSection('produk', 'produk')}
-                className="block px-4 py-2.5 rounded-xl hover:bg-slate-50 text-slate-800"
-              >
-                Produk Pracetak
-              </a>
-              <a 
-                href="#proyek" 
-                onClick={() => handleJumpSection('proyek', 'proyek')}
-                className="block px-4 py-2.5 rounded-xl hover:bg-slate-50 text-slate-800"
-              >
-                Proyek
-              </a>
 
               {/* Mobile Karir with Division Quick Filter Chips */}
               <div className="pt-2 border-t border-slate-100">
@@ -784,6 +515,23 @@ export default function App() {
                 </svg>
                 Lacak Lamaran
               </button>
+
+              <a 
+                href="#kontak" 
+                onClick={() => handleJumpSection('kontak', 'kontak')}
+                className="block px-4 py-2.5 rounded-xl hover:bg-slate-50 text-slate-800"
+              >
+                Kontak &amp; Lokasi
+              </a>
+
+              <a 
+                href="https://www.lisaconcrete.com" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="block px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-900 font-bold text-xs mt-2"
+              >
+                🌐 Kunjungi Web Utama: www.lisaconcrete.com &rarr;
+              </a>
             </div>
           )}
         </div>
@@ -799,37 +547,47 @@ export default function App() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900 border border-slate-700 text-amber-400 text-xs font-bold uppercase tracking-wider mb-6 shadow-inner">
-              <span className="w-2 h-2 rounded-full bg-brand animate-ping"></span>
-              Produsen Beton Pracetak Terpercaya Sejak 1994
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              Portal Karir &amp; Rekrutmen Resmi
             </div>
 
             <h1 className="text-4xl sm:text-6xl font-black tracking-tight leading-tight mb-6">
-              SOLUSI BETON PRACETAK <br />
+              BANGUN KARIR ANDA <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-rose-400 to-amber-300">
-                INOVATIF &amp; BERKUALITAS
+                BERSAMA LISA CONCRETE
               </span>
             </h1>
 
             <p className="text-base sm:text-lg text-slate-300 mb-10 leading-relaxed font-normal max-w-2xl">
-              PT Lisa Concrete Indonesia menghadirkan produk precast berstandar mutu internasional ISO 9001 dengan keunggulan inovasi dan teknologi DUSASPUN Group untuk membangun infrastruktur Indonesia yang kokoh, tangguh, dan berkelanjutan.
+              PT Lisa Concrete Indonesia (member of DUSASPUN Group) mengundang talenta teknik sipil, manufaktur beton pracetak, QC, dan profesional muda berintegritas tinggi untuk berkarya dan berinovasi dalam membangun infrastruktur Indonesia.
             </p>
 
             {/* Quick Links & CTA */}
             <div className="flex flex-wrap items-center gap-4">
               <a 
-                href="#produk" 
+                href="#karir" 
+                onClick={() => handleJumpSection('karir', 'karir')}
                 className="bg-brand hover:bg-brand-dark text-white px-7 py-3.5 rounded-xl font-bold text-sm transition-all shadow-xl shadow-brand/30 flex items-center gap-2 whitespace-nowrap"
               >
-                <span>Jelajahi Produk Pracetak</span>
+                <span>Lihat Lowongan Kerja ({jobs.length} Posisi)</span>
                 <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                 </svg>
               </a>
-              <a 
-                href="#karir" 
-                className="bg-slate-800/80 hover:bg-slate-800 text-slate-200 border border-slate-700 hover:border-brand px-6 py-3.5 rounded-xl font-bold text-sm transition-all whitespace-nowrap"
+              <button 
+                onClick={() => setTrackingModalOpen(true)}
+                className="bg-slate-800/90 hover:bg-slate-800 text-slate-200 border border-slate-700 hover:border-brand px-6 py-3.5 rounded-xl font-bold text-sm transition-all flex items-center gap-2 whitespace-nowrap cursor-pointer"
               >
-                Peluang Karir ({jobs.length} Lowongan)
+                <span>🔍 Lacak Status Lamaran</span>
+              </button>
+              <a 
+                href="https://www.lisaconcrete.com" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-xs text-amber-300 hover:text-white transition-colors flex items-center gap-1.5 font-bold px-3 py-2"
+              >
+                <span>🌐 Kunjungi Web Utama: www.lisaconcrete.com</span>
+                <span>&rarr;</span>
               </a>
             </div>
 
@@ -848,8 +606,8 @@ export default function App() {
                 <p className="text-xs text-slate-400 uppercase tracking-wider mt-1">Ngoro &amp; Karangasem</p>
               </div>
               <div className="whitespace-nowrap">
-                <p className="text-3xl font-black text-brand-light">1.000+</p>
-                <p className="text-xs text-slate-400 uppercase tracking-wider mt-1">Proyek Terselesaikan</p>
+                <p className="text-3xl font-black text-brand-light">{jobs.length} Posisi</p>
+                <p className="text-xs text-slate-400 uppercase tracking-wider mt-1">Loker Terbuka</p>
               </div>
             </div>
           </div>
@@ -936,172 +694,76 @@ export default function App() {
         </div>
       </section>
 
-      {/* KATALOG PRODUK PRACETAK */}
-      <section id="produk" className="py-24 bg-slate-100 w-full max-w-full overflow-hidden">
+      {/* TAHAPAN REKRUTMEN RESMI (6 LANGKAH SELEKSI - TANPA MCU) */}
+      <section className="py-20 bg-slate-100 border-y border-slate-200 w-full max-w-full overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-10">
-            <span className="text-brand font-bold text-xs uppercase tracking-widest bg-red-50 px-3.5 py-1.5 rounded-full">
-              Katalog Produk Resmi
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 mt-3 mb-2">
-              Produk Beton Pracetak Unggulan
-            </h2>
-            <p className="text-slate-600 text-sm max-w-2xl mb-6">
-              Diproduksi dengan mesin berteknologi presisi tinggi dan formula beton berkekuatan tinggi.
-            </p>
-
-            {/* Category Filter Tabs - Strictly 1 Single Row */}
-            <div className="flex items-center gap-2.5 overflow-x-auto pb-2 flex-nowrap">
-              {['Semua', 'Drainase & Saluran', 'Pondasi & Dinding Penahan', 'Struktur Infrastruktur', 'Khusus & Maritim'].map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => setProdCategory(cat)}
-                  className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap shrink-0 ${
-                    prodCategory === cat
-                      ? 'bg-brand text-white shadow-md shadow-brand/20'
-                      : 'bg-white text-slate-700 hover:bg-slate-200 border border-slate-200'
-                  }`}
-                >
-                  {cat}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProducts.map((prod) => (
-              <div 
-                key={prod.id} 
-                className="bg-white rounded-2xl overflow-hidden border border-slate-200 hover:border-brand/40 hover:shadow-2xl transition-all flex flex-col group"
-              >
-                <div className="h-52 relative overflow-hidden bg-slate-200">
-                  <img 
-                    src={prod.image} 
-                    alt={prod.name} 
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <span className="absolute top-3 left-3 bg-slate-900/80 backdrop-blur-md text-white text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
-                    {prod.category}
-                  </span>
-                </div>
-
-                <div className="p-6 flex-1 flex flex-col justify-between">
-                  <div>
-                    <h3 className="text-lg font-black text-slate-900 group-hover:text-brand transition-colors mb-2">
-                      {prod.name}
-                    </h3>
-                    <p className="text-slate-600 text-xs line-clamp-3 mb-4 leading-relaxed">
-                      {prod.desc}
-                    </p>
-                  </div>
-
-                  <div className="pt-4 border-t border-slate-100 flex items-center justify-between gap-3">
-                    <button 
-                      onClick={() => setSelectedProduct(prod)}
-                      className="text-xs font-bold text-slate-700 hover:text-brand transition-colors"
-                    >
-                      Lihat Spesifikasi &rarr;
-                    </button>
-                    <a 
-                      href="#kontak" 
-                      className="px-4 py-2 bg-slate-100 hover:bg-brand hover:text-white text-slate-800 text-xs font-bold rounded-xl transition-all"
-                    >
-                      Minta Penawaran
-                    </a>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* PORTOFOLIO PROYEK (SATU BARIS HORIZONTAL SCROLL OTOMATIS) */}
-      <section id="proyek" className="py-24 bg-white overflow-hidden w-full max-w-full min-w-0">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-12">
-            <span className="text-brand font-bold text-xs uppercase tracking-widest bg-red-50 px-3.5 py-1.5 rounded-full">
-              Track Record Teruji
+          <div className="text-center max-w-3xl mx-auto mb-14">
+            <span className="text-brand font-bold text-xs uppercase tracking-widest bg-red-50 px-3.5 py-1.5 rounded-full border border-red-100">
+              Transparan &amp; Terstruktur
             </span>
             <h2 className="text-3xl sm:text-4xl font-black text-slate-900 mt-3 mb-3">
-              Portofolio Proyek Terkemuka
+              Tahapan Seleksi Rekrutmen
             </h2>
-            <p className="text-slate-600 text-sm max-w-2xl mx-auto">
-              Kepercayaan dari BUMN Karya, konglomerasi industri, pengembang properti papan atas, dan pemerintah daerah di seluruh Indonesia.
-            </p>
-
-            {/* Status & Quick Control */}
-            <div className="mt-6 inline-flex items-center gap-3 p-1.5 px-4 bg-slate-50 rounded-full border border-slate-200 text-xs">
-              <span className="flex items-center gap-2 font-bold text-slate-700">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                <span>Bergerak Otomatis (1 Baris Horizontal)</span>
-              </span>
-              <span className="text-slate-300">|</span>
-              <button
-                onClick={() => setIsProjectPaused(!isProjectPaused)}
-                className="font-bold text-brand hover:text-brand-dark transition-colors flex items-center gap-1"
-                title={isProjectPaused ? 'Jalankan Animasi' : 'Jeda Animasi'}
-              >
-                {isProjectPaused ? '▶ Lanjutkan Gerakan' : '⏸ Jeda Gerakan'}
-              </button>
-            </div>
-
-            <p className="text-[11px] text-slate-400 mt-2.5 italic">
-              * Arahkan kursor mouse ke kartu untuk menjeda dan membaca detail proyek.
+            <p className="text-slate-600 text-sm">
+              Proses seleksi penerimaan karyawan di PT Lisa Concrete Indonesia berlangsung profesional dan transparan melalui 6 tahapan resmi:
             </p>
           </div>
-        </div>
 
-        {/* FULL-WIDTH SEAMLESS HORIZONTAL MARQUEE */}
-        <div className="relative overflow-hidden py-4 w-full max-w-full min-w-0">
-          {/* Edge Fade Gradients */}
-          <div className="absolute top-0 bottom-0 left-0 w-20 sm:w-40 bg-gradient-to-r from-white via-white/80 to-transparent pointer-events-none z-10"></div>
-          <div className="absolute top-0 bottom-0 right-0 w-20 sm:w-40 bg-gradient-to-l from-white via-white/80 to-transparent pointer-events-none z-10"></div>
-
-          {/* Continuous Moving Track */}
-          <div 
-            className="flex gap-6 animate-scroll-horizontal pause-on-hover w-max"
-            style={{ animationPlayState: isProjectPaused ? 'paused' : undefined }}
-          >
-            {[...projectsList, ...projectsList].map((prj, i) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 relative">
+            {[
+              { no: '01', title: 'Administrasi & Verifikasi Dokumen', desc: 'Pemeriksaan berkas CV, portofolio, dan keaslian dokumen kualifikasi.', icon: '📄' },
+              { no: '02', title: 'Wawancara HR', desc: 'Evaluasi kepribadian, integritas, dan keselarasan dengan budaya L.I.S.A.', icon: '🤝' },
+              { no: '03', title: 'Wawancara User', desc: 'Uji kompetensi teknis bersama Division Lead / Engineering Manager.', icon: '👨‍💼' },
+              { no: '04', title: 'Psikotes', desc: 'Evaluasi psikologis, penalaran logika, dan analisa potensi profesional.', icon: '🧠' },
+              { no: '05', title: 'Offering Letter', desc: 'Pemberian penawaran resmi paket kompensasi, benefit, dan hak kerja.', icon: '✉️' },
+              { no: '06', title: 'Onboarding', desc: 'Penyambutan karyawan baru, pengenalan sistem, dan serah terima tugas.', icon: '🚀' },
+            ].map((st, idx) => (
               <div 
-                key={i} 
-                className="w-[340px] sm:w-[390px] p-7 rounded-3xl bg-slate-50/90 border border-slate-200/90 hover:border-brand/60 hover:bg-white hover:shadow-2xl transition-all duration-300 flex flex-col justify-between shrink-0 group cursor-pointer"
+                key={idx} 
+                className="bg-white rounded-2xl p-5 border border-slate-200/90 hover:border-brand/50 hover:shadow-xl transition-all flex flex-col justify-between relative group"
               >
                 <div>
-                  <div className="flex justify-between items-center text-xs text-slate-500 mb-3.5">
-                    <span className="font-black text-brand text-xs uppercase tracking-wider bg-red-50 px-2.5 py-0.5 rounded-md border border-red-100">
-                      📍 {prj.location}
-                    </span>
-                    <span className="bg-slate-200/80 text-slate-600 px-2.5 py-0.5 rounded-md font-mono text-[10px] font-bold">
-                      {prj.year}
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-2xl">{st.icon}</span>
+                    <span className="text-xs font-black text-brand bg-red-50 px-2 py-0.5 rounded-md font-mono">
+                      {st.no}
                     </span>
                   </div>
-
-                  <h3 className="font-black text-slate-900 text-lg group-hover:text-brand transition-colors mb-2 leading-snug">
-                    {prj.title}
+                  <h3 className="font-bold text-slate-900 text-xs mb-1.5 group-hover:text-brand transition-colors leading-snug">
+                    {st.title}
                   </h3>
-
-                  <p className="text-xs text-slate-500 mb-3 font-semibold flex items-center gap-1">
-                    <span>Klien:</span>
-                    <strong className="text-slate-800">{prj.client}</strong>
+                  <p className="text-[11px] text-slate-500 leading-relaxed">
+                    {st.desc}
                   </p>
-
-                  <p className="text-xs text-slate-600 leading-relaxed line-clamp-3 mb-6">
-                    {prj.desc}
-                  </p>
-                </div>
-
-                <div className="pt-4 border-t border-slate-200/70 flex items-center justify-between gap-2">
-                  <span className="inline-block bg-white text-slate-800 text-[11px] font-bold px-3 py-1.5 rounded-xl border border-slate-200 group-hover:border-brand/30 truncate max-w-[240px]">
-                    📦 {prj.product}
-                  </span>
-                  <span className="text-xs font-bold text-brand group-hover:translate-x-1 transition-transform shrink-0">
-                    &rarr;
-                  </span>
                 </div>
               </div>
             ))}
+          </div>
+
+          {/* Banner Menuju Web Utama www.lisaconcrete.com */}
+          <div className="mt-14 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white rounded-3xl p-8 sm:p-10 border border-slate-700/60 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="max-w-xl text-center md:text-left">
+              <span className="text-amber-400 text-xs font-bold uppercase tracking-wider block mb-1">
+                🌐 Website Resmi Perusahaan
+              </span>
+              <h3 className="text-xl sm:text-2xl font-black text-white">
+                Mencari Katalog Produk &amp; Portofolio Proyek?
+              </h3>
+              <p className="text-slate-300 text-xs mt-2 leading-relaxed">
+                Website ini difokuskan sebagai Portal Karir &amp; Rekrutmen. Informasi lengkap mengenai katalog produk beton pracetak dan portofolio proyek nasional dapat diakses langsung pada situs korporat utama kami.
+              </p>
+            </div>
+            <a 
+              href="https://www.lisaconcrete.com" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="bg-brand hover:bg-brand-dark text-white px-6 py-3.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all shadow-lg shadow-brand/30 flex items-center gap-2 whitespace-nowrap shrink-0"
+            >
+              <span>Kunjungi www.lisaconcrete.com</span>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
+            </a>
           </div>
         </div>
       </section>
@@ -1281,7 +943,7 @@ export default function App() {
               <div className="text-xs text-slate-500 space-y-1 pt-4 border-t border-slate-200">
                 <p><strong>Telepon:</strong> +62 31 7326070</p>
                 <p><strong>Faks:</strong> +62 31 7326071</p>
-                <p><strong>Email:</strong> marketing@lisaconcrete.com</p>
+                <p><strong>Email Rekrutmen:</strong> <a href="mailto:admpersonnel@lisaconcrete.com" className="hover:text-brand font-semibold text-slate-700 transition-colors">admpersonnel@lisaconcrete.com</a></p>
               </div>
             </div>
 
@@ -1336,7 +998,7 @@ export default function App() {
                 </div>
               </div>
               <p className="text-slate-400 text-xs max-w-md leading-relaxed">
-                Produsen beton pracetak terkemuka berstandar mutu ISO 9001 sejak 1994. Menghadirkan solusi konstruksi kokoh, ramah lingkungan, dan terpercaya untuk pembangunan negeri.
+                Produsen beton pracetak terkemuka berstandar mutu ISO 9001 sejak 1994. Kanal ini dikhususkan sebagai portal resmi informasi karir dan rekrutmen pegawai.
               </p>
               <p className="text-slate-500 text-[11px]">
                 Surabaya (Head Office) • Ngoro (Plant) • Bali (Branch &amp; Plant)
@@ -1344,22 +1006,31 @@ export default function App() {
             </div>
 
             <div>
-              <h4 className="text-white font-bold mb-4 uppercase text-xs tracking-wider">Navigasi Cepat</h4>
+              <h4 className="text-white font-bold mb-4 uppercase text-xs tracking-wider">Navigasi Portal</h4>
               <ul className="space-y-2 text-xs">
                 <li><a href="#tentang" className="hover:text-white transition-colors">Tentang Perusahaan</a></li>
-                <li><a href="#produk" className="hover:text-white transition-colors">Katalog Beton Pracetak</a></li>
-                <li><a href="#proyek" className="hover:text-white transition-colors">Daftar Proyek Nasional</a></li>
                 <li><a href="#karir" className="hover:text-white transition-colors">Portal Karir &amp; Lowongan</a></li>
-                <li><button onClick={() => setTrackingModalOpen(true)} className="hover:text-white transition-colors text-left">Lacak Status Pelamar</button></li>
+                <li><button onClick={() => setTrackingModalOpen(true)} className="hover:text-white transition-colors text-left cursor-pointer">Lacak Status Pelamar</button></li>
+                <li>
+                  <a 
+                    href="https://www.lisaconcrete.com" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="hover:text-amber-300 text-amber-400 transition-colors flex items-center gap-1 font-semibold"
+                  >
+                    <span>🌐 Website Utama: www.lisaconcrete.com</span>
+                    <span>&rarr;</span>
+                  </a>
+                </li>
               </ul>
             </div>
 
             <div>
-              <h4 className="text-white font-bold mb-4 uppercase text-xs tracking-wider">Kontak &amp; Dukungan</h4>
+              <h4 className="text-white font-bold mb-4 uppercase text-xs tracking-wider">Kontak &amp; Personalia</h4>
               <ul className="space-y-2 text-xs text-slate-400">
                 <li>Tel: +62 31 7326070</li>
-                <li>Marketing: marketing@lisaconcrete.com</li>
-                <li>Rekrutmen HR: hrd@lisaconcrete.com</li>
+                <li>Email Rekrutmen: <a href="mailto:admpersonnel@lisaconcrete.com" className="text-slate-200 hover:text-white font-semibold">admpersonnel@lisaconcrete.com</a></li>
+                <li>Web Utama: <a href="https://www.lisaconcrete.com" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-white">lisaconcrete.com</a></li>
                 <li>Situs Induk: dusaspun.com</li>
               </ul>
             </div>
@@ -1371,60 +1042,6 @@ export default function App() {
           </div>
         </div>
       </footer>
-
-      {/* MODAL: DETAIL PRODUK */}
-      {selectedProduct && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-          <div className="bg-white rounded-3xl max-w-xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 shadow-2xl relative text-slate-800">
-            <button 
-              onClick={() => setSelectedProduct(null)}
-              className="absolute top-6 right-6 text-slate-400 hover:text-slate-700 p-2 rounded-full hover:bg-slate-100"
-            >
-              ✕
-            </button>
-
-            <span className="px-3 py-1 bg-red-50 text-brand text-xs font-bold rounded-lg mb-2 inline-block">
-              {selectedProduct.category}
-            </span>
-            <h3 className="text-2xl font-black text-slate-900 mb-4">{selectedProduct.name}</h3>
-            
-            <img 
-              src={selectedProduct.image} 
-              alt={selectedProduct.name} 
-              className="w-full h-56 object-cover rounded-2xl mb-6"
-            />
-
-            <p className="text-slate-600 text-sm leading-relaxed mb-6">
-              {selectedProduct.desc}
-            </p>
-
-            <div className="space-y-3 bg-slate-50 p-4 rounded-2xl border border-slate-200">
-              <h4 className="font-bold text-xs uppercase tracking-wider text-slate-700">Spesifikasi &amp; Fitur Teknis:</h4>
-              <ul className="space-y-1.5 text-xs text-slate-600 list-disc pl-5">
-                {selectedProduct.specs.map((spec, i) => (
-                  <li key={i}>{spec}</li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="mt-6 pt-4 border-t border-slate-100 flex justify-end gap-3">
-              <button 
-                onClick={() => setSelectedProduct(null)}
-                className="px-5 py-2.5 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100"
-              >
-                Tutup
-              </button>
-              <a 
-                href="#kontak" 
-                onClick={() => setSelectedProduct(null)}
-                className="px-6 py-2.5 bg-brand hover:bg-brand-dark text-white rounded-xl text-xs font-bold shadow-md shadow-brand/20"
-              >
-                Hubungi Marketing
-              </a>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* MODAL: DETAIL LOWONGAN KERJA */}
       {selectedJob && (
