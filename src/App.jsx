@@ -289,6 +289,36 @@ export default function App() {
     }, 2800)
   }
 
+  // Navigation and Filter Helpers
+  const handleSelectDepartment = (dept) => {
+    setSelectedDept(dept)
+    setActiveTab('karir')
+    setMobileMenuOpen(false)
+    const karirEl = document.getElementById('karir')
+    if (karirEl) {
+      karirEl.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+
+  const handleSelectCategory = (cat) => {
+    setProdCategory(cat)
+    setActiveTab('produk')
+    setMobileMenuOpen(false)
+    const prodEl = document.getElementById('produk')
+    if (prodEl) {
+      prodEl.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+
+  const handleJumpSection = (id, tabName) => {
+    setActiveTab(tabName)
+    setMobileMenuOpen(false)
+    const el = document.getElementById(id)
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 text-slate-800 selection:bg-brand selection:text-white w-full max-w-full overflow-x-hidden">
       {/* TOP HEADER BAR */}
@@ -338,58 +368,326 @@ export default function App() {
               </div>
             </a>
 
-            {/* Desktop Navigation - All 1 Line Strictly No Wrap */}
-            <nav className="hidden lg:flex items-center space-x-1 xl:space-x-2 font-bold text-xs uppercase tracking-wider text-slate-700">
-              <a 
-                href="#home" 
-                onClick={() => setActiveTab('home')}
-                className={`px-3 py-2 rounded-xl whitespace-nowrap transition-colors ${activeTab === 'home' ? 'text-brand bg-red-50 font-black' : 'hover:text-brand hover:bg-slate-50'}`}
-              >
-                Beranda
-              </a>
-              <a 
-                href="#tentang" 
-                onClick={() => setActiveTab('tentang')}
-                className={`px-3 py-2 rounded-xl whitespace-nowrap transition-colors ${activeTab === 'tentang' ? 'text-brand bg-red-50 font-black' : 'hover:text-brand hover:bg-slate-50'}`}
-              >
-                Tentang Kami
-              </a>
-              <a 
-                href="#produk" 
-                onClick={() => setActiveTab('produk')}
-                className={`px-3 py-2 rounded-xl whitespace-nowrap transition-colors ${activeTab === 'produk' ? 'text-brand bg-red-50 font-black' : 'hover:text-brand hover:bg-slate-50'}`}
-              >
-                Produk
-              </a>
-              <a 
-                href="#proyek" 
-                onClick={() => setActiveTab('proyek')}
-                className={`px-3 py-2 rounded-xl whitespace-nowrap transition-colors ${activeTab === 'proyek' ? 'text-brand bg-red-50 font-black' : 'hover:text-brand hover:bg-slate-50'}`}
-              >
-                Proyek
-              </a>
-              <a 
-                href="#karir" 
-                onClick={() => setActiveTab('karir')}
-                className={`px-3 py-2 rounded-xl whitespace-nowrap transition-colors ${activeTab === 'karir' ? 'text-brand bg-red-50 font-black' : 'hover:text-brand hover:bg-slate-50'}`}
-              >
-                Karir
-              </a>
-              <button 
-                onClick={() => setTrackingModalOpen(true)}
-                className="px-3 py-2 rounded-xl text-slate-700 hover:text-brand hover:bg-slate-50 transition-colors flex items-center gap-1.5 whitespace-nowrap font-bold text-xs normal-case"
-              >
-                <svg className="w-4 h-4 text-brand shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                </svg>
-                <span className="whitespace-nowrap">Lacak Lamaran</span>
-              </button>
+            {/* Desktop Navigation - All 1 Line Strictly No Wrap with Interactive Hover Popovers */}
+            <nav className="hidden lg:flex items-center space-x-1 xl:space-x-1.5 font-bold text-xs uppercase tracking-wider text-slate-700">
+              {/* BERANDA */}
+              <div className="relative py-2">
+                <a 
+                  href="#home" 
+                  onClick={() => handleJumpSection('home', 'home')}
+                  className={`px-3 py-2 rounded-xl whitespace-nowrap transition-colors flex items-center gap-1 ${activeTab === 'home' ? 'text-brand bg-red-50 font-black' : 'hover:text-brand hover:bg-slate-50'}`}
+                >
+                  <span>Beranda</span>
+                </a>
+              </div>
+
+              {/* TENTANG KAMI WITH HOVER DROPDOWN */}
+              <div className="relative group py-2">
+                <a 
+                  href="#tentang" 
+                  onClick={() => handleJumpSection('tentang', 'tentang')}
+                  className={`px-3 py-2 rounded-xl whitespace-nowrap transition-colors flex items-center gap-1 cursor-pointer ${activeTab === 'tentang' ? 'text-brand bg-red-50 font-black' : 'hover:text-brand hover:bg-slate-50'}`}
+                >
+                  <span>Tentang Kami</span>
+                  <svg className="w-3 h-3 text-slate-400 group-hover:text-brand group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </a>
+
+                {/* Hover Dropdown */}
+                <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 translate-y-2 transition-all duration-200 z-50 pointer-events-none group-hover:pointer-events-auto">
+                  <div className="w-80 bg-white rounded-2xl shadow-2xl border border-slate-200/90 p-4 text-left normal-case">
+                    <div className="pb-3 mb-2 border-b border-slate-100 flex items-center justify-between">
+                      <div>
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Profil Perusahaan</span>
+                        <h4 className="text-xs font-black text-slate-900">PT Lisa Concrete Indonesia</h4>
+                      </div>
+                      <span className="px-2 py-0.5 bg-slate-100 text-slate-600 text-[10px] font-bold rounded">Est. 1994</span>
+                    </div>
+                    <div className="space-y-1">
+                      <a 
+                        href="#tentang" 
+                        onClick={() => handleJumpSection('tentang', 'tentang')}
+                        className="p-2.5 rounded-xl hover:bg-red-50/60 flex items-start gap-3 transition-colors block group/sub border border-transparent hover:border-red-100"
+                      >
+                        <span className="w-8 h-8 rounded-lg bg-slate-100 group-hover/sub:bg-brand group-hover/sub:text-white flex items-center justify-center text-sm shrink-0 transition-colors">🏢</span>
+                        <div>
+                          <p className="text-xs font-bold text-slate-800 group-hover/sub:text-brand">Sejarah &amp; Rekayasa Mutu</p>
+                          <p className="text-[11px] text-slate-500">Pilar utama DUSASPUN Group sejak 1994</p>
+                        </div>
+                      </a>
+                      <a 
+                        href="#tentang" 
+                        onClick={() => handleJumpSection('tentang', 'tentang')}
+                        className="p-2.5 rounded-xl hover:bg-red-50/60 flex items-start gap-3 transition-colors block group/sub border border-transparent hover:border-red-100"
+                      >
+                        <span className="w-8 h-8 rounded-lg bg-slate-100 group-hover/sub:bg-brand group-hover/sub:text-white flex items-center justify-center text-sm shrink-0 transition-colors">⭐</span>
+                        <div>
+                          <p className="text-xs font-bold text-slate-800 group-hover/sub:text-brand">Nilai Budaya L.I.S.A</p>
+                          <p className="text-[11px] text-slate-500">Loyal, Innovative, Sinergy, Action</p>
+                        </div>
+                      </a>
+                      <a 
+                        href="#kontak" 
+                        onClick={() => handleJumpSection('kontak', 'kontak')}
+                        className="p-2.5 rounded-xl hover:bg-red-50/60 flex items-start gap-3 transition-colors block group/sub border border-transparent hover:border-red-100"
+                      >
+                        <span className="w-8 h-8 rounded-lg bg-slate-100 group-hover/sub:bg-brand group-hover/sub:text-white flex items-center justify-center text-sm shrink-0 transition-colors">🏭</span>
+                        <div>
+                          <p className="text-xs font-bold text-slate-800 group-hover/sub:text-brand">Fasilitas Pabrik &amp; Kantor</p>
+                          <p className="text-[11px] text-slate-500">Head Office Surabaya, Plant Ngoro &amp; Bali</p>
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* PRODUK WITH HOVER DROPDOWN */}
+              <div className="relative group py-2">
+                <a 
+                  href="#produk" 
+                  onClick={() => { setActiveTab('produk'); setProdCategory('Semua'); }}
+                  className={`px-3 py-2 rounded-xl whitespace-nowrap transition-colors flex items-center gap-1 cursor-pointer ${activeTab === 'produk' ? 'text-brand bg-red-50 font-black' : 'hover:text-brand hover:bg-slate-50'}`}
+                >
+                  <span>Produk</span>
+                  <svg className="w-3 h-3 text-slate-400 group-hover:text-brand group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </a>
+
+                {/* Hover Dropdown */}
+                <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 translate-y-2 transition-all duration-200 z-50 pointer-events-none group-hover:pointer-events-auto">
+                  <div className="w-96 bg-white rounded-2xl shadow-2xl border border-slate-200/90 p-4 text-left normal-case">
+                    <div className="flex items-center justify-between pb-3 mb-2 border-b border-slate-100">
+                      <div>
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Katalog Beton Pracetak</span>
+                        <h4 className="text-xs font-black text-slate-900">Kategori Produk Unggulan</h4>
+                      </div>
+                      <span className="px-2.5 py-1 bg-amber-50 text-amber-700 text-[10px] font-bold rounded-full border border-amber-200">
+                        9 Produk Standar ISO
+                      </span>
+                    </div>
+
+                    <div className="space-y-1.5">
+                      {[
+                        { cat: 'Drainase & Saluran', icon: '🌊', count: '3 Produk', desc: 'Box Culvert, U-Ditch Drain, Pipa Beton' },
+                        { cat: 'Pondasi & Dinding Penahan', icon: '🧱', count: '2 Produk', desc: 'CCSP Sheet Pile, Square Mini Pile' },
+                        { cat: 'Struktur Infrastruktur', icon: '🌉', count: '3 Produk', desc: 'Bridge I-Girder, Road Barrier, Pagar Panel' },
+                        { cat: 'Khusus & Maritim', icon: '⚓', count: '1 Produk', desc: 'Concrete Tetrapod Pemecah Ombak' },
+                      ].map((item) => (
+                        <button
+                          key={item.cat}
+                          onClick={() => handleSelectCategory(item.cat)}
+                          className="w-full text-left p-2.5 rounded-xl hover:bg-red-50/60 transition-colors flex items-start gap-3 group/prod border border-transparent hover:border-red-100 cursor-pointer"
+                        >
+                          <span className="w-8 h-8 rounded-lg bg-slate-100 group-hover/prod:bg-brand group-hover/prod:text-white flex items-center justify-center text-sm shrink-0 transition-colors">
+                            {item.icon}
+                          </span>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between">
+                              <p className="text-xs font-bold text-slate-800 group-hover/prod:text-brand truncate">
+                                {item.cat}
+                              </p>
+                              <span className="text-[10px] text-slate-500 font-medium">
+                                {item.count}
+                              </span>
+                            </div>
+                            <p className="text-[11px] text-slate-500 truncate mt-0.5">
+                              {item.desc}
+                            </p>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+
+                    <div className="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between">
+                      <button
+                        onClick={() => handleSelectCategory('Semua')}
+                        className="text-[11px] font-bold text-brand hover:underline cursor-pointer"
+                      >
+                        Buka Semua 9 Produk Precast &rarr;
+                      </button>
+                      <a
+                        href="#kontak"
+                        onClick={() => handleJumpSection('kontak', 'kontak')}
+                        className="text-[10px] font-bold text-slate-600 hover:text-brand bg-slate-100 hover:bg-slate-200 px-2.5 py-1 rounded-lg"
+                      >
+                        Minta Penawaran
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* PROYEK WITH HOVER DROPDOWN */}
+              <div className="relative group py-2">
+                <a 
+                  href="#proyek" 
+                  onClick={() => handleJumpSection('proyek', 'proyek')}
+                  className={`px-3 py-2 rounded-xl whitespace-nowrap transition-colors flex items-center gap-1 cursor-pointer ${activeTab === 'proyek' ? 'text-brand bg-red-50 font-black' : 'hover:text-brand hover:bg-slate-50'}`}
+                >
+                  <span>Proyek</span>
+                  <svg className="w-3 h-3 text-slate-400 group-hover:text-brand group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </a>
+
+                {/* Hover Dropdown */}
+                <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 translate-y-2 transition-all duration-200 z-50 pointer-events-none group-hover:pointer-events-auto">
+                  <div className="w-96 bg-white rounded-2xl shadow-2xl border border-slate-200/90 p-4 text-left normal-case">
+                    <div className="flex items-center justify-between pb-3 mb-2 border-b border-slate-100">
+                      <div>
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Portofolio &amp; Pengalaman</span>
+                        <h4 className="text-xs font-black text-slate-900">Proyek Unggulan Nasional</h4>
+                      </div>
+                      <span className="px-2 py-0.5 bg-slate-100 text-slate-600 text-[10px] font-bold rounded">
+                        1.000+ Proyek
+                      </span>
+                    </div>
+
+                    <div className="space-y-1">
+                      {projectsList.map((prj, i) => (
+                        <a
+                          key={i}
+                          href="#proyek"
+                          onClick={() => handleJumpSection('proyek', 'proyek')}
+                          className="p-2 rounded-xl hover:bg-red-50/60 flex items-center justify-between gap-3 transition-colors block group/p border border-transparent hover:border-red-100"
+                        >
+                          <div className="min-w-0">
+                            <p className="text-xs font-bold text-slate-800 group-hover/p:text-brand truncate">
+                              {prj.title}
+                            </p>
+                            <p className="text-[10px] text-slate-500 truncate mt-0.5">
+                              📍 {prj.location} • Klien: <span className="font-semibold text-slate-700">{prj.client}</span>
+                            </p>
+                          </div>
+                          <span className="text-[10px] font-mono text-slate-400 font-bold shrink-0 bg-slate-100 px-1.5 py-0.5 rounded">
+                            {prj.year}
+                          </span>
+                        </a>
+                      ))}
+                    </div>
+
+                    <div className="mt-3 pt-2 border-t border-slate-100">
+                      <a
+                        href="#proyek"
+                        onClick={() => handleJumpSection('proyek', 'proyek')}
+                        className="block text-center text-[11px] font-bold text-brand hover:underline"
+                      >
+                        Lihat Banner Animasi Portofolio &rarr;
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* KARIR WITH INTERACTIVE HOVER DROPDOWN (LOKER PER DIVISI) */}
+              <div className="relative group py-2">
+                <a 
+                  href="#karir" 
+                  onClick={() => { setActiveTab('karir'); setSelectedDept(''); }}
+                  className={`px-3 py-2 rounded-xl whitespace-nowrap transition-colors flex items-center gap-1.5 cursor-pointer ${activeTab === 'karir' ? 'text-brand bg-red-50 font-black' : 'hover:text-brand hover:bg-slate-50'}`}
+                >
+                  <span>Karir</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                  <svg className="w-3 h-3 text-slate-400 group-hover:text-brand group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </a>
+
+                {/* Hover Dropdown displaying available Job Divisions */}
+                <div className="absolute top-full right-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 translate-y-2 transition-all duration-200 z-50 pointer-events-none group-hover:pointer-events-auto">
+                  <div className="w-96 bg-white rounded-2xl shadow-2xl border border-slate-200/90 p-4 text-left normal-case">
+                    <div className="flex items-center justify-between pb-3 mb-2 border-b border-slate-100">
+                      <div>
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Rekrutmen Resmi</span>
+                        <h4 className="text-xs font-black text-slate-900">Lowongan Karir per Divisi</h4>
+                      </div>
+                      <span className="px-2.5 py-1 bg-emerald-50 text-emerald-700 text-[10px] font-bold rounded-full border border-emerald-200 flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                        {jobs.length} Posisi Dibuka
+                      </span>
+                    </div>
+
+                    <p className="text-[11px] text-slate-500 mb-2">
+                      Pilih divisi di bawah untuk melihat lowongan yang tersedia:
+                    </p>
+
+                    <div className="space-y-1.5">
+                      {[
+                        { dept: 'Engineering & Technical', icon: '📐', roles: 'Precast Civil Engineer & Drafter', loc: 'Surabaya (Head Office)' },
+                        { dept: 'Quality Assurance & Lab', icon: '🔬', roles: 'QC Precast Inspector', loc: 'Ngoro Plant (Mojokerto)' },
+                        { dept: 'Manufacturing & Plant Operation', icon: '🏗️', roles: 'Production Supervisor (Batching & Casting)', loc: 'Karangasem Plant (Bali)' },
+                        { dept: 'Commercial & Marketing', icon: '💼', roles: 'Technical Sales & Project Marketing', loc: 'Surabaya / Jatim Area' },
+                        { dept: 'HSE & Safety', icon: '🛡️', roles: 'Health, Safety & Environment (HSE) Officer', loc: 'Ngoro Plant (Mojokerto)' },
+                      ].map((item) => (
+                        <button
+                          key={item.dept}
+                          onClick={() => handleSelectDepartment(item.dept)}
+                          className="w-full text-left p-2.5 rounded-xl hover:bg-red-50/70 transition-colors flex items-start gap-3 group/item border border-transparent hover:border-red-100 cursor-pointer"
+                        >
+                          <span className="w-8 h-8 rounded-lg bg-slate-100 group-hover/item:bg-brand group-hover/item:text-white flex items-center justify-center text-sm shrink-0 transition-colors shadow-xs">
+                            {item.icon}
+                          </span>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between gap-1">
+                              <p className="text-xs font-bold text-slate-800 group-hover/item:text-brand truncate">
+                                {item.dept}
+                              </p>
+                              <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded shrink-0">
+                                1 Posisi
+                              </span>
+                            </div>
+                            <p className="text-[11px] text-slate-600 font-medium truncate mt-0.5">
+                              {item.roles}
+                            </p>
+                            <span className="text-[10px] text-slate-400 font-medium flex items-center gap-1 mt-0.5">
+                              📍 {item.loc}
+                            </span>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+
+                    <div className="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+                      <button
+                        onClick={() => { setSelectedDept(''); handleJumpSection('karir', 'karir'); }}
+                        className="text-[11px] font-bold text-brand hover:underline flex items-center gap-1 cursor-pointer"
+                      >
+                        <span>Lihat Semua {jobs.length} Posisi</span>
+                        <span>&rarr;</span>
+                      </button>
+                      <button
+                        onClick={() => setTrackingModalOpen(true)}
+                        className="text-[10px] font-bold text-slate-600 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 px-2.5 py-1.5 rounded-lg transition-colors flex items-center gap-1 cursor-pointer"
+                      >
+                        <span>🔍 Lacak Lamaran</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* LACAK LAMARAN BUTTON */}
+              <div className="relative py-2">
+                <button 
+                  onClick={() => setTrackingModalOpen(true)}
+                  className="px-3 py-2 rounded-xl text-slate-700 hover:text-brand hover:bg-slate-50 transition-colors flex items-center gap-1.5 whitespace-nowrap font-bold text-xs normal-case cursor-pointer"
+                >
+                  <svg className="w-4 h-4 text-brand shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                  </svg>
+                  <span className="whitespace-nowrap">Lacak Lamaran</span>
+                </button>
+              </div>
             </nav>
 
             {/* Action Buttons & Mobile Toggle */}
             <div className="flex items-center gap-2.5">
               <a 
                 href="#kontak" 
+                onClick={() => handleJumpSection('kontak', 'kontak')}
                 className="bg-brand hover:bg-brand-dark text-white px-5 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all shadow-md shadow-brand/20 flex items-center gap-2 whitespace-nowrap shrink-0"
               >
                 <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -420,42 +718,66 @@ export default function App() {
             <div className="lg:hidden border-t border-slate-100 py-4 px-2 space-y-2 bg-white rounded-b-2xl shadow-xl animate-fade-in text-sm font-semibold">
               <a 
                 href="#home" 
-                onClick={() => { setActiveTab('home'); setMobileMenuOpen(false); }}
+                onClick={() => handleJumpSection('home', 'home')}
                 className="block px-4 py-2.5 rounded-xl hover:bg-slate-50 text-slate-800"
               >
                 Beranda
               </a>
               <a 
                 href="#tentang" 
-                onClick={() => { setActiveTab('tentang'); setMobileMenuOpen(false); }}
+                onClick={() => handleJumpSection('tentang', 'tentang')}
                 className="block px-4 py-2.5 rounded-xl hover:bg-slate-50 text-slate-800"
               >
                 Tentang Kami
               </a>
               <a 
                 href="#produk" 
-                onClick={() => { setActiveTab('produk'); setMobileMenuOpen(false); }}
+                onClick={() => handleJumpSection('produk', 'produk')}
                 className="block px-4 py-2.5 rounded-xl hover:bg-slate-50 text-slate-800"
               >
                 Produk Pracetak
               </a>
               <a 
                 href="#proyek" 
-                onClick={() => { setActiveTab('proyek'); setMobileMenuOpen(false); }}
+                onClick={() => handleJumpSection('proyek', 'proyek')}
                 className="block px-4 py-2.5 rounded-xl hover:bg-slate-50 text-slate-800"
               >
                 Proyek
               </a>
-              <a 
-                href="#karir" 
-                onClick={() => { setActiveTab('karir'); setMobileMenuOpen(false); }}
-                className="block px-4 py-2.5 rounded-xl hover:bg-slate-50 text-slate-800"
-              >
-                Karir &amp; Rekrutmen
-              </a>
+
+              {/* Mobile Karir with Division Quick Filter Chips */}
+              <div className="pt-2 border-t border-slate-100">
+                <a 
+                  href="#karir" 
+                  onClick={() => { setSelectedDept(''); handleJumpSection('karir', 'karir'); }}
+                  className="px-4 py-2 rounded-xl hover:bg-slate-50 text-slate-800 flex items-center justify-between"
+                >
+                  <span className="font-bold">Karir &amp; Rekrutmen</span>
+                  <span className="text-[10px] bg-brand text-white font-bold px-2 py-0.5 rounded-full">{jobs.length} Loker</span>
+                </a>
+                <div className="px-4 py-1.5 grid grid-cols-1 gap-1">
+                  {[
+                    { dept: 'Engineering & Technical', icon: '📐' },
+                    { dept: 'Quality Assurance & Lab', icon: '🔬' },
+                    { dept: 'Manufacturing & Plant Operation', icon: '🏗️' },
+                    { dept: 'Commercial & Marketing', icon: '💼' },
+                    { dept: 'HSE & Safety', icon: '🛡️' }
+                  ].map(d => (
+                    <button
+                      key={d.dept}
+                      onClick={() => handleSelectDepartment(d.dept)}
+                      className="text-left px-3 py-1.5 rounded-lg text-xs text-slate-600 hover:text-brand hover:bg-red-50 flex items-center gap-2 transition-colors cursor-pointer"
+                    >
+                      <span>{d.icon}</span>
+                      <span className="truncate">{d.dept}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
               <button 
                 onClick={() => { setTrackingModalOpen(true); setMobileMenuOpen(false); }}
-                className="w-full text-left px-4 py-2.5 rounded-xl hover:bg-slate-50 text-brand flex items-center gap-2 font-bold"
+                className="w-full text-left px-4 py-2.5 rounded-xl hover:bg-slate-50 text-brand flex items-center gap-2 font-bold cursor-pointer"
               >
                 <svg className="w-4 h-4 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
