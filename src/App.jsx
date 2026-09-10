@@ -290,9 +290,9 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-800 selection:bg-brand selection:text-white">
+    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-800 selection:bg-brand selection:text-white w-full max-w-full overflow-x-hidden">
       {/* TOP HEADER BAR */}
-      <div className="bg-slate-900 text-slate-300 text-xs py-2 px-4 border-b border-slate-800">
+      <div className="w-full bg-slate-900 text-slate-300 text-xs py-2 px-4 border-b border-slate-800 overflow-hidden">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-2">
           <div className="flex flex-wrap items-center gap-4 text-center md:text-left">
             <span className="inline-flex items-center gap-1.5 text-amber-400 font-semibold">
@@ -315,7 +315,7 @@ export default function App() {
       </div>
 
       {/* MAIN NAVBAR */}
-      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm transition-all">
+      <header className="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm transition-all">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20 gap-4">
             {/* Logo */}
@@ -468,7 +468,7 @@ export default function App() {
       </header>
 
       {/* HERO SECTION */}
-      <section id="home" className="relative bg-slate-950 text-white pt-24 pb-32 overflow-hidden">
+      <section id="home" className="relative w-full max-w-full bg-slate-950 text-white pt-24 pb-32 overflow-hidden">
         {/* Background Overlay with Industrial Aesthetic */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b15_1px,transparent_1px),linear-gradient(to_bottom,#1e293b15_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
         <div className="absolute top-0 right-0 w-[550px] h-[550px] bg-brand/25 rounded-full blur-3xl pointer-events-none"></div>
@@ -535,7 +535,7 @@ export default function App() {
       </section>
 
       {/* TENTANG KAMI & NILAI L.I.S.A */}
-      <section id="tentang" className="py-24 bg-white">
+      <section id="tentang" className="py-24 bg-white w-full max-w-full overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-20">
             <div className="lg:col-span-6 space-y-6">
@@ -615,7 +615,7 @@ export default function App() {
       </section>
 
       {/* KATALOG PRODUK PRACETAK */}
-      <section id="produk" className="py-24 bg-slate-100">
+      <section id="produk" className="py-24 bg-slate-100 w-full max-w-full overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-10">
             <span className="text-brand font-bold text-xs uppercase tracking-widest bg-red-50 px-3.5 py-1.5 rounded-full">
@@ -695,7 +695,7 @@ export default function App() {
       </section>
 
       {/* PORTOFOLIO PROYEK (SATU BARIS HORIZONTAL SCROLL OTOMATIS) */}
-      <section id="proyek" className="py-24 bg-white overflow-hidden">
+      <section id="proyek" className="py-24 bg-white overflow-hidden w-full max-w-full min-w-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-12">
             <span className="text-brand font-bold text-xs uppercase tracking-widest bg-red-50 px-3.5 py-1.5 rounded-full">
@@ -731,7 +731,7 @@ export default function App() {
         </div>
 
         {/* FULL-WIDTH SEAMLESS HORIZONTAL MARQUEE */}
-        <div className="relative overflow-hidden py-4">
+        <div className="relative overflow-hidden py-4 w-full max-w-full min-w-0">
           {/* Edge Fade Gradients */}
           <div className="absolute top-0 bottom-0 left-0 w-20 sm:w-40 bg-gradient-to-r from-white via-white/80 to-transparent pointer-events-none z-10"></div>
           <div className="absolute top-0 bottom-0 right-0 w-20 sm:w-40 bg-gradient-to-l from-white via-white/80 to-transparent pointer-events-none z-10"></div>
@@ -741,7 +741,7 @@ export default function App() {
             className="flex gap-6 animate-scroll-horizontal pause-on-hover w-max"
             style={{ animationPlayState: isProjectPaused ? 'paused' : undefined }}
           >
-            {[...projectsList, ...projectsList, ...projectsList].map((prj, i) => (
+            {[...projectsList, ...projectsList].map((prj, i) => (
               <div 
                 key={i} 
                 className="w-[340px] sm:w-[390px] p-7 rounded-3xl bg-slate-50/90 border border-slate-200/90 hover:border-brand/60 hover:bg-white hover:shadow-2xl transition-all duration-300 flex flex-col justify-between shrink-0 group cursor-pointer"
@@ -785,7 +785,7 @@ export default function App() {
       </section>
 
       {/* PORTAL KARIR & REKRUTMEN PT LISA CONCRETE INDONESIA */}
-      <section id="karir" className="py-24 bg-slate-900 text-white">
+      <section id="karir" className="py-24 bg-slate-900 text-white relative w-full max-w-full overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-12">
             <div>
@@ -932,7 +932,7 @@ export default function App() {
       </section>
 
       {/* LOKASI PABRIK & KANTOR (FACILITIES) */}
-      <section id="kontak" className="py-24 bg-white">
+      <section id="kontak" className="py-24 bg-white w-full max-w-full overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <span className="text-brand font-bold text-xs uppercase tracking-widest bg-red-50 px-3.5 py-1.5 rounded-full">
@@ -998,7 +998,7 @@ export default function App() {
       </section>
 
       {/* FOOTER */}
-      <footer className="bg-slate-950 text-slate-400 pt-16 pb-12 border-t border-slate-800 text-xs">
+      <footer className="w-full max-w-full overflow-hidden bg-slate-950 text-slate-400 pt-16 pb-12 border-t border-slate-800 text-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-slate-800">
             <div className="md:col-span-2 space-y-4">
