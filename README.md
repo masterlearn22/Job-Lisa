@@ -4,7 +4,7 @@ Portal web resmi dan karir rekrutmen untuk **PT Lisa Concrete Indonesia** (Membe
 
 ## 🚀 Fitur Utama
 
-- **Hero & Profil Perusahaan**: Sejarah *joint venture* dengan Nippon Hume Corporation (Jepang), visi misi **L.I.S.A**, sertifikasi ISO 9001, dan fasilitas pabrik.
+- **Hero & Profil Perusahaan**: Profil PT Lisa Concrete Indonesia (Member of DUSASPUN Group), visi misi **L.I.S.A**, sertifikasi mutu ISO 9001:2015, dan fasilitas pabrik.
 - **Katalog Produk Pracetak Interaktif**: Menampilkan 9 kategori produk beton pracetak unggulan (Box Culvert, U-Ditch, CCSP Sheet Pile, Mini Pile, I-Girder, Pipa Beton, Tetrapod, Road Barrier, Pagar Panel) dengan filter kategori 1 baris yang responsif.
 - **Portofolio Proyek Otomatis (*Marquee*)**: Kartu proyek terkemuka (Pakuwon, Hotel Agogo, Gudang Garam Magetan, Batulicin, Bali) yang meluncur secara horizontal otomatis dengan jeda saat kursor diarahkan (*pause on hover*).
 - **Portal Karir & Rekrutmen Lengkap**:

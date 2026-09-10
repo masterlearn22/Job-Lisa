@@ -300,7 +300,7 @@ export default function App() {
               ISO 9001:2015 Certified Since 2004
             </span>
             <span className="hidden sm:inline text-slate-600">|</span>
-            <span>Member of <strong>DUSASPUN Group</strong> (Indonesia &amp; Japan Heritage)</span>
+            <span>Member of <strong>DUSASPUN Group</strong></span>
           </div>
           <div className="flex items-center gap-5 text-slate-300">
             <span className="flex items-center gap-1">
@@ -489,7 +489,7 @@ export default function App() {
             </h1>
 
             <p className="text-base sm:text-lg text-slate-300 mb-10 leading-relaxed font-normal max-w-2xl">
-              PT Lisa Concrete Indonesia menghadirkan produk precast berstandar mutu internasional ISO 9001. Hasil sinergi keunggulan teknologi DUSASPUN Group dan Nippon Hume Corporation Jepang untuk membangun infrastruktur Indonesia yang kokoh dan berkelanjutan.
+              PT Lisa Concrete Indonesia menghadirkan produk precast berstandar mutu internasional ISO 9001 dengan keunggulan inovasi dan teknologi DUSASPUN Group untuk membangun infrastruktur Indonesia yang kokoh, tangguh, dan berkelanjutan.
             </p>
 
             {/* Quick Links & CTA */}
@@ -547,13 +547,13 @@ export default function App() {
               </h2>
               <div className="space-y-4 text-slate-600 text-sm leading-relaxed">
                 <p>
-                  <strong>PT Lisa Concrete Indonesia</strong> didirikan pada tahun <strong>1994</strong> sebagai hasil kerja sama strategis antara <strong>PT. Duta Sarana Perkasa (DUSASPUN)</strong>, salah satu pionir industri beton pracetak terkemuka di Indonesia, bersama <strong>NIPPON HUME CORPORATION</strong>, raksasa industri beton pracetak dari Jepang.
+                  <strong>PT Lisa Concrete Indonesia</strong> didirikan pada tahun <strong>1994</strong> dan berkembang pesat sebagai salah satu produsen beton pracetak (precast concrete) terkemuka di Indonesia di bawah naungan <strong>PT. Duta Sarana Perkasa (DUSASPUN Group)</strong>.
                 </p>
                 <p>
-                  Perjalanan diawali dengan produksi pipa beton bertulang untuk kebutuhan proyek infrastruktur drainase di Jawa Timur. Seiring pesatnya kepercayaan publik dan mitra BUMN maupun swasta, perusahaan berekspansi dengan mendirikan pabrik modern di <strong>Ngoro (Mojokerto, Jawa Timur)</strong> dan fasilitas produksi di <strong>Karangasem (Bali)</strong>.
+                  Perjalanan diawali dengan dedikasi tinggi memproduksi pipa beton bertulang dan elemen pracetak bermutu tinggi untuk memenuhi kebutuhan berbagai proyek infrastruktur strategis di Jawa Timur dan penjuru Indonesia. Seiring pesatnya kepercayaan publik serta mitra BUMN maupun swasta, perusahaan terus berekspansi dengan fasilitas pabrik modern di <strong>Ngoro (Mojokerto, Jawa Timur)</strong> dan fasilitas produksi di <strong>Karangasem (Bali)</strong>.
                 </p>
                 <p>
-                  Pada tahun <strong>2008</strong>, PT Duta Sarana Perkasa secara resmi mengakuisisi 100% kepemilikan saham PT Lisa Concrete Indonesia, kian mengukuhkan posisi perusahaan sebagai bagian pilar utama <strong>DUSASPUN Group</strong>.
+                  Sebagai pilar utama dari <strong>DUSASPUN Group</strong>, PT Lisa Concrete Indonesia berkomitmen menghadirkan solusi rekayasa beton pracetak berstandar mutu tertinggi ISO 9001:2015 dengan kapasitas produksi andal dan pengiriman tepat waktu untuk memajukan pembangunan nasional.
                 </p>
               </div>
             </div>
