@@ -1,95 +1,48 @@
 import React, { useState, useEffect } from 'react'
 
-// DATA LOWONGAN KERJA PT LISA CONCRETE INDONESIA
-const initialJobs = [
-  {
-    id: '1',
-    title: 'Precast Civil Engineer & Drafter',
-    department: 'Engineering & Technical',
-    location: 'Surabaya (Head Office)',
-    type: 'Full Time',
-    experience: 'Min. 2-3 Tahun',
-    education: 'S1 Teknik Sipil',
-    deadline: '20 Oktober 2026',
-    description: 'Bertanggung jawab atas kalkulasi struktur beton pracetak, shop drawing detailing (AutoCAD/Tekla Structures), dan koordinasi metode instalasi erection bersama tim proyek lapangan.',
-    requirements: [
-      'Pendidikan S1 Teknik Sipil (IPK min. 3.00)',
-      'Menguasai software AutoCAD, Tekla Structures, ETABS, atau SAP2000',
-      'Memahami standar desain beton bertulang dan prategang (SNI / ACI / JIS)',
-      'Pengalaman kerja min. 2 tahun di industri precast concrete atau kontraktor sipil',
-      'Mampu membaca gambar kerja konstruksi dengan teliti dan bekerja sama dengan tim marketing/produksi'
-    ],
-    benefits: ['Gaji Pokok & Tunjangan Posisi Menarik', 'BPJS Ketenagakerjaan & Kesehatan', 'Bonus Tahunan & Kinerja Proyek', 'Pelatihan Sertifikasi Keahlian']
-  },
-  {
-    id: '2',
-    title: 'Quality Control (QC) Precast Inspector',
-    department: 'Quality Assurance & Lab',
-    location: 'Ngoro Plant (Mojokerto, Jatim)',
-    type: 'Full Time',
-    experience: 'Min. 2 Tahun',
-    education: 'D3/S1 Teknik Sipil / Teknik Material',
-    deadline: '25 Oktober 2026',
-    description: 'Melakukan pengujian slump test, uji kuat tekan beton (compression test), inspeksi pembesian cetakan bekisting, serta memastikan kepatuhan standar mutu ISO 9001:2015 di unit produksi.',
-    requirements: [
-      'Pendidikan D3/S1 Teknik Sipil atau Teknik Kimia/Material',
-      'Memahami mix design beton, slump test, curing beton, dan toleransi dimensi precast',
-      'Familiar dengan prosedur audit Sistem Manajemen Mutu ISO 9001',
-      'Memiliki integritas tinggi, disiplin, dan teliti terhadap standar mutu',
-      'Bersedia ditempatkan di Pabrik Ngoro, Mojokerto (Jawa Timur)'
-    ],
-    benefits: ['Tunjangan Lokasi Pabrik & Uang Makan', 'Fasilitas Mess / Akomodasi Karyawan Pabrik', 'Asuransi Kesehatan', 'Jenjang Karir Terbuka']
-  },
-  {
-    id: '3',
-    title: 'Technical Sales & Project Marketing Executive',
-    department: 'Commercial & Marketing',
-    location: 'Surabaya / Jawa Timur Area',
-    type: 'Full Time',
-    experience: 'Min. 2 Tahun',
-    education: 'S1 Teknik Sipil / Arsitektur / Manajemen',
-    deadline: '30 Oktober 2026',
-    description: 'Menangani tender proyek infrastruktur (BUMN Karya & Swasta), melakukan konsultasi teknis kebutuhan produk precast kepada konsultan/kontraktor, serta mencapai target penjualan regional.',
-    requirements: [
-      'Pendidikan S1 Teknik Sipil, Arsitektur, atau bidang terkait',
-      'Memiliki jaringan relasi yang luas dengan kontraktor, BUMN, Dinas PUPR, atau pengembang properti',
-      'Kemampuan presentasi teknis, negosiasi, dan komunikasi yang persuasif',
-      'Memiliki kendaraan pribadi dan SIM A aktif',
-      'Target-oriented dan memiliki daya juang tinggi'
-    ],
-    benefits: ['Komisi Penjualan Proyek yang Sangat Menarik', 'Tunjangan Transportasi & Komunikasi', 'Peluang Pengembangan Jaringan Industri']
-  }
-]
+// BASE API URL (Mendukung localhost & remote backend via env)
+const API_BASE_URL = (typeof window !== 'undefined' && window.__API_URL__) || 
+  import.meta.env.VITE_API_BASE_URL || 
+  'http://localhost:5000';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('home')
-  const [jobs, setJobs] = useState(initialJobs)
+  const [jobs, setJobs] = useState([])
+  const [jobsLoading, setJobsLoading] = useState(true)
+  const [jobsError, setJobsError] = useState(null)
   
-  // Fetch real jobs from Database API
+  // Fetch real jobs from Database API (Murni dari Database MySQL, bukan dummy)
   const fetchJobs = async () => {
+    setJobsLoading(true);
+    setJobsError(null);
     try {
-      const res = await fetch('http://localhost:5000/api/jobs');
+      const res = await fetch(`${API_BASE_URL}/api/jobs`);
       if (res.ok) {
         const data = await res.json();
-        if (data && data.length > 0) {
-          const formattedJobs = data.map(j => ({
-            id: j.id.toString(), // Use DB ID
-            title: j.title,
-            department: j.department, // From JOIN in API
-            location: j.location,
-            type: j.type,
-            experience: j.experience,
-            education: j.education,
-            deadline: j.deadline,
-            description: j.description,
-            requirements: j.requirements || [],
-            benefits: j.benefits || []
-          }));
-          setJobs(formattedJobs);
-        }
+        const formattedJobs = (data || []).map(j => ({
+          id: j.id.toString(), // ID asli dari database MySQL
+          title: j.title,
+          department: j.department || 'Umum', // Dari relasi divisions di database
+          location: j.location,
+          type: j.type,
+          experience: j.experience,
+          education: j.education,
+          deadline: j.deadline,
+          description: j.description,
+          requirements: Array.isArray(j.requirements) ? j.requirements : [],
+          benefits: Array.isArray(j.benefits) ? j.benefits : []
+        }));
+        setJobs(formattedJobs);
+      } else {
+        setJobs([]);
+        setJobsError(`Gagal mengambil data dari database server (HTTP ${res.status})`);
       }
     } catch (err) {
-      console.log('Backend not connected, using fallback initialJobs');
+      console.warn('Gagal koneksi ke database API:', err);
+      setJobs([]);
+      setJobsError('Tidak dapat terhubung ke database backend di ' + API_BASE_URL);
+    } finally {
+      setJobsLoading(false);
     }
   };
 
@@ -201,7 +154,7 @@ export default function App() {
     setAdminLoading(true);
     try {
       // 1. Fetch Stats
-      const statsRes = await fetch('http://localhost:5000/api/applications/admin/stats');
+      const statsRes = await fetch(`${API_BASE_URL}/api/applications/admin/stats`);
       if (statsRes.ok) {
         const statsData = await statsRes.json();
         setAdminStats(statsData);
@@ -213,7 +166,7 @@ export default function App() {
       if (adminFilterStatus !== 'all') params.append('status', adminFilterStatus);
       if (adminSearch.trim()) params.append('search', adminSearch.trim());
 
-      const listRes = await fetch(`http://localhost:5000/api/applications/admin/list?${params.toString()}`);
+      const listRes = await fetch(`${API_BASE_URL}/api/applications/admin/list?${params.toString()}`);
       if (listRes.ok) {
         const listData = await listRes.json();
         setAdminApplications(listData);
@@ -229,7 +182,7 @@ export default function App() {
   const fetchAdminJobs = async () => {
     setAdminJobsLoading(true);
     try {
-      const res = await fetch('http://localhost:5000/api/jobs/admin/all');
+      const res = await fetch(`${API_BASE_URL}/api/jobs/admin/all`);
       if (res.ok) {
         const data = await res.json();
         setAdminJobs(data);
@@ -255,7 +208,7 @@ export default function App() {
     setAdminLoginLoading(true);
     setAdminLoginError('');
     try {
-      const res = await fetch('http://localhost:5000/api/applications/admin/login', {
+      const res = await fetch(`${API_BASE_URL}/api/applications/admin/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: adminLoginEmail, password: adminLoginPassword })
@@ -292,7 +245,7 @@ export default function App() {
     if (!adminManageModal) return;
     setAdminStatusSaving(true);
     try {
-      const res = await fetch(`http://localhost:5000/api/applications/${adminManageModal.id}/status`, {
+      const res = await fetch(`${API_BASE_URL}/api/applications/${adminManageModal.id}/status`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -327,7 +280,7 @@ export default function App() {
   const handleAdminDeleteApp = async (id, name) => {
     if (!window.confirm(`Apakah Anda yakin ingin menghapus data pelamar ${name}? Berkas CV yang tersimpan di server juga akan dihapus permanen.`)) return;
     try {
-      const res = await fetch(`http://localhost:5000/api/applications/admin/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/api/applications/admin/${id}`, {
         method: 'DELETE'
       });
       if (res.ok) {
@@ -421,8 +374,8 @@ export default function App() {
 
       const isEdit = jobModalMode === 'edit' && jobFormData.id;
       const url = isEdit 
-        ? `http://localhost:5000/api/jobs/${jobFormData.id}`
-        : 'http://localhost:5000/api/jobs';
+        ? `${API_BASE_URL}/api/jobs/${jobFormData.id}`
+        : `${API_BASE_URL}/api/jobs`;
       const method = isEdit ? 'PUT' : 'POST';
 
       const res = await fetch(url, {
@@ -456,7 +409,7 @@ export default function App() {
     if (!window.confirm(`Apakah Anda yakin ingin ${actionLabel} "${job.title}"?`)) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/api/jobs/${job.id}/status`, {
+      const res = await fetch(`${API_BASE_URL}/api/jobs/${job.id}/status`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: nextStatus })
@@ -478,7 +431,7 @@ export default function App() {
     if (!window.confirm(`Apakah Anda yakin ingin menghapus lowongan "${job.title}" secara permanen?`)) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/api/jobs/${job.id}`, {
+      const res = await fetch(`${API_BASE_URL}/api/jobs/${job.id}`, {
         method: 'DELETE'
       });
       if (res.ok) {
@@ -742,7 +695,7 @@ export default function App() {
     }
 
     try {
-      const res = await fetch(`http://localhost:5000/api/applications/track/${encodeURIComponent(code.toUpperCase())}`);
+      const res = await fetch(`${API_BASE_URL}/api/applications/track/${encodeURIComponent(code.toUpperCase())}`);
       if (res.ok) {
         const data = await res.json();
         const tracked = buildTrackingState(data.application, data.history || []);
@@ -793,7 +746,7 @@ export default function App() {
             job_id: jobId
         });
 
-        const response = await fetch(`http://localhost:5000/api/applications?${queryParams.toString()}`, {
+        const response = await fetch(`${API_BASE_URL}/api/applications?${queryParams.toString()}`, {
             method: 'POST',
             body: formData,
         });
@@ -827,7 +780,7 @@ export default function App() {
         }
     } catch (error) {
         console.error(error);
-        alert('Tidak dapat terhubung ke backend. Pastikan server backend berjalan di http://localhost:5000.');
+        alert(`Tidak dapat terhubung ke backend. Pastikan server backend berjalan di ${API_BASE_URL}.`);
     } finally {
         setIsSubmitting(false);
     }
@@ -849,7 +802,7 @@ export default function App() {
             confirmUpdate: 'true'
         });
 
-        const response = await fetch(`http://localhost:5000/api/applications?${queryParams.toString()}`, {
+        const response = await fetch(`${API_BASE_URL}/api/applications?${queryParams.toString()}`, {
             method: 'POST',
             body: formData,
         });
@@ -1907,7 +1860,7 @@ export default function App() {
                               </td>
                               <td className="py-3.5 px-4 whitespace-nowrap">
                                 <a 
-                                  href={`http://localhost:5000${app.cv_path}`}
+                                  href={`${API_BASE_URL}${app.cv_path}`}
                                   target="_blank"
                                   rel="noopener noreferrer"
                                   className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-red-50 hover:bg-red-100 text-brand rounded-xl font-bold text-[11px] border border-red-200 transition-colors"
@@ -2188,7 +2141,7 @@ export default function App() {
                       <p className="font-mono font-bold text-slate-800">{adminManageModal.tracking_id}</p>
                     </div>
                     <a 
-                      href={`http://localhost:5000${adminManageModal.cv_path}`}
+                      href={`${API_BASE_URL}${adminManageModal.cv_path}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="px-3 py-1.5 bg-white border border-slate-200 hover:border-brand text-brand rounded-xl font-bold text-xs flex items-center gap-1 shadow-xs"
@@ -2803,15 +2756,41 @@ Jenjang karir profesional di DUSASPUN Group"
 
           {/* Job Listings Cards */}
           <div className="space-y-4">
-            {filteredJobs.length === 0 ? (
-              <div className="text-center py-14 bg-slate-800/40 rounded-2xl border border-slate-700 p-8">
-                <p className="text-slate-400 text-sm mb-4">Tidak ada lowongan yang sesuai kriteria pencarian.</p>
-                <button 
-                  onClick={() => { setSearchKeyword(''); setSelectedLocation(''); setSelectedDept(''); }}
-                  className="px-4 py-2 bg-brand text-white text-xs font-bold rounded-xl"
+            {jobsLoading ? (
+              <div className="text-center py-16 bg-slate-800/40 rounded-2xl border border-slate-700 p-8">
+                <div className="w-8 h-8 border-3 border-brand border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
+                <p className="text-slate-300 font-bold text-sm">Menghubungkan ke Database MySQL...</p>
+                <p className="text-slate-500 text-xs mt-1">Mengambil formasi lowongan kerja resmi</p>
+              </div>
+            ) : jobsError ? (
+              <div className="text-center py-12 bg-rose-950/30 rounded-2xl border border-rose-800/50 p-8">
+                <p className="text-3xl mb-2">⚠️</p>
+                <p className="text-rose-400 font-bold text-sm mb-1">{jobsError}</p>
+                <p className="text-slate-400 text-xs max-w-md mx-auto mb-4 leading-relaxed">
+                  Pastikan server backend Node.js aktif di <code>http://localhost:5000</code>. Jika membuka melalui GitHub Pages (HTTPS), browser memblokir request HTTP lokal (Mixed Content). Anda dapat membuka web secara lokal di <code>http://localhost:5173</code> atau mengizinkan Insecure Content di setelan browser.
+                </p>
+                <button
+                  onClick={fetchJobs}
+                  className="px-4 py-2 bg-brand hover:bg-brand-dark text-white text-xs font-bold rounded-xl cursor-pointer shadow-md transition-colors"
                 >
-                  Reset Filter
+                  Coba Hubungkan Ulang 🔄
                 </button>
+              </div>
+            ) : filteredJobs.length === 0 ? (
+              <div className="text-center py-14 bg-slate-800/40 rounded-2xl border border-slate-700 p-8">
+                <p className="text-slate-400 text-sm mb-4">
+                  {jobs.length === 0
+                    ? 'Belum ada lowongan pekerjaan aktif di database saat ini.'
+                    : 'Tidak ada lowongan yang sesuai kriteria pencarian.'}
+                </p>
+                {jobs.length > 0 && (
+                  <button 
+                    onClick={() => { setSearchKeyword(''); setSelectedLocation(''); setSelectedDept(''); }}
+                    className="px-4 py-2 bg-brand text-white text-xs font-bold rounded-xl cursor-pointer"
+                  >
+                    Reset Filter
+                  </button>
+                )}
               </div>
             ) : (
               filteredJobs.map((job) => (
