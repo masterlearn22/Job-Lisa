@@ -201,10 +201,6 @@ export default function App() {
             </a>
           </div>
           <div className="flex items-center gap-5 text-slate-300">
-            <span className="flex items-center gap-1">
-              📞 +62 31 7326070
-            </span>
-            <span className="hidden sm:inline text-slate-600">|</span>
             <a 
               href="mailto:admpersonnel@lisaconcrete.com" 
               className="flex items-center gap-1 text-slate-300 hover:text-white transition-colors"
@@ -241,78 +237,6 @@ export default function App() {
 
             {/* Desktop Navigation - All 1 Line Strictly No Wrap with Interactive Hover Popovers */}
             <nav className="hidden lg:flex items-center space-x-1 xl:space-x-1.5 font-bold text-xs uppercase tracking-wider text-slate-700">
-              {/* BERANDA */}
-              <div className="relative py-2">
-                <a 
-                  href="#home" 
-                  onClick={() => handleJumpSection('home', 'home')}
-                  className={`px-3 py-2 rounded-xl whitespace-nowrap transition-colors flex items-center gap-1 ${activeTab === 'home' ? 'text-brand bg-red-50 font-black' : 'hover:text-brand hover:bg-slate-50'}`}
-                >
-                  <span>Beranda</span>
-                </a>
-              </div>
-
-              {/* TENTANG KAMI WITH HOVER DROPDOWN */}
-              <div className="relative group py-2">
-                <a 
-                  href="#tentang" 
-                  onClick={() => handleJumpSection('tentang', 'tentang')}
-                  className={`px-3 py-2 rounded-xl whitespace-nowrap transition-colors flex items-center gap-1 cursor-pointer ${activeTab === 'tentang' ? 'text-brand bg-red-50 font-black' : 'hover:text-brand hover:bg-slate-50'}`}
-                >
-                  <span>Tentang Kami</span>
-                  <svg className="w-3 h-3 text-slate-400 group-hover:text-brand group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" />
-                  </svg>
-                </a>
-
-                {/* Hover Dropdown */}
-                <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 translate-y-2 transition-all duration-200 z-50 pointer-events-none group-hover:pointer-events-auto">
-                  <div className="w-80 bg-white rounded-2xl shadow-2xl border border-slate-200/90 p-4 text-left normal-case">
-                    <div className="pb-3 mb-2 border-b border-slate-100 flex items-center justify-between">
-                      <div>
-                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Profil Perusahaan</span>
-                        <h4 className="text-xs font-black text-slate-900">PT Lisa Concrete Indonesia</h4>
-                      </div>
-                      <span className="px-2 py-0.5 bg-slate-100 text-slate-600 text-[10px] font-bold rounded">Est. 1994</span>
-                    </div>
-                    <div className="space-y-1">
-                      <a 
-                        href="#tentang" 
-                        onClick={() => handleJumpSection('tentang', 'tentang')}
-                        className="p-2.5 rounded-xl hover:bg-red-50/60 flex items-start gap-3 transition-colors block group/sub border border-transparent hover:border-red-100"
-                      >
-                        <span className="w-8 h-8 rounded-lg bg-slate-100 group-hover/sub:bg-brand group-hover/sub:text-white flex items-center justify-center text-sm shrink-0 transition-colors">🏢</span>
-                        <div>
-                          <p className="text-xs font-bold text-slate-800 group-hover/sub:text-brand">Sejarah &amp; Rekayasa Mutu</p>
-                          <p className="text-[11px] text-slate-500">Pilar utama DUSASPUN Group sejak 1994</p>
-                        </div>
-                      </a>
-                      <a 
-                        href="#tentang" 
-                        onClick={() => handleJumpSection('tentang', 'tentang')}
-                        className="p-2.5 rounded-xl hover:bg-red-50/60 flex items-start gap-3 transition-colors block group/sub border border-transparent hover:border-red-100"
-                      >
-                        <span className="w-8 h-8 rounded-lg bg-slate-100 group-hover/sub:bg-brand group-hover/sub:text-white flex items-center justify-center text-sm shrink-0 transition-colors">⭐</span>
-                        <div>
-                          <p className="text-xs font-bold text-slate-800 group-hover/sub:text-brand">Nilai Budaya L.I.S.A</p>
-                          <p className="text-[11px] text-slate-500">Loyal, Innovative, Sinergy, Action</p>
-                        </div>
-                      </a>
-                      <a 
-                        href="#kontak" 
-                        onClick={() => handleJumpSection('kontak', 'kontak')}
-                        className="p-2.5 rounded-xl hover:bg-red-50/60 flex items-start gap-3 transition-colors block group/sub border border-transparent hover:border-red-100"
-                      >
-                        <span className="w-8 h-8 rounded-lg bg-slate-100 group-hover/sub:bg-brand group-hover/sub:text-white flex items-center justify-center text-sm shrink-0 transition-colors">🏭</span>
-                        <div>
-                          <p className="text-xs font-bold text-slate-800 group-hover/sub:text-brand">Fasilitas Pabrik &amp; Kantor</p>
-                          <p className="text-[11px] text-slate-500">Head Office Surabaya, Plant Ngoro &amp; Bali</p>
-                        </div>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
 
               {/* KARIR WITH INTERACTIVE HOVER DROPDOWN (LOKER PER DIVISI) */}
               <div className="relative group py-2">
@@ -418,19 +342,6 @@ export default function App() {
             {/* Action Buttons & Mobile Toggle */}
             <div className="flex items-center gap-2.5">
               <a 
-                href="https://www.lisaconcrete.com" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="hidden md:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-slate-300 hover:border-brand text-slate-700 hover:text-brand font-bold text-xs transition-colors whitespace-nowrap"
-                title="Kunjungi Website Utama PT Lisa Concrete Indonesia"
-              >
-                <span>Web Utama</span>
-                <svg className="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                </svg>
-              </a>
-
-              <a 
                 href="#kontak" 
                 onClick={() => handleJumpSection('kontak', 'kontak')}
                 className="bg-brand hover:bg-brand-dark text-white px-5 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all shadow-md shadow-brand/20 flex items-center gap-2 whitespace-nowrap shrink-0"
@@ -461,23 +372,8 @@ export default function App() {
           {/* Mobile Menu Dropdown */}
           {mobileMenuOpen && (
             <div className="lg:hidden border-t border-slate-100 py-4 px-2 space-y-2 bg-white rounded-b-2xl shadow-xl animate-fade-in text-sm font-semibold">
-              <a 
-                href="#home" 
-                onClick={() => handleJumpSection('home', 'home')}
-                className="block px-4 py-2.5 rounded-xl hover:bg-slate-50 text-slate-800"
-              >
-                Beranda
-              </a>
-              <a 
-                href="#tentang" 
-                onClick={() => handleJumpSection('tentang', 'tentang')}
-                className="block px-4 py-2.5 rounded-xl hover:bg-slate-50 text-slate-800"
-              >
-                Tentang Kami
-              </a>
-
               {/* Mobile Karir with Division Quick Filter Chips */}
-              <div className="pt-2 border-t border-slate-100">
+              <div>
                 <a 
                   href="#karir" 
                   onClick={() => { setSelectedDept(''); handleJumpSection('karir', 'karir'); }}
@@ -521,16 +417,7 @@ export default function App() {
                 onClick={() => handleJumpSection('kontak', 'kontak')}
                 className="block px-4 py-2.5 rounded-xl hover:bg-slate-50 text-slate-800"
               >
-                Kontak &amp; Lokasi
-              </a>
-
-              <a 
-                href="https://www.lisaconcrete.com" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="block px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-900 font-bold text-xs mt-2"
-              >
-                🌐 Kunjungi Web Utama: www.lisaconcrete.com &rarr;
+                Kontak Kami
               </a>
             </div>
           )}
@@ -915,74 +802,8 @@ export default function App() {
         </div>
       </section>
 
-      {/* LOKASI PABRIK & KANTOR (FACILITIES) */}
-      <section id="kontak" className="py-24 bg-white w-full max-w-full overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="text-brand font-bold text-xs uppercase tracking-widest bg-red-50 px-3.5 py-1.5 rounded-full">
-              Jangkauan &amp; Fasilitas
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 mt-3 mb-4">
-              Kantor Pusat &amp; Fasilitas Manufaktur
-            </h2>
-            <p className="text-slate-600 text-sm">
-              Didukung kantor representatif dan lokasi pabrik strategis untuk menjamin kelancaran suplai ke seluruh wilayah Indonesia.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Surabaya Head Office */}
-            <div className="p-7 rounded-2xl bg-slate-50 border border-slate-200 hover:shadow-lg transition-all">
-              <div className="w-12 h-12 rounded-xl bg-brand/10 text-brand font-black flex items-center justify-center text-xl mb-6">
-                🏢
-              </div>
-              <h3 className="text-lg font-black text-slate-900 mb-2">Head Office (Surabaya)</h3>
-              <p className="text-xs text-slate-600 leading-relaxed mb-4">
-                Jl. Raya Kupang Jaya 1E, Surabaya, Jawa Timur 60189 - Indonesia.
-              </p>
-              <div className="text-xs text-slate-500 space-y-1 pt-4 border-t border-slate-200">
-                <p><strong>Telepon:</strong> +62 31 7326070</p>
-                <p><strong>Faks:</strong> +62 31 7326071</p>
-                <p><strong>Email Rekrutmen:</strong> <a href="mailto:admpersonnel@lisaconcrete.com" className="hover:text-brand font-semibold text-slate-700 transition-colors">admpersonnel@lisaconcrete.com</a></p>
-              </div>
-            </div>
-
-            {/* Ngoro Plant */}
-            <div className="p-7 rounded-2xl bg-slate-50 border border-slate-200 hover:shadow-lg transition-all">
-              <div className="w-12 h-12 rounded-xl bg-brand/10 text-brand font-black flex items-center justify-center text-xl mb-6">
-                🏭
-              </div>
-              <h3 className="text-lg font-black text-slate-900 mb-2">Ngoro Manufacturing Plant</h3>
-              <p className="text-xs text-slate-600 leading-relaxed mb-4">
-                Desa Wates Negoro, Kec. Ngoro, Mojokerto, Jawa Timur (Kawasan Industri Ngoro).
-              </p>
-              <div className="text-xs text-slate-500 space-y-1 pt-4 border-t border-slate-200">
-                <p><strong>Fasilitas:</strong> Batching Plant Kapasitas Besar, Steam Curing, Stockyard Terbuka</p>
-                <p><strong>Produksi:</strong> Box Culvert, CCSP, U-Ditch, I-Girder</p>
-              </div>
-            </div>
-
-            {/* Bali Branch & Plant */}
-            <div className="p-7 rounded-2xl bg-slate-50 border border-slate-200 hover:shadow-lg transition-all">
-              <div className="w-12 h-12 rounded-xl bg-brand/10 text-brand font-black flex items-center justify-center text-xl mb-6">
-                🌴
-              </div>
-              <h3 className="text-lg font-black text-slate-900 mb-2">Branch Office &amp; Plant (Bali)</h3>
-              <p className="text-xs text-slate-600 leading-relaxed mb-4">
-                <strong>Kantor:</strong> Jl. Noja No. 147, Kesiman Petilan, Denpasar Timur, Bali 80237.<br />
-                <strong>Plant:</strong> Karangasem, Bali.
-              </p>
-              <div className="text-xs text-slate-500 space-y-1 pt-4 border-t border-slate-200">
-                <p><strong>Melayani:</strong> Suplai Proyek Wilayah Bali &amp; Nusa Tenggara</p>
-                <p><strong>Produk:</strong> U-Ditch, Pipa Beton, Pagar Panel</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* FOOTER */}
-      <footer className="w-full max-w-full overflow-hidden bg-slate-950 text-slate-400 pt-16 pb-12 border-t border-slate-800 text-xs">
+      <footer id="kontak" className="w-full max-w-full overflow-hidden bg-slate-950 text-slate-400 pt-16 pb-12 border-t border-slate-800 text-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-slate-800">
             <div className="md:col-span-2 space-y-4">
@@ -1028,7 +849,6 @@ export default function App() {
             <div>
               <h4 className="text-white font-bold mb-4 uppercase text-xs tracking-wider">Kontak &amp; Personalia</h4>
               <ul className="space-y-2 text-xs text-slate-400">
-                <li>Tel: +62 31 7326070</li>
                 <li>Email Rekrutmen: <a href="mailto:admpersonnel@lisaconcrete.com" className="text-slate-200 hover:text-white font-semibold">admpersonnel@lisaconcrete.com</a></li>
                 <li>Web Utama: <a href="https://www.lisaconcrete.com" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-white">lisaconcrete.com</a></li>
                 <li>Situs Induk: dusaspun.com</li>
