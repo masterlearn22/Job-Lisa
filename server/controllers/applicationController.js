@@ -2,12 +2,19 @@ const db = require('../config/db');
 const { sendEmail } = require('../config/email');
 const crypto = require('crypto');
 
+// Helper to ensure single scalar value even if duplicate fields exist
+const getSingleValue = (val, fallback = '') => {
+    if (Array.isArray(val)) return val[0] || fallback;
+    return val || fallback;
+};
+
 // 1. Submit Application
 const submitApplication = async (req, res) => {
-    const name = req.body.name || req.query.name;
-    const email = req.body.email || req.query.email;
-    const phone = req.body.phone || req.query.phone;
-    const jobId = req.body.job_id || req.query.job_id;
+    const name = getSingleValue(req.body.name || req.query.name);
+    const email = getSingleValue(req.body.email || req.query.email);
+    const phone = getSingleValue(req.body.phone || req.query.phone);
+    const rawJobId = getSingleValue(req.body.job_id || req.query.job_id);
+    const jobId = parseInt(rawJobId, 10) || 1;
     const cvFile = req.file;
 
     if (!cvFile) {

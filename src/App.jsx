@@ -344,9 +344,9 @@ export default function App() {
     const title = applyModalJob?.title || '';
     const applicantName = formData.get('name') || '';
 
-    formData.append('job_id', jobId);
-    formData.append('divisionName', division);
-    formData.append('jobTitle', title);
+    formData.set('job_id', jobId);
+    formData.set('divisionName', division);
+    formData.set('jobTitle', title);
 
     try {
         // Kirim info divisi dan judul lowongan via URL query agar Multer langsung membacanya

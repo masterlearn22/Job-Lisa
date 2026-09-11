@@ -4,6 +4,7 @@ const path = require('path');
 
 // Helper to sanitize folder and file names safely for Windows/Linux
 const cleanName = (str, fallback = 'Umum') => {
+    if (Array.isArray(str)) str = str[0];
     if (!str || typeof str !== 'string') return fallback;
     const cleaned = str.replace(/[<>:"/\\|?*]/g, '').trim();
     return cleaned || fallback;
