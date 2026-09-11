@@ -3,6 +3,17 @@
 CREATE DATABASE IF NOT EXISTS hrd_job_portal;
 USE hrd_job_portal;
 
+-- Bersihkan tabel lama jika ada agar struktur baru terpasang sempurna
+DROP TABLE IF EXISTS application_history;
+DROP TABLE IF EXISTS applications;
+DROP TABLE IF EXISTS jobs;
+DROP TABLE IF EXISTS applicants;
+DROP TABLE IF EXISTS role_permissions;
+DROP TABLE IF EXISTS permissions;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS divisions;
+DROP TABLE IF EXISTS roles;
+
 -- Tabel Roles
 CREATE TABLE IF NOT EXISTS roles (
     id INT AUTO_INCREMENT PRIMARY KEY,
