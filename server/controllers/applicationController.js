@@ -271,8 +271,169 @@ const updateApplicationStatus = async (req, res) => {
     }
 };
 
+// 4. Get All Applications for Admin Dashboard
+const getApplicationsAdmin = async (req, res) => {
+    try {
+        const { division, status, search } = req.query;
+
+        let query = `
+            SELECT 
+                a.id, 
+                a.tracking_id, 
+                a.status, 
+                a.cv_path, 
+                a.created_at, 
+                a.updated_at,
+                ap.id as applicant_id,
+                ap.name as applicant_name, 
+                ap.email as applicant_email, 
+                ap.phone as applicant_phone,
+                j.id as job_id,
+                j.title as job_title, 
+                d.id as division_id,
+                d.name as division_name
+            FROM applications a
+            JOIN applicants ap ON a.applicant_id = ap.id
+            JOIN jobs j ON a.job_id = j.id
+            LEFT JOIN divisions d ON j.division_id = d.id
+            WHERE 1=1
+        `;
+
+        const params = [];
+
+        if (division && division !== 'all') {
+            query += ` AND (d.name = ? OR d.id = ?)`;
+            params.push(division, division);
+        }
+
+        if (status && status !== 'all') {
+            query += ` AND a.status = ?`;
+            params.push(status);
+        }
+
+        if (search && search.trim() !== '') {
+            query += ` AND (ap.name LIKE ? OR ap.email LIKE ? OR a.tracking_id LIKE ? OR j.title LIKE ?)`;
+            const searchPattern = `%${search.trim()}%`;
+            params.push(searchPattern, searchPattern, searchPattern, searchPattern);
+        }
+
+        query += ` ORDER BY a.updated_at DESC, a.created_at DESC`;
+
+        const [rows] = await db.query(query, params);
+
+        res.json(rows);
+    } catch (error) {
+        console.error('Error in getApplicationsAdmin:', error);
+        res.status(500).json({ error: 'Gagal mengambil data lamaran' });
+    }
+};
+
+// 5. Get Dashboard Metrics & Statistics
+const getAdminStats = async (req, res) => {
+    try {
+        const [totalRows] = await db.query('SELECT COUNT(*) as total FROM applications');
+        const [statusRows] = await db.query('SELECT status, COUNT(*) as count FROM applications GROUP BY status');
+        const [divisionsRows] = await db.query('SELECT name, id FROM divisions');
+
+        const stats = {
+            total: totalRows[0]?.total || 0,
+            menungguReview: 0,
+            tahapSeleksi: 0,
+            interview: 0,
+            diterima: 0,
+            ditolak: 0,
+            divisions: divisionsRows || []
+        };
+
+        statusRows.forEach(row => {
+            if (row.status === 'Menunggu Review') stats.menungguReview = row.count;
+            else if (row.status === 'Tahap Seleksi') stats.tahapSeleksi = row.count;
+            else if (row.status === 'Interview') stats.interview = row.count;
+            else if (row.status === 'Diterima') stats.diterima = row.count;
+            else if (row.status === 'Ditolak') stats.ditolak = row.count;
+        });
+
+        res.json(stats);
+    } catch (error) {
+        console.error('Error in getAdminStats:', error);
+        res.status(500).json({ error: 'Gagal mengambil statistik' });
+    }
+};
+
+// 6. Admin Login
+const adminLogin = async (req, res) => {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+        return res.status(400).json({ error: 'Email dan password wajib diisi' });
+    }
+
+    try {
+        // Cek akun khusus demo / default
+        if (email.toLowerCase() === 'admin@perusahaan.com' && password === 'admin123') {
+            return res.json({
+                success: true,
+                user: {
+                    id: 1,
+                    name: 'Super Admin HRD',
+                    email: 'admin@perusahaan.com',
+                    role: 'Admin'
+                },
+                token: 'mock-token-hrd-admin-secure'
+            });
+        }
+
+        // Cek database users jika ada
+        const [userRows] = await db.query('SELECT u.id, u.name, u.email, u.password, r.name as role_name FROM users u LEFT JOIN roles r ON u.role_id = r.id WHERE u.email = ?', [email]);
+        
+        if (userRows.length > 0) {
+            const user = userRows[0];
+            // Sederhana untuk demo login
+            if (password === 'admin123' || password === user.password) {
+                return res.json({
+                    success: true,
+                    user: {
+                        id: user.id,
+                        name: user.name,
+                        email: user.email,
+                        role: user.role_name || 'HRD'
+                    },
+                    token: 'mock-token-hrd-admin-secure'
+                });
+            }
+        }
+
+        return res.status(401).json({ error: 'Email atau password salah' });
+    } catch (error) {
+        console.error('Error in adminLogin:', error);
+        res.status(500).json({ error: 'Terjadi kesalahan sistem' });
+    }
+};
+
+// 7. Hapus Lamaran (Admin)
+const deleteApplicationAdmin = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const [rows] = await db.query('SELECT cv_path FROM applications WHERE id = ?', [id]);
+        if (rows.length > 0 && rows[0].cv_path) {
+            cleanupFile(rows[0].cv_path);
+        }
+
+        await db.query('DELETE FROM applications WHERE id = ?', [id]);
+        res.json({ message: 'Lamaran berhasil dihapus' });
+    } catch (error) {
+        console.error('Error in deleteApplicationAdmin:', error);
+        res.status(500).json({ error: 'Gagal menghapus lamaran' });
+    }
+};
+
 module.exports = {
     submitApplication,
     trackApplication,
-    updateApplicationStatus
+    updateApplicationStatus,
+    getApplicationsAdmin,
+    getAdminStats,
+    adminLogin,
+    deleteApplicationAdmin
 };

@@ -152,6 +152,9 @@ export default function App() {
       if (hash === '#lacak') {
         setActiveTab('lacak')
         window.scrollTo({ top: 0, behavior: 'smooth' })
+      } else if (hash === '#admin') {
+        setActiveTab('admin')
+        window.scrollTo({ top: 0, behavior: 'smooth' })
       } else if (hash === '#karir') {
         setActiveTab('karir')
       } else if (hash === '#home' || hash === '') {
@@ -162,6 +165,153 @@ export default function App() {
     window.addEventListener('hashchange', handleHash)
     return () => window.removeEventListener('hashchange', handleHash)
   }, [])
+
+  // ================= ADMIN DASHBOARD STATE & HANDLERS =================
+  const [adminUser, setAdminUser] = useState(() => {
+    try {
+      const saved = localStorage.getItem('lisa_admin_user');
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  });
+  const [adminLoginEmail, setAdminLoginEmail] = useState('admin@perusahaan.com');
+  const [adminLoginPassword, setAdminLoginPassword] = useState('admin123');
+  const [adminLoginError, setAdminLoginError] = useState('');
+  const [adminLoginLoading, setAdminLoginLoading] = useState(false);
+
+  const [adminStats, setAdminStats] = useState({ total: 0, menungguReview: 0, tahapSeleksi: 0, interview: 0, diterima: 0, ditolak: 0, divisions: [] });
+  const [adminApplications, setAdminApplications] = useState([]);
+  const [adminFilterDiv, setAdminFilterDiv] = useState('all');
+  const [adminFilterStatus, setAdminFilterStatus] = useState('all');
+  const [adminSearch, setAdminSearch] = useState('');
+  const [adminLoading, setAdminLoading] = useState(false);
+
+  const [adminManageModal, setAdminManageModal] = useState(null);
+  const [adminTargetStatus, setAdminTargetStatus] = useState('Menunggu Review');
+  const [adminTargetNotes, setAdminTargetNotes] = useState('');
+  const [adminStatusSaving, setAdminStatusSaving] = useState(false);
+
+  // Fetch admin stats & applications
+  const fetchAdminData = async () => {
+    setAdminLoading(true);
+    try {
+      // 1. Fetch Stats
+      const statsRes = await fetch('http://localhost:5000/api/applications/admin/stats');
+      if (statsRes.ok) {
+        const statsData = await statsRes.json();
+        setAdminStats(statsData);
+      }
+
+      // 2. Fetch Applications
+      const params = new URLSearchParams();
+      if (adminFilterDiv !== 'all') params.append('division', adminFilterDiv);
+      if (adminFilterStatus !== 'all') params.append('status', adminFilterStatus);
+      if (adminSearch.trim()) params.append('search', adminSearch.trim());
+
+      const listRes = await fetch(`http://localhost:5000/api/applications/admin/list?${params.toString()}`);
+      if (listRes.ok) {
+        const listData = await listRes.json();
+        setAdminApplications(listData);
+      }
+    } catch (err) {
+      console.log('Gagal mengambil data admin dari server:', err.message);
+    } finally {
+      setAdminLoading(false);
+    }
+  };
+
+  // Trigger fetch when on admin tab and logged in
+  useEffect(() => {
+    if (activeTab === 'admin' && adminUser) {
+      fetchAdminData();
+    }
+  }, [activeTab, adminUser, adminFilterDiv, adminFilterStatus]);
+
+  // Handle Admin Login
+  const handleAdminLogin = async (e) => {
+    e.preventDefault();
+    setAdminLoginLoading(true);
+    setAdminLoginError('');
+    try {
+      const res = await fetch('http://localhost:5000/api/applications/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: adminLoginEmail, password: adminLoginPassword })
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setAdminUser(data.user);
+        try { localStorage.setItem('lisa_admin_user', JSON.stringify(data.user)); } catch {}
+      } else {
+        setAdminLoginError(data.error || 'Email atau password salah');
+      }
+    } catch (err) {
+      console.error(err);
+      if (adminLoginEmail === 'admin@perusahaan.com' && adminLoginPassword === 'admin123') {
+        const fallbackUser = { id: 1, name: 'Super Admin HRD', email: 'admin@perusahaan.com', role: 'Admin' };
+        setAdminUser(fallbackUser);
+        try { localStorage.setItem('lisa_admin_user', JSON.stringify(fallbackUser)); } catch {}
+      } else {
+        setAdminLoginError('Tidak dapat menghubungi server backend.');
+      }
+    } finally {
+      setAdminLoginLoading(false);
+    }
+  };
+
+  const handleAdminLogout = () => {
+    setAdminUser(null);
+    try { localStorage.removeItem('lisa_admin_user'); } catch {}
+  };
+
+  // Handle Update Status Pelamar
+  const handleAdminUpdateStatus = async (e) => {
+    e.preventDefault();
+    if (!adminManageModal) return;
+    setAdminStatusSaving(true);
+    try {
+      const res = await fetch(`http://localhost:5000/api/applications/${adminManageModal.id}/status`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          status: adminTargetStatus,
+          notes: adminTargetNotes
+        })
+      });
+      if (res.ok) {
+        alert(`Status pelamar "${adminManageModal.applicant_name}" berhasil diperbarui menjadi "${adminTargetStatus}" dan email notifikasi telah dikirimkan!`);
+        setAdminManageModal(null);
+        fetchAdminData();
+      } else {
+        const err = await res.json().catch(() => ({}));
+        alert(`Gagal memperbarui status: ${err.error || 'Terjadi kesalahan'}`);
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Gagal menghubungi backend.');
+    } finally {
+      setAdminStatusSaving(false);
+    }
+  };
+
+  // Handle Hapus Lamaran
+  const handleAdminDeleteApp = async (id, name) => {
+    if (!window.confirm(`Apakah Anda yakin ingin menghapus data pelamar ${name}? Berkas CV yang tersimpan di server juga akan dihapus permanen.`)) return;
+    try {
+      const res = await fetch(`http://localhost:5000/api/applications/admin/${id}`, {
+        method: 'DELETE'
+      });
+      if (res.ok) {
+        fetchAdminData();
+      } else {
+        alert('Gagal menghapus lamaran.');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Gagal menghubungi backend.');
+    }
+  };
 
   // Filter Jobs
   const filteredJobs = jobs.filter(job => {
@@ -1112,6 +1262,417 @@ export default function App() {
             )}
           </div>
         </main>
+      ) : activeTab === 'admin' ? (
+        !adminUser ? (
+          /* LOGIN SCREEN FOR HRD ADMIN */
+          <main className="min-h-screen bg-slate-900 py-16 px-4 flex items-center justify-center flex-1">
+            <div className="max-w-md w-full bg-slate-950/90 border border-slate-800 rounded-3xl p-8 shadow-2xl backdrop-blur-sm text-white">
+              <div className="text-center mb-6">
+                <div className="w-14 h-14 bg-brand rounded-2xl flex items-center justify-center text-white font-black text-2xl mx-auto mb-3 shadow-lg shadow-brand/30">
+                  L
+                </div>
+                <h2 className="text-xl font-black tracking-tight">Portal HRD &amp; Personalia</h2>
+                <p className="text-xs text-slate-400 mt-1">Masuk untuk mengelola berkas pelamar &amp; unduh CV</p>
+              </div>
+
+              {adminLoginError && (
+                <div className="mb-4 p-3 rounded-xl bg-red-950/80 border border-red-800/80 text-red-300 text-xs text-center font-medium">
+                  {adminLoginError}
+                </div>
+              )}
+
+              <form onSubmit={handleAdminLogin} className="space-y-4 text-xs">
+                <div>
+                  <label className="block text-slate-300 font-bold mb-1">Email Administrator HRD</label>
+                  <input 
+                    type="email" 
+                    value={adminLoginEmail}
+                    onChange={(e) => setAdminLoginEmail(e.target.value)}
+                    required
+                    placeholder="admin@perusahaan.com" 
+                    className="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-white focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand text-xs"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-slate-300 font-bold mb-1">Password</label>
+                  <input 
+                    type="password" 
+                    value={adminLoginPassword}
+                    onChange={(e) => setAdminLoginPassword(e.target.value)}
+                    required
+                    placeholder="••••••••" 
+                    className="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-white focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand text-xs"
+                  />
+                </div>
+
+                <div className="pt-2">
+                  <button 
+                    type="submit"
+                    disabled={adminLoginLoading}
+                    className="w-full py-3 bg-brand hover:bg-brand-dark text-white font-bold rounded-xl shadow-lg shadow-brand/25 transition-all text-xs disabled:opacity-50 cursor-pointer"
+                  >
+                    {adminLoginLoading ? 'Memverifikasi...' : 'Masuk ke Dashboard'}
+                  </button>
+                </div>
+
+                <div className="mt-4 p-3 bg-slate-900/90 rounded-xl border border-slate-800 text-[11px] text-slate-400 text-center">
+                  <p>Kredensial Default:</p>
+                  <p className="font-mono text-amber-400 font-bold mt-0.5">admin@perusahaan.com / admin123</p>
+                </div>
+
+                <div className="text-center pt-2">
+                  <button 
+                    type="button" 
+                    onClick={handleToHome}
+                    className="text-slate-400 hover:text-white transition-colors text-[11px] cursor-pointer"
+                  >
+                    &larr; Kembali ke Beranda Publik
+                  </button>
+                </div>
+              </form>
+            </div>
+          </main>
+        ) : (
+          /* MAIN ADMIN DASHBOARD VIEW */
+          <main className="min-h-screen bg-slate-100 py-8 px-4 sm:px-6 lg:px-8 flex-1">
+            <div className="max-w-7xl mx-auto space-y-6">
+              {/* TOP BAR DASHBOARD */}
+              <div className="bg-white rounded-2xl shadow-xs border border-slate-200 p-5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Sistem Rekrutmen Terpadu</span>
+                  </div>
+                  <h1 className="text-xl sm:text-2xl font-black text-slate-900">Dashboard Manajemen Pelamar</h1>
+                  <p className="text-xs text-slate-500">Kelola berkas masuk, sortir per divisi, dan perbarui tahapan seleksi</p>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-3">
+                  <button 
+                    onClick={fetchAdminData}
+                    disabled={adminLoading}
+                    className="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer"
+                  >
+                    <span className={adminLoading ? 'animate-spin' : ''}>🔄</span>
+                    <span>Refresh Data</span>
+                  </button>
+
+                  <button 
+                    onClick={handleToHome}
+                    className="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition-all cursor-pointer"
+                  >
+                    🌐 Lihat Web Publik
+                  </button>
+
+                  <div className="flex items-center gap-2 pl-2 border-l border-slate-200">
+                    <div className="text-right hidden sm:block">
+                      <p className="text-xs font-bold text-slate-800">{adminUser.name}</p>
+                      <p className="text-[10px] text-brand font-semibold">{adminUser.role || 'HRD'}</p>
+                    </div>
+                    <button 
+                      onClick={handleAdminLogout}
+                      className="px-3 py-2 bg-red-50 hover:bg-red-100 text-brand rounded-xl text-xs font-bold transition-colors cursor-pointer"
+                      title="Keluar"
+                    >
+                      Logout 🚪
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* METRICS STATS CARDS */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+                <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
+                  <span className="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Total Pelamar</span>
+                  <p className="text-2xl font-black text-slate-900 mt-1">{adminStats.total}</p>
+                  <span className="text-[10px] text-slate-500">Semua berkas masuk</span>
+                </div>
+
+                <div className="bg-amber-50/70 p-4 rounded-2xl border border-amber-200 shadow-xs">
+                  <span className="text-[10px] font-bold uppercase text-amber-700 tracking-wider">Menunggu Review</span>
+                  <p className="text-2xl font-black text-amber-700 mt-1">{adminStats.menungguReview}</p>
+                  <span className="text-[10px] text-amber-600">Perlu ditinjau HRD</span>
+                </div>
+
+                <div className="bg-blue-50/70 p-4 rounded-2xl border border-blue-200 shadow-xs">
+                  <span className="text-[10px] font-bold uppercase text-blue-700 tracking-wider">Tahap Seleksi</span>
+                  <p className="text-2xl font-black text-blue-700 mt-1">{adminStats.tahapSeleksi}</p>
+                  <span className="text-[10px] text-blue-600">Lolos berkas awal</span>
+                </div>
+
+                <div className="bg-purple-50/70 p-4 rounded-2xl border border-purple-200 shadow-xs">
+                  <span className="text-[10px] font-bold uppercase text-purple-700 tracking-wider">Interview</span>
+                  <p className="text-2xl font-black text-purple-700 mt-1">{adminStats.interview}</p>
+                  <span className="text-[10px] text-purple-600">Jadwal wawancara</span>
+                </div>
+
+                <div className="bg-emerald-50/70 p-4 rounded-2xl border border-emerald-200 shadow-xs">
+                  <span className="text-[10px] font-bold uppercase text-emerald-700 tracking-wider">Diterima</span>
+                  <p className="text-2xl font-black text-emerald-700 mt-1">{adminStats.diterima}</p>
+                  <span className="text-[10px] text-emerald-600">Offering letter</span>
+                </div>
+
+                <div className="bg-rose-50/70 p-4 rounded-2xl border border-rose-200 shadow-xs">
+                  <span className="text-[10px] font-bold uppercase text-rose-700 tracking-wider">Ditolak</span>
+                  <p className="text-2xl font-black text-rose-700 mt-1">{adminStats.ditolak}</p>
+                  <span className="text-[10px] text-rose-600">Belum sesuai</span>
+                </div>
+              </div>
+
+              {/* FILTER & SEARCH BAR */}
+              <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-col md:flex-row gap-3 items-center justify-between">
+                <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
+                  {/* Filter Divisi */}
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold text-slate-500 whitespace-nowrap">Divisi:</span>
+                    <select 
+                      value={adminFilterDiv}
+                      onChange={(e) => setAdminFilterDiv(e.target.value)}
+                      className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 focus:outline-none focus:border-brand cursor-pointer"
+                    >
+                      <option value="all">Semua Divisi ({adminStats.divisions?.length || 0})</option>
+                      {adminStats.divisions?.map(d => (
+                        <option key={d.id} value={d.name}>{d.name}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Filter Status */}
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold text-slate-500 whitespace-nowrap">Status:</span>
+                    <select 
+                      value={adminFilterStatus}
+                      onChange={(e) => setAdminFilterStatus(e.target.value)}
+                      className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 focus:outline-none focus:border-brand cursor-pointer"
+                    >
+                      <option value="all">Semua Status</option>
+                      <option value="Menunggu Review">Menunggu Review</option>
+                      <option value="Tahap Seleksi">Tahap Seleksi</option>
+                      <option value="Interview">Interview</option>
+                      <option value="Diterima">Diterima</option>
+                      <option value="Ditolak">Ditolak</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* Search Box */}
+                <div className="w-full md:w-80 relative">
+                  <input 
+                    type="text"
+                    value={adminSearch}
+                    onChange={(e) => setAdminSearch(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && fetchAdminData()}
+                    placeholder="Cari nama, ID lacak, email..."
+                    className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:border-brand"
+                  />
+                  <span className="absolute left-3 top-2.5 text-slate-400 text-xs">🔍</span>
+                </div>
+              </div>
+
+              {/* TABEL DATA PELAMAR */}
+              <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+                <div className="p-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+                  <h3 className="font-bold text-slate-800 text-xs sm:text-sm">
+                    Daftar Berkas Masuk ({adminApplications.length} Pelamar)
+                  </h3>
+                  <span className="text-[11px] text-slate-500">Klik "Kelola Status" untuk update atau jadwalkan interview</span>
+                </div>
+
+                {adminLoading ? (
+                  <div className="p-12 text-center text-slate-400 text-xs">
+                    <div className="w-8 h-8 border-3 border-brand border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
+                    <span>Memuat data pelamar dari database...</span>
+                  </div>
+                ) : adminApplications.length === 0 ? (
+                  <div className="p-12 text-center text-slate-400 text-xs">
+                    <p className="text-3xl mb-2">📁</p>
+                    <p className="font-bold text-slate-600">Belum ada pelamar yang sesuai dengan kriteria filter.</p>
+                    <p className="text-[11px] mt-1 text-slate-400">Silakan ubah filter atau tunggu pendaftaran baru masuk.</p>
+                  </div>
+                ) : (
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left text-xs text-slate-700">
+                      <thead className="bg-slate-50 text-[11px] uppercase font-bold text-slate-400 tracking-wider border-b border-slate-200">
+                        <tr>
+                          <th className="py-3 px-4">ID Registrasi</th>
+                          <th className="py-3 px-4">Pelamar &amp; Kontak</th>
+                          <th className="py-3 px-4">Posisi Dilamar</th>
+                          <th className="py-3 px-4">Divisi Folder</th>
+                          <th className="py-3 px-4">Tanggal Masuk</th>
+                          <th className="py-3 px-4">Berkas CV</th>
+                          <th className="py-3 px-4">Status Seleksi</th>
+                          <th className="py-3 px-4 text-center">Aksi</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100 font-medium">
+                        {adminApplications.map((app) => {
+                          const statusColors = {
+                            'Menunggu Review': 'bg-amber-50 text-amber-700 border-amber-200',
+                            'Tahap Seleksi': 'bg-blue-50 text-blue-700 border-blue-200',
+                            'Interview': 'bg-purple-50 text-purple-700 border-purple-200',
+                            'Diterima': 'bg-emerald-50 text-emerald-700 border-emerald-200',
+                            'Ditolak': 'bg-rose-50 text-rose-700 border-rose-200'
+                          };
+                          const badgeStyle = statusColors[app.status] || 'bg-slate-50 text-slate-700 border-slate-200';
+
+                          return (
+                            <tr key={app.id} className="hover:bg-slate-50/80 transition-colors">
+                              <td className="py-3.5 px-4 font-mono font-bold text-slate-900 whitespace-nowrap">
+                                {app.tracking_id}
+                              </td>
+                              <td className="py-3.5 px-4">
+                                <p className="font-bold text-slate-900">{app.applicant_name}</p>
+                                <p className="text-[11px] text-slate-500">{app.applicant_email}</p>
+                                <p className="text-[11px] text-slate-400">WA: {app.applicant_phone || '-'}</p>
+                              </td>
+                              <td className="py-3.5 px-4 font-semibold text-slate-800">
+                                {app.job_title}
+                              </td>
+                              <td className="py-3.5 px-4">
+                                <span className="px-2.5 py-1 bg-slate-100 rounded-lg text-[11px] font-semibold text-slate-600 inline-block">
+                                  📁 {app.division_name || 'Umum'}
+                                </span>
+                              </td>
+                              <td className="py-3.5 px-4 text-slate-500 text-[11px] whitespace-nowrap">
+                                {new Date(app.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
+                              </td>
+                              <td className="py-3.5 px-4 whitespace-nowrap">
+                                <a 
+                                  href={`http://localhost:5000${app.cv_path}`}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-red-50 hover:bg-red-100 text-brand rounded-xl font-bold text-[11px] border border-red-200 transition-colors"
+                                >
+                                  <span>📄</span>
+                                  <span>Buka CV</span>
+                                </a>
+                              </td>
+                              <td className="py-3.5 px-4 whitespace-nowrap">
+                                <span className={`px-2.5 py-1 rounded-full text-[11px] font-bold border inline-block ${badgeStyle}`}>
+                                  {app.status}
+                                </span>
+                              </td>
+                              <td className="py-3.5 px-4 text-center whitespace-nowrap">
+                                <div className="inline-flex items-center gap-2">
+                                  <button
+                                    onClick={() => {
+                                      setAdminManageModal(app);
+                                      setAdminTargetStatus(app.status);
+                                      setAdminTargetNotes('');
+                                    }}
+                                    className="px-3 py-1.5 bg-brand hover:bg-brand-dark text-white font-bold rounded-xl text-xs transition-colors shadow-xs cursor-pointer"
+                                  >
+                                    Kelola Status
+                                  </button>
+                                  <button
+                                    onClick={() => handleAdminDeleteApp(app.id, app.applicant_name)}
+                                    className="p-1.5 text-slate-400 hover:text-rose-600 rounded-lg hover:bg-rose-50 transition-colors cursor-pointer"
+                                    title="Hapus Lamaran"
+                                  >
+                                    🗑️
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* MODAL KELOLA STATUS & JADWAL INTERVIEW */}
+            {adminManageModal && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fadeIn">
+                <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-7 shadow-2xl text-slate-800 border border-slate-200">
+                  <div className="flex justify-between items-start pb-4 border-b border-slate-100 mb-4">
+                    <div>
+                      <span className="text-[10px] font-bold text-brand uppercase tracking-wider block">Kelola Berkas Pelamar</span>
+                      <h3 className="text-lg font-black text-slate-900">{adminManageModal.applicant_name}</h3>
+                      <p className="text-xs text-slate-500">Melamar untuk: <strong>{adminManageModal.job_title}</strong></p>
+                    </div>
+                    <button 
+                      onClick={() => setAdminManageModal(null)}
+                      className="text-slate-400 hover:text-slate-700 p-1.5 rounded-full hover:bg-slate-100 text-sm cursor-pointer"
+                    >
+                      ✕
+                    </button>
+                  </div>
+
+                  <div className="mb-4 p-3 bg-slate-50 rounded-2xl border border-slate-100 text-xs flex justify-between items-center">
+                    <div>
+                      <p className="text-slate-500 text-[11px]">Kode Lacak Pelamar:</p>
+                      <p className="font-mono font-bold text-slate-800">{adminManageModal.tracking_id}</p>
+                    </div>
+                    <a 
+                      href={`http://localhost:5000${adminManageModal.cv_path}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-3 py-1.5 bg-white border border-slate-200 hover:border-brand text-brand rounded-xl font-bold text-xs flex items-center gap-1 shadow-xs"
+                    >
+                      <span>📄 Buka File CV</span>
+                    </a>
+                  </div>
+
+                  <form onSubmit={handleAdminUpdateStatus} className="space-y-4 text-xs">
+                    <div>
+                      <label className="block font-bold text-slate-700 mb-1">Perbarui Status Tahapan *</label>
+                      <select 
+                        value={adminTargetStatus}
+                        onChange={(e) => setAdminTargetStatus(e.target.value)}
+                        className="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-slate-800 focus:outline-none focus:border-brand cursor-pointer"
+                      >
+                        <option value="Menunggu Review">Menunggu Review</option>
+                        <option value="Tahap Seleksi">Tahap Seleksi (Lolos Berkas)</option>
+                        <option value="Interview">Interview (Jadwalkan Wawancara)</option>
+                        <option value="Diterima">Diterima (Offering Letter)</option>
+                        <option value="Ditolak">Ditolak</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="block font-bold text-slate-700 mb-1">
+                        Catatan / Jadwal Interview (Akan dikirim ke Email Pelamar):
+                      </label>
+                      <textarea 
+                        rows="3"
+                        value={adminTargetNotes}
+                        onChange={(e) => setAdminTargetNotes(e.target.value)}
+                        placeholder="Contoh: Selamat! Anda diundang untuk wawancara teknis pada Kamis, 18 Oktober 2026 jam 10:00 WIB via Google Meet link: meet.google.com/xyz..."
+                        className="w-full p-3 bg-slate-50 border border-slate-300 rounded-xl text-xs text-slate-800 focus:outline-none focus:border-brand"
+                      ></textarea>
+                    </div>
+
+                    <div className="p-3 bg-blue-50 border border-blue-200 rounded-xl text-[11px] text-blue-700 flex items-start gap-2">
+                      <span>💡</span>
+                      <span>Pelamar akan otomatis menerima email notifikasi resmi mengenai pembaruan status ini beserta catatan di atas.</span>
+                    </div>
+
+                    <div className="pt-2 flex justify-end gap-3">
+                      <button 
+                        type="button" 
+                        onClick={() => setAdminManageModal(null)}
+                        className="px-4 py-2.5 rounded-xl font-bold text-slate-600 hover:bg-slate-100 cursor-pointer"
+                      >
+                        Batal
+                      </button>
+                      <button 
+                        type="submit" 
+                        disabled={adminStatusSaving}
+                        className="px-5 py-2.5 bg-brand hover:bg-brand-dark text-white rounded-xl font-bold shadow-md shadow-brand/20 flex items-center gap-2 disabled:opacity-50 cursor-pointer"
+                      >
+                        {adminStatusSaving ? 'Menyimpan & Mengirim Email...' : 'Simpan & Kirim Update'}
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            )}
+          </main>
+        )
       ) : (
         <>
           {/* HERO SECTION */}
@@ -1524,6 +2085,14 @@ export default function App() {
                 <li><a href="#tentang" className="hover:text-white transition-colors">Tentang Perusahaan</a></li>
                 <li><a href="#karir" className="hover:text-white transition-colors">Portal Karir &amp; Lowongan</a></li>
                 <li><button onClick={() => handleOpenTracking()} className="hover:text-white transition-colors text-left cursor-pointer">Lacak Status Pelamar</button></li>
+                <li>
+                  <button 
+                    onClick={() => { setActiveTab('admin'); window.location.hash = '#admin'; window.scrollTo({ top: 0, behavior: 'smooth' }); }} 
+                    className="hover:text-amber-300 text-amber-400 font-bold transition-colors text-left cursor-pointer flex items-center gap-1"
+                  >
+                    <span>🔐 Portal Masuk HRD / Admin</span>
+                  </button>
+                </li>
                 <li>
                   <a 
                     href="https://www.lisaconcrete.com" 
