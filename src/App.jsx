@@ -372,7 +372,8 @@ export default function App() {
               setApplyTrackingResult('')
             }, 8000)
         } else {
-            alert('Gagal mengirim lamaran. Pastikan server backend sudah dijalankan (npm start di folder server).');
+            const errJson = await response.json().catch(() => ({}));
+            alert(`Gagal mengirim lamaran: ${errJson.error || response.statusText || 'Terjadi kesalahan pada server'}`);
         }
     } catch (error) {
         console.error(error);

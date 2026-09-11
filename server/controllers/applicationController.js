@@ -50,7 +50,7 @@ const submitApplication = async (req, res) => {
         const relativeCvPath = cvFile.path.split('uploads')[1].replace(/\\/g, '/'); // Normalize path for DB
         const [appResult] = await db.query(
             'INSERT INTO applications (tracking_id, applicant_id, job_id, cv_path, status) VALUES (?, ?, ?, ?, ?)',
-            [trackingId, applicantId, job_id, `/uploads${relativeCvPath}`, 'Menunggu Review']
+            [trackingId, applicantId, jobId, `/uploads${relativeCvPath}`, 'Menunggu Review']
         );
         const applicationId = appResult.insertId;
 
