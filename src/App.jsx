@@ -327,9 +327,12 @@ export default function App() {
   }
 
   // Handle Apply Form
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [applyTrackingResult, setApplyTrackingResult] = useState('')
   const handleApplySubmit = async (e) => {
     e.preventDefault()
+    if (isSubmitting) return;
+    setIsSubmitting(true);
     
     const formData = new FormData(e.target);
     
@@ -378,6 +381,8 @@ export default function App() {
     } catch (error) {
         console.error(error);
         alert('Tidak dapat terhubung ke backend. Pastikan server backend berjalan di http://localhost:5000.');
+    } finally {
+        setIsSubmitting(false);
     }
   }
 
@@ -1654,16 +1659,25 @@ export default function App() {
                   <div className="pt-4 flex justify-end gap-3">
                     <button 
                       type="button" 
+                      disabled={isSubmitting}
                       onClick={() => setApplyModalJob(null)}
-                      className="px-5 py-2.5 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100"
+                      className="px-5 py-2.5 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100 disabled:opacity-50"
                     >
                       Batal
                     </button>
                     <button 
                       type="submit" 
-                      className="px-6 py-2.5 bg-brand hover:bg-brand-dark text-white rounded-xl text-xs font-bold shadow-md shadow-brand/20"
+                      disabled={isSubmitting}
+                      className="px-6 py-2.5 bg-brand hover:bg-brand-dark text-white rounded-xl text-xs font-bold shadow-md shadow-brand/20 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                     >
-                      Kirim Lamaran
+                      {isSubmitting ? (
+                        <>
+                          <span className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                          <span>Mengirim...</span>
+                        </>
+                      ) : (
+                        <span>Kirim Lamaran</span>
+                      )}
                     </button>
                   </div>
                 </form>

@@ -1,11 +1,24 @@
 const db = require('../config/db');
 const { sendEmail } = require('../config/email');
 const crypto = require('crypto');
+const fs = require('fs');
 
 // Helper to ensure single scalar value even if duplicate fields exist
 const getSingleValue = (val, fallback = '') => {
     if (Array.isArray(val)) return val[0] || fallback;
     return val || fallback;
+};
+
+// Helper to delete uploaded CV if database operation fails
+const cleanupFile = (filePath) => {
+    if (filePath && fs.existsSync(filePath)) {
+        try {
+            fs.unlinkSync(filePath);
+            console.log(`[Pencegahan Duplikat] File dibatalkan dan dihapus dari server: ${filePath}`);
+        } catch (err) {
+            console.error('Gagal menghapus file:', err);
+        }
+    }
 };
 
 // 1. Submit Application
@@ -18,11 +31,11 @@ const submitApplication = async (req, res) => {
     const cvFile = req.file;
 
     if (!cvFile) {
-        return res.status(400).json({ error: 'CV File is required' });
+        return res.status(400).json({ error: 'File CV wajib diunggah' });
     }
 
     try {
-        // Find job and division details for email purposes
+        // 1. Validasi keberadaan lowongan pekerjaan
         const [jobRows] = await db.query(
             `SELECT j.title, d.name as division_name 
              FROM jobs j 
@@ -31,20 +44,32 @@ const submitApplication = async (req, res) => {
         );
 
         if (jobRows.length === 0) {
-            return res.status(404).json({ error: 'Job not found' });
+            cleanupFile(cvFile.path);
+            return res.status(404).json({ error: 'Lowongan pekerjaan tidak ditemukan di database' });
         }
 
         const job = jobRows[0];
 
-        // Generate Tracking ID
-        const trackingId = 'APP-' + crypto.randomBytes(4).toString('hex').toUpperCase();
-
-        // 1. Check or create Applicant
+        // 2. Cek atau buat Profil Pelamar
         let [applicantRows] = await db.query('SELECT id FROM applicants WHERE email = ?', [email]);
         let applicantId;
         
         if (applicantRows.length > 0) {
             applicantId = applicantRows[0].id;
+
+            // PENCEGAHAN DUPLIKAT: Cek apakah pelamar ini sudah pernah mendaftar di posisi yang sama
+            const [existingApp] = await db.query(
+                'SELECT id, tracking_id FROM applications WHERE applicant_id = ? AND job_id = ?',
+                [applicantId, jobId]
+            );
+
+            if (existingApp.length > 0) {
+                // Batalkan simpan file CV
+                cleanupFile(cvFile.path);
+                return res.status(400).json({ 
+                    error: `Anda sudah pernah mengirim lamaran untuk posisi ini sebelumnya dengan ID Lacak: ${existingApp[0].tracking_id}. Tidak perlu mengirim ulang.` 
+                });
+            }
         } else {
             const [insertResult] = await db.query(
                 'INSERT INTO applicants (name, email, phone) VALUES (?, ?, ?)',
@@ -53,23 +78,24 @@ const submitApplication = async (req, res) => {
             applicantId = insertResult.insertId;
         }
 
-        // 2. Create Application
+        // 3. Simpan Lamaran Baru
+        const trackingId = 'APP-' + crypto.randomBytes(4).toString('hex').toUpperCase();
         const relativeCvPath = cvFile.path.split('uploads')[1].replace(/\\/g, '/'); // Normalize path for DB
+        
         const [appResult] = await db.query(
             'INSERT INTO applications (tracking_id, applicant_id, job_id, cv_path, status) VALUES (?, ?, ?, ?, ?)',
             [trackingId, applicantId, jobId, `/uploads${relativeCvPath}`, 'Menunggu Review']
         );
         const applicationId = appResult.insertId;
 
-        // 3. Create Application History
+        // 4. Catat Riwayat Status Awal
         await db.query(
             'INSERT INTO application_history (application_id, status, notes) VALUES (?, ?, ?)',
             [applicationId, 'Menunggu Review', 'Lamaran diajukan']
         );
 
-        // 4. Send Emails (Async, non-blocking if possible, but we await to ensure it works for now)
+        // 5. Kirim Notifikasi Email (Non-blocking)
         try {
-            // Email to Applicant
             await sendEmail(
                 email,
                 `Pendaftaran Berhasil - ${job.title}`,
@@ -77,7 +103,6 @@ const submitApplication = async (req, res) => {
                 `<p>Halo ${name},</p><p>Lamaran Anda untuk posisi <b>${job.title}</b> (${job.division_name}) telah kami terima.</p><p>Anda dapat melacak status lamaran Anda dengan Tracking ID berikut:</p><h3>${trackingId}</h3><p>Terima kasih.</p>`
             );
 
-            // Email to Admin/HR (Example static admin email, ideally from DB config)
             const adminEmail = process.env.SMTP_USER || 'admin@perusahaan.com';
             await sendEmail(
                 adminEmail,
@@ -86,7 +111,7 @@ const submitApplication = async (req, res) => {
                 `<p>Terdapat lamaran baru masuk dari <b>${name}</b> untuk posisi <b>${job.title}</b>.</p><p>Silakan cek sistem untuk mereview CV yang tersimpan di direktori divisi bersangkutan.</p>`
             );
         } catch (emailErr) {
-            console.error("Gagal mengirim email, tapi data tersimpan", emailErr);
+            console.error("Gagal mengirim email, tapi data lamaran telah tersimpan di database:", emailErr.message);
         }
 
         res.status(201).json({
@@ -95,8 +120,10 @@ const submitApplication = async (req, res) => {
         });
 
     } catch (error) {
-        console.error('Error in submitApplication:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        // PENCEGAHAN FILE SAMPAH: Hapus file CV jika ada kegagalan query database
+        cleanupFile(cvFile.path);
+        console.error('Error in submitApplication (CV dihapus):', error);
+        res.status(500).json({ error: error.sqlMessage || error.message || 'Gagal menyimpan lamaran ke database' });
     }
 };
 
