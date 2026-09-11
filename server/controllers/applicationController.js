@@ -4,7 +4,10 @@ const crypto = require('crypto');
 
 // 1. Submit Application
 const submitApplication = async (req, res) => {
-    const { name, email, phone, job_id } = req.body;
+    const name = req.body.name || req.query.name;
+    const email = req.body.email || req.query.email;
+    const phone = req.body.phone || req.query.phone;
+    const jobId = req.body.job_id || req.query.job_id;
     const cvFile = req.file;
 
     if (!cvFile) {
@@ -17,7 +20,7 @@ const submitApplication = async (req, res) => {
             `SELECT j.title, d.name as division_name 
              FROM jobs j 
              LEFT JOIN divisions d ON j.division_id = d.id 
-             WHERE j.id = ?`, [job_id]
+             WHERE j.id = ?`, [jobId]
         );
 
         if (jobRows.length === 0) {

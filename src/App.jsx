@@ -336,16 +336,28 @@ export default function App() {
     // Ekstrak ID integer dari ID string mock (contoh: LISA-JOB-001 -> 1)
     let jobId = 1; 
     if (applyModalJob && applyModalJob.id) {
-       const match = applyModalJob.id.match(/\d+/);
+       const match = applyModalJob.id.toString().match(/\d+/);
        if (match) jobId = parseInt(match[0], 10);
     }
     
+    const division = applyModalJob?.department || '';
+    const title = applyModalJob?.title || '';
+    const applicantName = formData.get('name') || '';
+
     formData.append('job_id', jobId);
-    formData.append('divisionName', applyModalJob.department);
-    formData.append('jobTitle', applyModalJob.title);
+    formData.append('divisionName', division);
+    formData.append('jobTitle', title);
 
     try {
-        const response = await fetch('http://localhost:5000/api/applications', {
+        // Kirim info divisi dan judul lowongan via URL query agar Multer langsung membacanya
+        const queryParams = new URLSearchParams({
+            divisionName: division,
+            jobTitle: title,
+            name: applicantName,
+            job_id: jobId
+        });
+
+        const response = await fetch(`http://localhost:5000/api/applications?${queryParams.toString()}`, {
             method: 'POST',
             body: formData,
         });
@@ -1578,6 +1590,10 @@ export default function App() {
                 </p>
 
                 <form onSubmit={handleApplySubmit} className="space-y-4 text-xs">
+                  <input type="hidden" name="divisionName" value={applyModalJob.department || ''} />
+                  <input type="hidden" name="jobTitle" value={applyModalJob.title || ''} />
+                  <input type="hidden" name="job_id" value={applyModalJob.id || ''} />
+
                   <div>
                     <label className="block font-bold text-slate-700 mb-1">Nama Lengkap Sesuai KTP *</label>
                     <input 

@@ -2,19 +2,25 @@ const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
 
+// Helper to sanitize folder and file names safely for Windows/Linux
+const cleanName = (str, fallback = 'Umum') => {
+    if (!str || typeof str !== 'string') return fallback;
+    const cleaned = str.replace(/[<>:"/\\|?*]/g, '').trim();
+    return cleaned || fallback;
+};
+
 // Storage configuration
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        // We expect the client to send divisionName and jobTitle in the form data
-        const divisionName = req.body.divisionName || 'Lainnya';
-        const jobTitle = req.body.jobTitle || 'Umum';
+        // Check query parameters first (reliable in multipart streams), fallback to body
+        const rawDivision = req.query.divisionName || req.body.divisionName || 'Lainnya';
+        const rawJob = req.query.jobTitle || req.body.jobTitle || 'Umum';
         
-        // Sanitize names for folder creation
-        const safeDivision = divisionName.replace(/[^a-z0-9]/gi, '_').toLowerCase();
-        const safeJob = jobTitle.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+        const divisionFolder = cleanName(rawDivision, 'Lainnya');
+        const jobFolder = cleanName(rawJob, 'Umum');
         
-        // Construct path: server/uploads/division/job
-        const uploadPath = path.join(__dirname, '..', 'uploads', safeDivision, safeJob);
+        // Construct path: server/uploads/Nama_Divisi/Nama_Posisi
+        const uploadPath = path.join(__dirname, '..', 'uploads', divisionFolder, jobFolder);
         
         // Create directories if they don't exist
         fs.mkdirSync(uploadPath, { recursive: true });
@@ -22,12 +28,12 @@ const storage = multer.diskStorage({
         cb(null, uploadPath);
     },
     filename: function (req, file, cb) {
-        const applicantName = req.body.name || 'Unknown';
-        const safeName = applicantName.replace(/[^a-z0-9]/gi, '_');
+        const rawName = req.query.name || req.body.name || 'Pelamar';
+        const safeName = cleanName(rawName, 'Pelamar').replace(/\s+/g, '_');
         const ext = path.extname(file.originalname);
         const timestamp = Date.now();
         
-        // Filename format: [ApplicantName]_[Timestamp].pdf
+        // Filename format: [Nama_Pelamar]_[Timestamp].pdf
         cb(null, `${safeName}_${timestamp}${ext}`);
     }
 });
