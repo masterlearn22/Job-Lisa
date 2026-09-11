@@ -2,6 +2,7 @@ const db = require('../config/db');
 const { sendEmail } = require('../config/email');
 const crypto = require('crypto');
 const fs = require('fs');
+const path = require('path');
 
 // Helper to ensure single scalar value even if duplicate fields exist
 const getSingleValue = (val, fallback = '') => {
@@ -9,15 +10,20 @@ const getSingleValue = (val, fallback = '') => {
     return val || fallback;
 };
 
-// Helper to delete uploaded CV if database operation fails
+// Helper to delete uploaded CV if database operation fails or when replaced
 const cleanupFile = (filePath) => {
-    if (filePath && fs.existsSync(filePath)) {
-        try {
-            fs.unlinkSync(filePath);
-            console.log(`[Pencegahan Duplikat] File dibatalkan dan dihapus dari server: ${filePath}`);
-        } catch (err) {
-            console.error('Gagal menghapus file:', err);
+    if (!filePath) return;
+    try {
+        let targetPath = filePath;
+        if (!path.isAbsolute(filePath)) {
+            targetPath = path.join(__dirname, '..', filePath.replace(/^\/+/, ''));
         }
+        if (fs.existsSync(targetPath)) {
+            fs.unlinkSync(targetPath);
+            console.log(`[Pembersihan CV] File berhasil dihapus dari server: ${targetPath}`);
+        }
+    } catch (err) {
+        console.error('Gagal menghapus file CV:', err.message);
     }
 };
 
@@ -28,6 +34,7 @@ const submitApplication = async (req, res) => {
     const phone = getSingleValue(req.body.phone || req.query.phone);
     const rawJobId = getSingleValue(req.body.job_id || req.query.job_id);
     const jobId = parseInt(rawJobId, 10) || 1;
+    const confirmUpdate = getSingleValue(req.body.confirmUpdate || req.query.confirmUpdate) === 'true';
     const cvFile = req.file;
 
     if (!cvFile) {
@@ -57,17 +64,61 @@ const submitApplication = async (req, res) => {
         if (applicantRows.length > 0) {
             applicantId = applicantRows[0].id;
 
-            // PENCEGAHAN DUPLIKAT: Cek apakah pelamar ini sudah pernah mendaftar di posisi yang sama
+            // CEK APAKAH SUDAH PERNAH MENDAFTAR PADA POSISI INI
             const [existingApp] = await db.query(
-                'SELECT id, tracking_id FROM applications WHERE applicant_id = ? AND job_id = ?',
+                'SELECT id, tracking_id, cv_path, status FROM applications WHERE applicant_id = ? AND job_id = ?',
                 [applicantId, jobId]
             );
 
             if (existingApp.length > 0) {
-                // Batalkan simpan file CV
-                cleanupFile(cvFile.path);
-                return res.status(400).json({ 
-                    error: `Anda sudah pernah mengirim lamaran untuk posisi ini sebelumnya dengan ID Lacak: ${existingApp[0].tracking_id}. Tidak perlu mengirim ulang.` 
+                // TAHAP VERIFIKASI 1: Belum ada konfirmasi untuk update
+                if (!confirmUpdate) {
+                    cleanupFile(cvFile.path); // Hapus CV yang baru saja terupload sementara
+                    return res.status(409).json({ 
+                        isDuplicate: true,
+                        tracking_id: existingApp[0].tracking_id,
+                        message: `Anda sudah pernah terdaftar pada posisi ini dengan ID Lacak: ${existingApp[0].tracking_id}. Apakah Anda ingin memperbarui data diri dan mengganti CV lama dengan berkas yang baru?` 
+                    });
+                }
+
+                // TAHAP VERIFIKASI 2: Pelamar mengonfirmasi ingin memperbarui data (Update Data)
+                // a. Hapus file CV lama dari folder server
+                if (existingApp[0].cv_path) {
+                    cleanupFile(existingApp[0].cv_path);
+                }
+
+                // b. Perbarui data diri pelamar
+                await db.query('UPDATE applicants SET name = ?, phone = ? WHERE id = ?', [name, phone, applicantId]);
+
+                // c. Perbarui berkas CV di lamaran yang sudah ada (TIDAK MEMBUAT LAMARAN BARU)
+                const relativeCvPath = cvFile.path.split('uploads')[1].replace(/\\/g, '/');
+                await db.query(
+                    'UPDATE applications SET cv_path = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?',
+                    [`/uploads${relativeCvPath}`, existingApp[0].id]
+                );
+
+                // d. Catat riwayat status update
+                await db.query(
+                    'INSERT INTO application_history (application_id, status, notes) VALUES (?, ?, ?)',
+                    [existingApp[0].id, existingApp[0].status, 'Pelamar memperbarui data diri dan mengunggah berkas CV terbaru']
+                );
+
+                // e. Kirim email konfirmasi pembaruan berkas
+                try {
+                    await sendEmail(
+                        email,
+                        `Pembaruan Berkas Lamaran Berhasil - ${job.title}`,
+                        `Halo ${name},\n\nBerkas lamaran dan CV Anda untuk posisi ${job.title} telah berhasil diperbarui.\n\nKode Lacak Anda tetap: ${existingApp[0].tracking_id}\n\nTerima kasih.`,
+                        `<p>Halo ${name},</p><p>Berkas lamaran dan CV Anda untuk posisi <b>${job.title}</b> telah berhasil diperbarui.</p><p>Kode Lacak Anda tetap:</p><h3>${existingApp[0].tracking_id}</h3><p>Terima kasih.</p>`
+                    );
+                } catch (emailErr) {
+                    console.error("Gagal kirim email pembaruan:", emailErr.message);
+                }
+
+                return res.status(200).json({
+                    message: 'Data lamaran dan CV berhasil diperbarui',
+                    tracking_id: existingApp[0].tracking_id,
+                    isUpdated: true
                 });
             }
         } else {
