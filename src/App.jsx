@@ -180,7 +180,17 @@ export default function App() {
   const [adminLoginError, setAdminLoginError] = useState('');
   const [adminLoginLoading, setAdminLoginLoading] = useState(false);
 
-  const [adminStats, setAdminStats] = useState({ total: 0, menungguReview: 0, tahapSeleksi: 0, interview: 0, diterima: 0, ditolak: 0, divisions: [] });
+  const [adminStats, setAdminStats] = useState({ 
+    total: 0, 
+    administrasi: 0, 
+    wawancaraHR: 0, 
+    wawancaraUser: 0, 
+    psikotes: 0, 
+    offering: 0, 
+    onboarding: 0, 
+    ditolak: 0, 
+    divisions: [] 
+  });
   const [adminApplications, setAdminApplications] = useState([]);
   const [adminFilterDiv, setAdminFilterDiv] = useState('all');
   const [adminFilterStatus, setAdminFilterStatus] = useState('all');
@@ -188,7 +198,7 @@ export default function App() {
   const [adminLoading, setAdminLoading] = useState(false);
 
   const [adminManageModal, setAdminManageModal] = useState(null);
-  const [adminTargetStatus, setAdminTargetStatus] = useState('Menunggu Review');
+  const [adminTargetStatus, setAdminTargetStatus] = useState('Administrasi & Verifikasi Dokumen');
   const [adminTargetNotes, setAdminTargetNotes] = useState('');
   const [adminStatusSaving, setAdminStatusSaving] = useState(false);
 
@@ -323,6 +333,139 @@ export default function App() {
     return matchKeyword && matchLocation && matchDept
   })
 
+  // 6 Tahapan Seleksi Resmi PT Lisa Concrete Indonesia Sesuai Dokumen
+  const OFFICIAL_RECRUITMENT_STAGES = [
+    { 
+      num: 1, 
+      label: 'Administrasi & Verifikasi Dokumen', 
+      desc: 'Pemeriksaan berkas CV, portofolio, dan keaslian dokumen kualifikasi.' 
+    },
+    { 
+      num: 2, 
+      label: 'Wawancara HR', 
+      desc: 'Evaluasi kepribadian, integritas, dan keselarasan dengan budaya L.I.S.A.' 
+    },
+    { 
+      num: 3, 
+      label: 'Wawancara User', 
+      desc: 'Uji kompetensi teknis bersama Division Lead / Engineering Manager.' 
+    },
+    { 
+      num: 4, 
+      label: 'Psikotes', 
+      desc: 'Evaluasi psikologis, penalaran logika, dan analisa potensi profesional.' 
+    },
+    { 
+      num: 5, 
+      label: 'Offering Letter', 
+      desc: 'Pemberian penawaran resmi paket kompensasi, benefit, dan hak kerja.' 
+    },
+    { 
+      num: 6, 
+      label: 'Onboarding', 
+      desc: 'Penyambutan karyawan baru, pengenalan sistem, dan serah terima tugas.' 
+    }
+  ];
+
+  // Helper untuk Membangun Status Tracking Berdasarkan 6 Tahapan Resmi
+  const buildTrackingState = (appData, history = []) => {
+    const isRejected = (appData.status || '').includes('Tolak') || 
+                       (appData.status || '').includes('Tidak Lolos') || 
+                       (appData.status || '').includes('Gugur');
+
+    let currentStep = 1;
+    const st = appData.status || '';
+    if (st.includes('Administrasi') || st.includes('Review')) currentStep = 1;
+    else if (st.includes('Wawancara HR')) currentStep = 2;
+    else if (st.includes('Wawancara User')) currentStep = 3;
+    else if (st.includes('Psikotes')) currentStep = 4;
+    else if (st.includes('Offering')) currentStep = 5;
+    else if (st.includes('Onboarding') || st === 'Diterima') currentStep = 6;
+
+    const latestHistory = history.length > 0 ? history[0] : null;
+
+    const steps = OFFICIAL_RECRUITMENT_STAGES.map(stage => {
+      let isDone = false;
+      let isActive = false;
+      let isStepRejected = false;
+      let stageDate = '-';
+      let stageNote = '-';
+
+      const matchedHist = history.find(h => 
+        (h.status || '').toLowerCase().includes(stage.label.toLowerCase().slice(0, 8))
+      );
+      if (matchedHist) {
+        stageDate = new Date(matchedHist.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+        stageNote = matchedHist.notes || '-';
+      }
+
+      if (isRejected) {
+        if (stage.num < currentStep) {
+          isDone = true;
+        } else if (stage.num === currentStep) {
+          isStepRejected = true;
+          stageDate = 'Tidak Lolos';
+          stageNote = latestHistory?.notes || 'Kualifikasi saat ini belum memenuhi kriteria kebutuhan divisi.';
+        } else {
+          stageDate = 'Tahapan Berhenti';
+        }
+      } else {
+        if (stage.num < currentStep) {
+          isDone = true;
+          if (stageDate === '-') stageDate = 'Selesai';
+        } else if (stage.num === currentStep) {
+          if (currentStep === 6 && st === 'Onboarding') {
+            isDone = true;
+            stageDate = 'Resmi Onboarding';
+            stageNote = latestHistory?.notes || 'Selamat bergabung dengan keluarga besar PT Lisa Concrete Indonesia!';
+          } else {
+            isActive = true;
+            stageDate = 'Sedang Berjalan';
+            stageNote = latestHistory?.notes || 'Berkas/tahapan Anda sedang aktif dievaluasi oleh tim seleksi.';
+          }
+        } else {
+          stageDate = stage.num === currentStep + 1 ? 'Tahap Berikutnya' : 'Menunggu Tahapan Sebelumnya';
+        }
+      }
+
+      return {
+        num: stage.num,
+        label: stage.label,
+        desc: stage.desc,
+        done: isDone,
+        active: isActive,
+        rejected: isStepRejected,
+        date: stageDate,
+        note: stageNote
+      };
+    });
+
+    let interviewDetails = null;
+    if ((currentStep === 2 || currentStep === 3) && !isRejected) {
+      interviewDetails = {
+        interviewer: currentStep === 3 ? 'Division Lead / Engineering Manager' : 'HRD & Recruitment Specialist',
+        platform: 'Kantor Pusat Surabaya / Ruang Rapat Lt. 2 (atau Google Meet)',
+        notes: latestHistory?.notes || 'Harap mempersiapkan berkas dokumen asli, portofolio kerja, serta hadir 15 menit sebelum jadwal.',
+        date: latestHistory ? new Date(latestHistory.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) + ' WIB' : 'Jadwal dikonfirmasi via email'
+      };
+    }
+
+    return {
+      code: appData.tracking_id,
+      name: appData.applicant_name,
+      jobTitle: appData.job_title,
+      department: appData.division_name || 'Umum',
+      location: 'Surabaya (Head Office)',
+      submittedDate: new Date(appData.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }),
+      status: isRejected ? 'Tidak Lolos Seleksi' : (currentStep === 6 ? 'Diterima - Onboarding' : `Tahap ${appData.status} (Sedang Berjalan)`),
+      currentStep,
+      totalSteps: 6,
+      isRejected,
+      interviewDetails,
+      steps
+    };
+  };
+
   // Open Full Tracking Page (with optional demo prefill)
   const handleOpenTracking = (sample = false) => {
     setActiveTab('lacak')
@@ -341,6 +484,7 @@ export default function App() {
         status: 'Tahap Wawancara User (Sedang Berjalan)',
         currentStep: 3,
         totalSteps: 6,
+        isRejected: false,
         interviewDetails: {
           interviewer: 'Ir. Hendra Gunawan (Lead Engineering Manager)',
           platform: 'Kantor Pusat Surabaya / Ruang Rapat Lt. 2 (atau Google Meet)',
@@ -351,48 +495,48 @@ export default function App() {
           { 
             num: 1, 
             label: 'Administrasi & Verifikasi Dokumen', 
-            desc: 'Pemeriksaan kelengkapan berkas CV, ijazah, dan dokumen kualifikasi teknis oleh tim personalia.',
+            desc: 'Pemeriksaan berkas CV, portofolio, dan keaslian dokumen kualifikasi.',
             done: true, 
             date: '05 Sep 2026',
-            note: 'Lolos kualifikasi administrasi'
+            note: 'Lolos kualifikasi administrasi & dokumen'
           },
           { 
             num: 2, 
-            label: 'Wawancara HR & Profiling', 
-            desc: 'Interview kecocokan budaya perusahaan, motivasi kerja, dan konfirmasi riwayat profesional.',
+            label: 'Wawancara HR', 
+            desc: 'Evaluasi kepribadian, integritas, dan keselarasan dengan budaya L.I.S.A.',
             done: true, 
             date: '08 Sep 2026',
-            note: 'Direkomendasikan ke tahapan teknis User'
+            note: 'Direkomendasikan lanjut ke tes kompetensi User'
           },
           { 
             num: 3, 
-            label: 'Wawancara User & Evaluasi Teknis', 
-            desc: 'Uji kompetensi teknis rekayasa beton dan diskusi studi kasus bersama lead engineering.',
+            label: 'Wawancara User', 
+            desc: 'Uji kompetensi teknis bersama Division Lead / Engineering Manager.',
             done: false, 
             active: true, 
             date: '12 Sep 2026 (Sedang Berjalan)',
-            note: 'Jadwal telah dikonfirmasi via email dan WhatsApp tim HRD'
+            note: 'Jadwal telah dikonfirmasi via email dan WhatsApp tim personalia'
           },
           { 
             num: 4, 
-            label: 'Psikotes Online', 
-            desc: 'Pengukuran kemampuan kognitif, ketelitian teknis, dan kepribadian kerja.',
+            label: 'Psikotes', 
+            desc: 'Evaluasi psikologis, penalaran logika, dan analisa potensi profesional.',
             done: false, 
             date: 'Menunggu Hasil Wawancara User',
             note: 'Akan dijadwalkan otomatis setelah hasil evaluasi user dirilis'
           },
           { 
             num: 5, 
-            label: 'Offering Letter & Negosiasi', 
-            desc: 'Penyampaian paket kompensasi, benefit, dan penandatanganan penawaran resmi.',
+            label: 'Offering Letter', 
+            desc: 'Pemberian penawaran resmi paket kompensasi, benefit, dan hak kerja.',
             done: false, 
             date: 'Tahap Berikutnya',
             note: '-'
           },
           { 
             num: 6, 
-            label: 'Onboarding & Welcoming', 
-            desc: 'Induksi K3, pengenalan sistem kerja operasional, dan penempatan resmi unit kerja.',
+            label: 'Onboarding', 
+            desc: 'Penyambutan karyawan baru, pengenalan sistem, dan serah terima tugas.',
             done: false, 
             date: 'Tahap Akhir',
             note: '-'
@@ -402,78 +546,33 @@ export default function App() {
     }
   }
 
-  // Track Application Handler (Tahapan Resmi Sesuai Revisi: Tanpa MCU)
-  const handleTrackApplication = (e) => {
+  // Track Application Handler (Sinkronisasi Database & Demo Mock)
+  const handleTrackApplication = async (e) => {
     if (e) e.preventDefault()
-    const code = trackingCode.trim() || 'LISA-2026-0891'
-    setTrackedResult({
-      code: code.toUpperCase(),
-      name: 'Budi Santoso, S.T.',
-      jobTitle: 'Precast Civil Engineer & Drafter',
-      department: 'Engineering & Technical',
-      location: 'Surabaya (Head Office)',
-      submittedDate: '04 September 2026',
-      status: 'Tahap Wawancara User (Sedang Berjalan)',
-      currentStep: 3,
-      totalSteps: 6,
-      interviewDetails: {
-        interviewer: 'Ir. Hendra Gunawan (Lead Engineering Manager)',
-        platform: 'Kantor Pusat Surabaya / Ruang Rapat Lt. 2 (atau Google Meet)',
-        notes: 'Harap mempersiapkan portofolio gambar kerja precast AutoCAD/Tekla dan dokumen asli ijazah.',
-        date: '12 September 2026, 10:00 WIB'
-      },
-      steps: [
-        { 
-          num: 1, 
-          label: 'Administrasi & Verifikasi Dokumen', 
-          desc: 'Pemeriksaan kelengkapan berkas CV, ijazah, dan dokumen kualifikasi teknis oleh tim personalia.',
-          done: true, 
-          date: '05 Sep 2026',
-          note: 'Lolos kualifikasi administrasi'
-        },
-        { 
-          num: 2, 
-          label: 'Wawancara HR & Profiling', 
-          desc: 'Interview kecocokan budaya perusahaan, motivasi kerja, dan konfirmasi riwayat profesional.',
-          done: true, 
-          date: '08 Sep 2026',
-          note: 'Direkomendasikan ke tahapan teknis User'
-        },
-        { 
-          num: 3, 
-          label: 'Wawancara User & Evaluasi Teknis', 
-          desc: 'Uji kompetensi teknis rekayasa beton dan diskusi studi kasus bersama lead engineering.',
-          done: false, 
-          active: true, 
-          date: '12 Sep 2026 (Sedang Berjalan)',
-          note: 'Jadwal telah dikonfirmasi via email dan WhatsApp tim HRD'
-        },
-        { 
-          num: 4, 
-          label: 'Psikotes Online', 
-          desc: 'Pengukuran kemampuan kognitif, ketelitian teknis, dan kepribadian kerja.',
-          done: false, 
-          date: 'Menunggu Hasil Wawancara User',
-          note: 'Akan dijadwalkan otomatis setelah hasil evaluasi user dirilis'
-        },
-        { 
-          num: 5, 
-          label: 'Offering Letter & Negosiasi', 
-          desc: 'Penyampaian paket kompensasi, benefit, dan penandatanganan penawaran resmi.',
-          done: false, 
-          date: 'Tahap Berikutnya',
-          note: '-'
-        },
-        { 
-          num: 6, 
-          label: 'Onboarding & Welcoming', 
-          desc: 'Induksi K3, pengenalan sistem kerja operasional, dan penempatan resmi unit kerja.',
-          done: false, 
-          date: 'Tahap Akhir',
-          note: '-'
-        }
-      ]
-    })
+    const code = trackingCode.trim()
+    if (!code) {
+      handleOpenTracking(true)
+      return
+    }
+
+    if (code.toUpperCase() === 'LISA-2026-0891') {
+      handleOpenTracking(true)
+      return
+    }
+
+    try {
+      const res = await fetch(`http://localhost:5000/api/applications/track/${encodeURIComponent(code.toUpperCase())}`);
+      if (res.ok) {
+        const data = await res.json();
+        const tracked = buildTrackingState(data.application, data.history || []);
+        setTrackedResult(tracked);
+      } else {
+        alert(`Kode Lacak "${code}" tidak ditemukan di database. Silakan periksa kembali Tracking ID Anda.`);
+      }
+    } catch (err) {
+      console.warn('Backend tidak terhubung, menampilkan preview demo:', err);
+      handleOpenTracking(true);
+    }
   }
 
   // Handle Apply Form
@@ -1023,8 +1122,12 @@ export default function App() {
                       <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400">
                         Status Terkini
                       </span>
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-amber-100 text-amber-900 border border-amber-300 font-black text-xs rounded-full">
-                        <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+                      <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 font-black text-xs rounded-full border ${
+                        trackedResult.isRejected
+                          ? 'bg-rose-100 text-rose-800 border-rose-300'
+                          : 'bg-amber-100 text-amber-900 border-amber-300'
+                      }`}>
+                        <span className={`w-2 h-2 rounded-full ${trackedResult.isRejected ? 'bg-rose-600' : 'bg-amber-500 animate-pulse'}`}></span>
                         {trackedResult.status}
                       </span>
                       <span className="text-[10px] text-slate-400">
@@ -1036,13 +1139,25 @@ export default function App() {
                   {/* Overall Progress Meter */}
                   <div className="pt-6">
                     <div className="flex justify-between items-center text-xs font-bold text-slate-700 mb-2">
-                      <span>Tahapan Seleksi: 3 dari 6 Tahap Selesai</span>
-                      <span className="text-brand">50% Tahapan Selesai</span>
+                      <span>
+                        {trackedResult.isRejected 
+                          ? 'Tahapan Berhenti: Belum Lolos Seleksi' 
+                          : `Tahapan Seleksi: ${trackedResult.steps.filter(s => s.done).length} dari ${trackedResult.totalSteps || 6} Tahap Selesai`}
+                      </span>
+                      <span className={trackedResult.isRejected ? 'text-rose-600 font-black' : 'text-brand font-black'}>
+                        {trackedResult.isRejected 
+                          ? 'Tidak Lolos' 
+                          : `${Math.round((trackedResult.steps.filter(s => s.done).length / (trackedResult.totalSteps || 6)) * 100)}% Selesai`}
+                      </span>
                     </div>
                     <div className="w-full bg-slate-100 rounded-full h-3.5 overflow-hidden p-0.5 border border-slate-200">
                       <div 
-                        className="bg-gradient-to-r from-brand via-amber-500 to-emerald-500 h-full rounded-full transition-all duration-500" 
-                        style={{ width: '50%' }}
+                        className={`h-full rounded-full transition-all duration-500 ${
+                          trackedResult.isRejected 
+                            ? 'bg-rose-500' 
+                            : 'bg-gradient-to-r from-brand via-amber-500 to-emerald-500'
+                        }`} 
+                        style={{ width: `${trackedResult.isRejected ? 100 : Math.max(12, Math.round((trackedResult.steps.filter(s => s.done).length / (trackedResult.totalSteps || 6)) * 100))}%` }}
                       ></div>
                     </div>
                   </div>
@@ -1103,30 +1218,39 @@ export default function App() {
                       <div 
                         key={idx}
                         className={`p-4 sm:p-5 rounded-2xl border transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${
-                          step.done
-                            ? 'bg-emerald-50/40 border-emerald-200'
-                            : step.active
-                              ? 'bg-red-50/50 border-brand ring-2 ring-brand/20 shadow-sm'
-                              : 'bg-slate-50 border-slate-200 opacity-75'
+                          step.rejected
+                            ? 'bg-rose-50/70 border-rose-300 ring-2 ring-rose-200'
+                            : step.done
+                              ? 'bg-emerald-50/40 border-emerald-200'
+                              : step.active
+                                ? 'bg-red-50/50 border-brand ring-2 ring-brand/20 shadow-sm'
+                                : 'bg-slate-50 border-slate-200 opacity-75'
                         }`}
                       >
                         <div className="flex items-start gap-4">
                           <div className={`w-8 h-8 rounded-xl flex items-center justify-center font-black text-xs shrink-0 mt-0.5 ${
-                            step.done
-                              ? 'bg-emerald-600 text-white shadow-xs'
-                              : step.active
-                                ? 'bg-brand text-white animate-pulse shadow-md shadow-brand/30'
-                                : 'bg-slate-200 text-slate-500'
+                            step.rejected
+                              ? 'bg-rose-600 text-white shadow-xs'
+                              : step.done
+                                ? 'bg-emerald-600 text-white shadow-xs'
+                                : step.active
+                                  ? 'bg-brand text-white animate-pulse shadow-md shadow-brand/30'
+                                  : 'bg-slate-200 text-slate-500'
                           }`}>
-                            {step.done ? '✓' : step.num}
+                            {step.rejected ? '✕' : step.done ? '✓' : step.num}
                           </div>
                           <div>
                             <div className="flex flex-wrap items-center gap-2">
                               <h4 className={`text-xs sm:text-sm font-black ${
-                                step.active ? 'text-brand' : 'text-slate-900'
+                                step.rejected ? 'text-rose-700' : step.active ? 'text-brand' : 'text-slate-900'
                               }`}>
                                 {step.label}
                               </h4>
+                              {step.rejected && (
+                                <span className="px-2 py-0.5 bg-rose-100 text-rose-800 text-[10px] font-bold rounded-full">
+                                  Tidak Lolos
+                                </span>
+                              )}
                               {step.done && (
                                 <span className="px-2 py-0.5 bg-emerald-100 text-emerald-800 text-[10px] font-bold rounded-full">
                                   Selesai
@@ -1142,7 +1266,7 @@ export default function App() {
                               {step.desc}
                             </p>
                             {step.note && step.note !== '-' && (
-                              <p className="text-[11px] font-semibold text-slate-600 mt-1">
+                              <p className={`text-[11px] font-semibold mt-1 ${step.rejected ? 'text-rose-600' : 'text-slate-600'}`}>
                                 Catatan: {step.note}
                               </p>
                             )}
@@ -1152,7 +1276,7 @@ export default function App() {
                         <div className="sm:text-right shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-200">
                           <p className="text-[10px] uppercase font-bold text-slate-400">Jadwal / Status</p>
                           <p className={`text-xs font-bold mt-0.5 ${
-                            step.active ? 'text-brand font-black' : step.done ? 'text-emerald-700' : 'text-slate-500'
+                            step.rejected ? 'text-rose-700 font-black' : step.active ? 'text-brand font-black' : step.done ? 'text-emerald-700' : 'text-slate-500'
                           }`}>
                             {step.date}
                           </p>
@@ -1381,41 +1505,53 @@ export default function App() {
                 </div>
               </div>
 
-              {/* METRICS STATS CARDS */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
-                <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
+              {/* METRICS STATS CARDS (6 TAHAPAN RESMI REKRUTMEN + TOTAL & DITOLAK) */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2.5 sm:gap-3">
+                <div className="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-xs">
                   <span className="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Total Pelamar</span>
-                  <p className="text-2xl font-black text-slate-900 mt-1">{adminStats.total}</p>
-                  <span className="text-[10px] text-slate-500">Semua berkas masuk</span>
+                  <p className="text-xl sm:text-2xl font-black text-slate-900 mt-1">{adminStats.total}</p>
+                  <span className="text-[10px] text-slate-500">Semua berkas</span>
                 </div>
 
-                <div className="bg-amber-50/70 p-4 rounded-2xl border border-amber-200 shadow-xs">
-                  <span className="text-[10px] font-bold uppercase text-amber-700 tracking-wider">Menunggu Review</span>
-                  <p className="text-2xl font-black text-amber-700 mt-1">{adminStats.menungguReview}</p>
-                  <span className="text-[10px] text-amber-600">Perlu ditinjau HRD</span>
+                <div className="bg-amber-50/70 p-3.5 rounded-2xl border border-amber-200 shadow-xs">
+                  <span className="text-[10px] font-bold uppercase text-amber-700 tracking-wider">01. Administrasi</span>
+                  <p className="text-xl sm:text-2xl font-black text-amber-700 mt-1">{adminStats.administrasi}</p>
+                  <span className="text-[10px] text-amber-600">Verifikasi CV</span>
                 </div>
 
-                <div className="bg-blue-50/70 p-4 rounded-2xl border border-blue-200 shadow-xs">
-                  <span className="text-[10px] font-bold uppercase text-blue-700 tracking-wider">Tahap Seleksi</span>
-                  <p className="text-2xl font-black text-blue-700 mt-1">{adminStats.tahapSeleksi}</p>
-                  <span className="text-[10px] text-blue-600">Lolos berkas awal</span>
+                <div className="bg-blue-50/70 p-3.5 rounded-2xl border border-blue-200 shadow-xs">
+                  <span className="text-[10px] font-bold uppercase text-blue-700 tracking-wider">02. Wawancara HR</span>
+                  <p className="text-xl sm:text-2xl font-black text-blue-700 mt-1">{adminStats.wawancaraHR}</p>
+                  <span className="text-[10px] text-blue-600">Interview HR</span>
                 </div>
 
-                <div className="bg-purple-50/70 p-4 rounded-2xl border border-purple-200 shadow-xs">
-                  <span className="text-[10px] font-bold uppercase text-purple-700 tracking-wider">Interview</span>
-                  <p className="text-2xl font-black text-purple-700 mt-1">{adminStats.interview}</p>
-                  <span className="text-[10px] text-purple-600">Jadwal wawancara</span>
+                <div className="bg-indigo-50/70 p-3.5 rounded-2xl border border-indigo-200 shadow-xs">
+                  <span className="text-[10px] font-bold uppercase text-indigo-700 tracking-wider">03. Wawancara User</span>
+                  <p className="text-xl sm:text-2xl font-black text-indigo-700 mt-1">{adminStats.wawancaraUser}</p>
+                  <span className="text-[10px] text-indigo-600">Tes Teknis</span>
                 </div>
 
-                <div className="bg-emerald-50/70 p-4 rounded-2xl border border-emerald-200 shadow-xs">
-                  <span className="text-[10px] font-bold uppercase text-emerald-700 tracking-wider">Diterima</span>
-                  <p className="text-2xl font-black text-emerald-700 mt-1">{adminStats.diterima}</p>
-                  <span className="text-[10px] text-emerald-600">Offering letter</span>
+                <div className="bg-purple-50/70 p-3.5 rounded-2xl border border-purple-200 shadow-xs">
+                  <span className="text-[10px] font-bold uppercase text-purple-700 tracking-wider">04. Psikotes</span>
+                  <p className="text-xl sm:text-2xl font-black text-purple-700 mt-1">{adminStats.psikotes}</p>
+                  <span className="text-[10px] text-purple-600">Uji Psikologis</span>
                 </div>
 
-                <div className="bg-rose-50/70 p-4 rounded-2xl border border-rose-200 shadow-xs">
-                  <span className="text-[10px] font-bold uppercase text-rose-700 tracking-wider">Ditolak</span>
-                  <p className="text-2xl font-black text-rose-700 mt-1">{adminStats.ditolak}</p>
+                <div className="bg-cyan-50/70 p-3.5 rounded-2xl border border-cyan-200 shadow-xs">
+                  <span className="text-[10px] font-bold uppercase text-cyan-700 tracking-wider">05. Offering</span>
+                  <p className="text-xl sm:text-2xl font-black text-cyan-700 mt-1">{adminStats.offering}</p>
+                  <span className="text-[10px] text-cyan-600">Penawaran Kerja</span>
+                </div>
+
+                <div className="bg-emerald-50/70 p-3.5 rounded-2xl border border-emerald-200 shadow-xs">
+                  <span className="text-[10px] font-bold uppercase text-emerald-700 tracking-wider">06. Onboarding</span>
+                  <p className="text-xl sm:text-2xl font-black text-emerald-700 mt-1">{adminStats.onboarding}</p>
+                  <span className="text-[10px] text-emerald-600">Karyawan Baru</span>
+                </div>
+
+                <div className="bg-rose-50/70 p-3.5 rounded-2xl border border-rose-200 shadow-xs">
+                  <span className="text-[10px] font-bold uppercase text-rose-700 tracking-wider">Tidak Lolos</span>
+                  <p className="text-xl sm:text-2xl font-black text-rose-700 mt-1">{adminStats.ditolak}</p>
                   <span className="text-[10px] text-rose-600">Belum sesuai</span>
                 </div>
               </div>
@@ -1440,18 +1576,20 @@ export default function App() {
 
                   {/* Filter Status */}
                   <div className="flex items-center gap-2">
-                    <span className="text-xs font-bold text-slate-500 whitespace-nowrap">Status:</span>
+                    <span className="text-xs font-bold text-slate-500 whitespace-nowrap">Tahapan:</span>
                     <select 
                       value={adminFilterStatus}
                       onChange={(e) => setAdminFilterStatus(e.target.value)}
                       className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 focus:outline-none focus:border-brand cursor-pointer"
                     >
-                      <option value="all">Semua Status</option>
-                      <option value="Menunggu Review">Menunggu Review</option>
-                      <option value="Tahap Seleksi">Tahap Seleksi</option>
-                      <option value="Interview">Interview</option>
-                      <option value="Diterima">Diterima</option>
-                      <option value="Ditolak">Ditolak</option>
+                      <option value="all">Semua Tahapan Status</option>
+                      <option value="Administrasi & Verifikasi Dokumen">01. Administrasi &amp; Verifikasi Dokumen</option>
+                      <option value="Wawancara HR">02. Wawancara HR</option>
+                      <option value="Wawancara User">03. Wawancara User</option>
+                      <option value="Psikotes">04. Psikotes</option>
+                      <option value="Offering Letter">05. Offering Letter</option>
+                      <option value="Onboarding">06. Onboarding</option>
+                      <option value="Tidak Lolos">Tidak Lolos / Ditolak</option>
                     </select>
                   </div>
                 </div>
@@ -1508,11 +1646,19 @@ export default function App() {
                       <tbody className="divide-y divide-slate-100 font-medium">
                         {adminApplications.map((app) => {
                           const statusColors = {
+                            'Administrasi & Verifikasi Dokumen': 'bg-amber-50 text-amber-700 border-amber-200',
+                            'Wawancara HR': 'bg-blue-50 text-blue-700 border-blue-200',
+                            'Wawancara User': 'bg-indigo-50 text-indigo-700 border-indigo-200',
+                            'Psikotes': 'bg-purple-50 text-purple-700 border-purple-200',
+                            'Offering Letter': 'bg-cyan-50 text-cyan-700 border-cyan-200',
+                            'Onboarding': 'bg-emerald-50 text-emerald-700 border-emerald-200',
+                            'Tidak Lolos': 'bg-rose-50 text-rose-700 border-rose-200',
+                            'Ditolak': 'bg-rose-50 text-rose-700 border-rose-200',
+                            // Legacy mapping
                             'Menunggu Review': 'bg-amber-50 text-amber-700 border-amber-200',
                             'Tahap Seleksi': 'bg-blue-50 text-blue-700 border-blue-200',
-                            'Interview': 'bg-purple-50 text-purple-700 border-purple-200',
-                            'Diterima': 'bg-emerald-50 text-emerald-700 border-emerald-200',
-                            'Ditolak': 'bg-rose-50 text-rose-700 border-rose-200'
+                            'Interview': 'bg-indigo-50 text-indigo-700 border-indigo-200',
+                            'Diterima': 'bg-emerald-50 text-emerald-700 border-emerald-200'
                           };
                           const badgeStyle = statusColors[app.status] || 'bg-slate-50 text-slate-700 border-slate-200';
 
@@ -1625,11 +1771,13 @@ export default function App() {
                         onChange={(e) => setAdminTargetStatus(e.target.value)}
                         className="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-xl font-bold text-slate-800 focus:outline-none focus:border-brand cursor-pointer"
                       >
-                        <option value="Menunggu Review">Menunggu Review</option>
-                        <option value="Tahap Seleksi">Tahap Seleksi (Lolos Berkas)</option>
-                        <option value="Interview">Interview (Jadwalkan Wawancara)</option>
-                        <option value="Diterima">Diterima (Offering Letter)</option>
-                        <option value="Ditolak">Ditolak</option>
+                        <option value="Administrasi & Verifikasi Dokumen">01. Administrasi &amp; Verifikasi Dokumen</option>
+                        <option value="Wawancara HR">02. Wawancara HR</option>
+                        <option value="Wawancara User">03. Wawancara User</option>
+                        <option value="Psikotes">04. Psikotes</option>
+                        <option value="Offering Letter">05. Offering Letter</option>
+                        <option value="Onboarding">06. Onboarding</option>
+                        <option value="Tidak Lolos">Tidak Lolos / Ditolak</option>
                       </select>
                     </div>
 

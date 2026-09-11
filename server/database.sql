@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS applications (
     tracking_id VARCHAR(50) UNIQUE NOT NULL,
     applicant_id INT NOT NULL,
     job_id INT NOT NULL,
-    status ENUM('Menunggu Review', 'Tahap Seleksi', 'Interview', 'Diterima', 'Ditolak') DEFAULT 'Menunggu Review',
+    status VARCHAR(100) DEFAULT 'Administrasi & Verifikasi Dokumen',
     cv_path VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

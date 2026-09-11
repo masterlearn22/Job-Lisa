@@ -135,14 +135,14 @@ const submitApplication = async (req, res) => {
         
         const [appResult] = await db.query(
             'INSERT INTO applications (tracking_id, applicant_id, job_id, cv_path, status) VALUES (?, ?, ?, ?, ?)',
-            [trackingId, applicantId, jobId, `/uploads${relativeCvPath}`, 'Menunggu Review']
+            [trackingId, applicantId, jobId, `/uploads${relativeCvPath}`, 'Administrasi & Verifikasi Dokumen']
         );
         const applicationId = appResult.insertId;
 
         // 4. Catat Riwayat Status Awal
         await db.query(
             'INSERT INTO application_history (application_id, status, notes) VALUES (?, ?, ?)',
-            [applicationId, 'Menunggu Review', 'Lamaran diajukan']
+            [applicationId, 'Administrasi & Verifikasi Dokumen', 'Pendaftaran baru diterima, berkas dalam verifikasi']
         );
 
         // 5. Kirim Notifikasi Email (Non-blocking)
@@ -337,20 +337,26 @@ const getAdminStats = async (req, res) => {
 
         const stats = {
             total: totalRows[0]?.total || 0,
-            menungguReview: 0,
-            tahapSeleksi: 0,
-            interview: 0,
-            diterima: 0,
+            administrasi: 0,
+            wawancaraHR: 0,
+            wawancaraUser: 0,
+            psikotes: 0,
+            offering: 0,
+            onboarding: 0,
             ditolak: 0,
             divisions: divisionsRows || []
         };
 
         statusRows.forEach(row => {
-            if (row.status === 'Menunggu Review') stats.menungguReview = row.count;
-            else if (row.status === 'Tahap Seleksi') stats.tahapSeleksi = row.count;
-            else if (row.status === 'Interview') stats.interview = row.count;
-            else if (row.status === 'Diterima') stats.diterima = row.count;
-            else if (row.status === 'Ditolak') stats.ditolak = row.count;
+            const s = row.status || '';
+            if (s.includes('Administrasi') || s.includes('Review')) stats.administrasi += row.count;
+            else if (s === 'Wawancara HR') stats.wawancaraHR += row.count;
+            else if (s === 'Wawancara User') stats.wawancaraUser += row.count;
+            else if (s === 'Psikotes') stats.psikotes += row.count;
+            else if (s.includes('Offering')) stats.offering += row.count;
+            else if (s.includes('Onboarding') || s === 'Diterima') stats.onboarding += row.count;
+            else if (s.includes('Tolak') || s.includes('Gugur') || s.includes('Tidak Lolos')) stats.ditolak += row.count;
+            else stats.administrasi += row.count;
         });
 
         res.json(stats);
