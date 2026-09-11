@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 // DATA LOWONGAN KERJA PT LISA CONCRETE INDONESIA
 const initialJobs = [
@@ -106,14 +106,31 @@ export default function App() {
   const [selectedLocation, setSelectedLocation] = useState('')
   const [selectedDept, setSelectedDept] = useState('')
 
-  // Modals state
+  // Modals and Page state
   const [selectedJob, setSelectedJob] = useState(null)
   const [applyModalJob, setApplyModalJob] = useState(null)
-  const [trackingModalOpen, setTrackingModalOpen] = useState(false)
   const [trackingCode, setTrackingCode] = useState('')
   const [trackedResult, setTrackedResult] = useState(null)
   const [applySuccess, setApplySuccess] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
+  // Listen to hash changes (support direct link / navigation)
+  useEffect(() => {
+    const handleHash = () => {
+      const hash = window.location.hash
+      if (hash === '#lacak') {
+        setActiveTab('lacak')
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      } else if (hash === '#karir') {
+        setActiveTab('karir')
+      } else if (hash === '#home' || hash === '') {
+        setActiveTab('home')
+      }
+    }
+    handleHash()
+    window.addEventListener('hashchange', handleHash)
+    return () => window.removeEventListener('hashchange', handleHash)
+  }, [])
 
   // Filter Jobs
   const filteredJobs = jobs.filter(job => {
@@ -125,24 +142,155 @@ export default function App() {
     return matchKeyword && matchLocation && matchDept
   })
 
+  // Open Full Tracking Page (with optional demo prefill)
+  const handleOpenTracking = (sample = false) => {
+    setActiveTab('lacak')
+    setMobileMenuOpen(false)
+    window.location.hash = '#lacak'
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+    if (sample) {
+      setTrackingCode('LISA-2026-0891')
+      setTrackedResult({
+        code: 'LISA-2026-0891',
+        name: 'Budi Santoso, S.T.',
+        jobTitle: 'Precast Civil Engineer & Drafter',
+        department: 'Engineering & Technical',
+        location: 'Surabaya (Head Office)',
+        submittedDate: '04 September 2026',
+        status: 'Tahap Wawancara User (Sedang Berjalan)',
+        currentStep: 3,
+        totalSteps: 6,
+        interviewDetails: {
+          interviewer: 'Ir. Hendra Gunawan (Lead Engineering Manager)',
+          platform: 'Kantor Pusat Surabaya / Ruang Rapat Lt. 2 (atau Google Meet)',
+          notes: 'Harap mempersiapkan portofolio gambar kerja precast AutoCAD/Tekla dan dokumen asli ijazah.',
+          date: '12 September 2026, 10:00 WIB'
+        },
+        steps: [
+          { 
+            num: 1, 
+            label: 'Administrasi & Verifikasi Dokumen', 
+            desc: 'Pemeriksaan kelengkapan berkas CV, ijazah, dan dokumen kualifikasi teknis oleh tim personalia.',
+            done: true, 
+            date: '05 Sep 2026',
+            note: 'Lolos kualifikasi administrasi'
+          },
+          { 
+            num: 2, 
+            label: 'Wawancara HR & Profiling', 
+            desc: 'Interview kecocokan budaya perusahaan, motivasi kerja, dan konfirmasi riwayat profesional.',
+            done: true, 
+            date: '08 Sep 2026',
+            note: 'Direkomendasikan ke tahapan teknis User'
+          },
+          { 
+            num: 3, 
+            label: 'Wawancara User & Evaluasi Teknis', 
+            desc: 'Uji kompetensi teknis rekayasa beton dan diskusi studi kasus bersama lead engineering.',
+            done: false, 
+            active: true, 
+            date: '12 Sep 2026 (Sedang Berjalan)',
+            note: 'Jadwal telah dikonfirmasi via email dan WhatsApp tim HRD'
+          },
+          { 
+            num: 4, 
+            label: 'Psikotes Online', 
+            desc: 'Pengukuran kemampuan kognitif, ketelitian teknis, dan kepribadian kerja.',
+            done: false, 
+            date: 'Menunggu Hasil Wawancara User',
+            note: 'Akan dijadwalkan otomatis setelah hasil evaluasi user dirilis'
+          },
+          { 
+            num: 5, 
+            label: 'Offering Letter & Negosiasi', 
+            desc: 'Penyampaian paket kompensasi, benefit, dan penandatanganan penawaran resmi.',
+            done: false, 
+            date: 'Tahap Berikutnya',
+            note: '-'
+          },
+          { 
+            num: 6, 
+            label: 'Onboarding & Welcoming', 
+            desc: 'Induksi K3, pengenalan sistem kerja operasional, dan penempatan resmi unit kerja.',
+            done: false, 
+            date: 'Tahap Akhir',
+            note: '-'
+          }
+        ]
+      })
+    }
+  }
+
   // Track Application Handler (Tahapan Resmi Sesuai Revisi: Tanpa MCU)
   const handleTrackApplication = (e) => {
-    e.preventDefault()
-    if (!trackingCode.trim()) return
+    if (e) e.preventDefault()
+    const code = trackingCode.trim() || 'LISA-2026-0891'
     setTrackedResult({
-      code: trackingCode.toUpperCase(),
+      code: code.toUpperCase(),
       name: 'Budi Santoso, S.T.',
       jobTitle: 'Precast Civil Engineer & Drafter',
+      department: 'Engineering & Technical',
+      location: 'Surabaya (Head Office)',
       submittedDate: '04 September 2026',
       status: 'Tahap Wawancara User (Sedang Berjalan)',
-      currentStep: 2,
+      currentStep: 3,
+      totalSteps: 6,
+      interviewDetails: {
+        interviewer: 'Ir. Hendra Gunawan (Lead Engineering Manager)',
+        platform: 'Kantor Pusat Surabaya / Ruang Rapat Lt. 2 (atau Google Meet)',
+        notes: 'Harap mempersiapkan portofolio gambar kerja precast AutoCAD/Tekla dan dokumen asli ijazah.',
+        date: '12 September 2026, 10:00 WIB'
+      },
       steps: [
-        { label: 'Administrasi & verifikasi dokumen', done: true, date: '05 Sep 2026' },
-        { label: 'Wawancara HR', done: true, date: '08 Sep 2026' },
-        { label: 'Wawancara User', done: false, active: true, date: '12 Sep 2026 (Sedang Berjalan)' },
-        { label: 'Psikotes', done: false, date: 'Menunggu Hasil Wawancara User' },
-        { label: 'Offering Letter', done: false, date: '-' },
-        { label: 'Onboarding', done: false, date: '-' }
+        { 
+          num: 1, 
+          label: 'Administrasi & Verifikasi Dokumen', 
+          desc: 'Pemeriksaan kelengkapan berkas CV, ijazah, dan dokumen kualifikasi teknis oleh tim personalia.',
+          done: true, 
+          date: '05 Sep 2026',
+          note: 'Lolos kualifikasi administrasi'
+        },
+        { 
+          num: 2, 
+          label: 'Wawancara HR & Profiling', 
+          desc: 'Interview kecocokan budaya perusahaan, motivasi kerja, dan konfirmasi riwayat profesional.',
+          done: true, 
+          date: '08 Sep 2026',
+          note: 'Direkomendasikan ke tahapan teknis User'
+        },
+        { 
+          num: 3, 
+          label: 'Wawancara User & Evaluasi Teknis', 
+          desc: 'Uji kompetensi teknis rekayasa beton dan diskusi studi kasus bersama lead engineering.',
+          done: false, 
+          active: true, 
+          date: '12 Sep 2026 (Sedang Berjalan)',
+          note: 'Jadwal telah dikonfirmasi via email dan WhatsApp tim HRD'
+        },
+        { 
+          num: 4, 
+          label: 'Psikotes Online', 
+          desc: 'Pengukuran kemampuan kognitif, ketelitian teknis, dan kepribadian kerja.',
+          done: false, 
+          date: 'Menunggu Hasil Wawancara User',
+          note: 'Akan dijadwalkan otomatis setelah hasil evaluasi user dirilis'
+        },
+        { 
+          num: 5, 
+          label: 'Offering Letter & Negosiasi', 
+          desc: 'Penyampaian paket kompensasi, benefit, dan penandatanganan penawaran resmi.',
+          done: false, 
+          date: 'Tahap Berikutnya',
+          note: '-'
+        },
+        { 
+          num: 6, 
+          label: 'Onboarding & Welcoming', 
+          desc: 'Induksi K3, pengenalan sistem kerja operasional, dan penempatan resmi unit kerja.',
+          done: false, 
+          date: 'Tahap Akhir',
+          note: '-'
+        }
       ]
     })
   }
@@ -158,23 +306,51 @@ export default function App() {
   }
 
   // Navigation and Filter Helpers
+  const handleToHome = () => {
+    setActiveTab('home')
+    setMobileMenuOpen(false)
+    window.location.hash = '#home'
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const handleToKarir = () => {
+    setActiveTab('karir')
+    setSelectedDept('')
+    setMobileMenuOpen(false)
+    window.location.hash = '#karir'
+    setTimeout(() => {
+      const karirEl = document.getElementById('karir')
+      if (karirEl) {
+        karirEl.scrollIntoView({ behavior: 'smooth' })
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }
+    }, 50)
+  }
+
   const handleSelectDepartment = (dept) => {
     setSelectedDept(dept)
     setActiveTab('karir')
     setMobileMenuOpen(false)
-    const karirEl = document.getElementById('karir')
-    if (karirEl) {
-      karirEl.scrollIntoView({ behavior: 'smooth' })
-    }
+    window.location.hash = '#karir'
+    setTimeout(() => {
+      const karirEl = document.getElementById('karir')
+      if (karirEl) {
+        karirEl.scrollIntoView({ behavior: 'smooth' })
+      }
+    }, 50)
   }
 
   const handleJumpSection = (id, tabName) => {
     setActiveTab(tabName)
     setMobileMenuOpen(false)
-    const el = document.getElementById(id)
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' })
-    }
+    window.location.hash = `#${id}`
+    setTimeout(() => {
+      const el = document.getElementById(id)
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' })
+      }
+    }, 50)
   }
 
   return (
@@ -216,7 +392,7 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20 gap-4">
             {/* Logo */}
-            <a href="#home" onClick={() => { setActiveTab('home'); setMobileMenuOpen(false); }} className="flex items-center gap-3 group shrink-0">
+            <a href="#home" onClick={(e) => { e.preventDefault(); handleToHome(); }} className="flex items-center gap-3 group shrink-0">
               <img 
                 src="https://www.lisaconcrete.com/wp-content/uploads/2020/08/logoweb-300x128.png" 
                 alt="PT Lisa Concrete Logo" 
@@ -242,7 +418,7 @@ export default function App() {
               <div className="relative group py-2">
                 <a 
                   href="#karir" 
-                  onClick={() => { setActiveTab('karir'); setSelectedDept(''); }}
+                  onClick={(e) => { e.preventDefault(); handleToKarir(); }}
                   className={`px-3 py-2 rounded-xl whitespace-nowrap transition-colors flex items-center gap-1.5 cursor-pointer ${activeTab === 'karir' ? 'text-brand bg-red-50 font-black' : 'hover:text-brand hover:bg-slate-50'}`}
                 >
                   <span>Karir</span>
@@ -308,14 +484,14 @@ export default function App() {
 
                     <div className="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
                       <button
-                        onClick={() => { setSelectedDept(''); handleJumpSection('karir', 'karir'); }}
+                        onClick={() => { setSelectedDept(''); handleToKarir(); }}
                         className="text-[11px] font-bold text-brand hover:underline flex items-center gap-1 cursor-pointer"
                       >
                         <span>Lihat Semua {jobs.length} Posisi</span>
                         <span>&rarr;</span>
                       </button>
                       <button
-                        onClick={() => setTrackingModalOpen(true)}
+                        onClick={() => handleOpenTracking()}
                         className="text-[10px] font-bold text-slate-600 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 px-2.5 py-1.5 rounded-lg transition-colors flex items-center gap-1 cursor-pointer"
                       >
                         <span>🔍 Lacak Lamaran</span>
@@ -328,8 +504,12 @@ export default function App() {
               {/* LACAK LAMARAN BUTTON */}
               <div className="relative py-2">
                 <button 
-                  onClick={() => setTrackingModalOpen(true)}
-                  className="px-3 py-2 rounded-xl text-slate-700 hover:text-brand hover:bg-slate-50 transition-colors flex items-center gap-1.5 whitespace-nowrap font-bold text-xs normal-case cursor-pointer"
+                  onClick={() => handleOpenTracking()}
+                  className={`px-3 py-2 rounded-xl transition-colors flex items-center gap-1.5 whitespace-nowrap font-bold text-xs normal-case cursor-pointer ${
+                    activeTab === 'lacak'
+                      ? 'text-brand bg-red-50 font-black ring-1 ring-brand/30'
+                      : 'text-slate-700 hover:text-brand hover:bg-slate-50'
+                  }`}
                 >
                   <svg className="w-4 h-4 text-brand shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
@@ -376,7 +556,7 @@ export default function App() {
               <div>
                 <a 
                   href="#karir" 
-                  onClick={() => { setSelectedDept(''); handleJumpSection('karir', 'karir'); }}
+                  onClick={(e) => { e.preventDefault(); handleToKarir(); }}
                   className="px-4 py-2 rounded-xl hover:bg-slate-50 text-slate-800 flex items-center justify-between"
                 >
                   <span className="font-bold">Karir &amp; Rekrutmen</span>
@@ -403,11 +583,13 @@ export default function App() {
               </div>
 
               <button 
-                onClick={() => { setTrackingModalOpen(true); setMobileMenuOpen(false); }}
-                className="w-full text-left px-4 py-2.5 rounded-xl hover:bg-slate-50 text-brand flex items-center gap-2 font-bold cursor-pointer"
+                onClick={() => handleOpenTracking()}
+                className={`w-full text-left px-4 py-2.5 rounded-xl flex items-center gap-2 font-bold cursor-pointer transition-colors ${
+                  activeTab === 'lacak' ? 'text-brand bg-red-50 font-black' : 'hover:bg-slate-50 text-brand'
+                }`}
               >
                 <svg className="w-4 h-4 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
                 Lacak Lamaran
               </button>
@@ -424,8 +606,373 @@ export default function App() {
         </div>
       </header>
 
-      {/* HERO SECTION */}
-      <section id="home" className="relative w-full max-w-full bg-slate-950 text-white pt-24 pb-32 overflow-hidden">
+      {/* CONDITIONAL CONTENT: DEDICATED LACAK LAMARAN PAGE vs HOME/KARIR PORTAL */}
+      {activeTab === 'lacak' ? (
+        <main className="min-h-screen bg-slate-50 py-8 sm:py-12 animate-fade-in flex-1">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Top Breadcrumb & Navigation */}
+            <div className="flex flex-wrap items-center justify-between gap-3 mb-6 sm:mb-8">
+              <div className="flex items-center gap-2 text-xs font-semibold text-slate-500">
+                <button 
+                  onClick={handleToHome}
+                  className="hover:text-brand flex items-center gap-1 cursor-pointer transition-colors"
+                >
+                  <span>🏠</span>
+                  <span>Beranda</span>
+                </button>
+                <span>/</span>
+                <button 
+                  onClick={handleToKarir}
+                  className="hover:text-brand cursor-pointer transition-colors"
+                >
+                  Karir &amp; Rekrutmen
+                </button>
+                <span>/</span>
+                <span className="text-slate-900 font-bold">Lacak Status Lamaran</span>
+              </div>
+
+              <button 
+                onClick={handleToKarir}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-700 hover:text-brand hover:border-brand transition-all shadow-xs cursor-pointer"
+              >
+                <span>&larr;</span>
+                <span>Kembali ke Lowongan Kerja</span>
+              </button>
+            </div>
+
+            {/* Hero Header Box */}
+            <div className="relative bg-gradient-to-br from-slate-950 via-slate-900 to-[#0b1b36] rounded-3xl p-6 sm:p-10 text-white shadow-xl overflow-hidden mb-8">
+              <div className="absolute -right-20 -top-20 w-80 h-80 bg-brand/20 rounded-full blur-3xl pointer-events-none"></div>
+              <div className="relative max-w-2xl">
+                <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-950/80 border border-brand/40 text-brand-light text-[11px] font-bold uppercase tracking-wider mb-4">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                  Sistem Informasi Rekrutmen Resmi
+                </span>
+                <h1 className="text-2xl sm:text-4xl font-black tracking-tight mb-3">
+                  Lacak Status Rekrutmen Pelamar
+                </h1>
+                <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
+                  Pantau seluruh perkembangan tahapan seleksi berkas hingga penawaran kerja secara transparan dan berkala. Masukkan nomor registrasi lamaran atau alamat email Anda di bawah ini.
+                </p>
+              </div>
+            </div>
+
+            {/* Search Bar Card */}
+            <div className="bg-white rounded-2xl shadow-lg border border-slate-200/80 p-5 sm:p-7 mb-8">
+              <form onSubmit={handleTrackApplication} className="space-y-3">
+                <label className="block text-xs sm:text-sm font-bold text-slate-900">
+                  Cari Berkas Lamaran Anda
+                </label>
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <div className="relative flex-1">
+                    <span className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+                      🔍
+                    </span>
+                    <input 
+                      type="text" 
+                      value={trackingCode}
+                      onChange={(e) => setTrackingCode(e.target.value)}
+                      placeholder="Masukkan Nomor Registrasi (misal: LISA-2026-0891) atau Email Anda" 
+                      className="w-full pl-11 pr-4 py-3.5 rounded-xl border border-slate-300 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none text-xs sm:text-sm transition-all"
+                      required
+                    />
+                  </div>
+                  <button 
+                    type="submit"
+                    className="px-7 py-3.5 bg-brand hover:bg-brand-dark text-white rounded-xl text-xs sm:text-sm font-bold transition-all shadow-md shadow-brand/20 flex items-center justify-center gap-2 cursor-pointer shrink-0"
+                  >
+                    <span>Cek Status</span>
+                    <span>&rarr;</span>
+                  </button>
+                </div>
+                <div className="flex flex-wrap items-center justify-between gap-2 pt-2 text-[11px] text-slate-500">
+                  <span>Format nomor registrasi: <code className="bg-slate-100 text-slate-700 px-1.5 py-0.5 rounded font-mono font-semibold">LISA-2026-0891</code></span>
+                  <button
+                    type="button"
+                    onClick={() => handleOpenTracking(true)}
+                    className="text-brand font-bold hover:underline cursor-pointer flex items-center gap-1"
+                  >
+                    <span>⚡ Coba Contoh Data Pelamar (Simulasi)</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            {/* Tracked Result View or Initial Info Cards */}
+            {trackedResult ? (
+              <div className="space-y-6 animate-fade-in">
+                {/* Candidate Profile Summary Card */}
+                <div className="bg-white rounded-3xl border border-slate-200/90 shadow-sm p-6 sm:p-8">
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-slate-100">
+                    <div className="flex items-start sm:items-center gap-4">
+                      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-brand to-brand-dark text-white font-black text-xl flex items-center justify-center shadow-md shadow-brand/20 shrink-0">
+                        {trackedResult.name.split(' ').map(n => n[0]).slice(0, 2).join('')}
+                      </div>
+                      <div>
+                        <div className="flex flex-wrap items-center gap-2 mb-1">
+                          <h2 className="text-lg sm:text-xl font-black text-slate-900">
+                            {trackedResult.name}
+                          </h2>
+                          <span className="px-2.5 py-0.5 bg-slate-100 text-slate-700 font-bold text-[10px] rounded-md uppercase tracking-wider">
+                            {trackedResult.code}
+                          </span>
+                        </div>
+                        <p className="text-xs sm:text-sm font-bold text-slate-600">
+                          Posisi: <span className="text-brand font-black">{trackedResult.jobTitle}</span>
+                        </p>
+                        <p className="text-[11px] text-slate-400 mt-0.5">
+                          Divisi {trackedResult.department} • Penempatan {trackedResult.location}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col sm:items-end gap-1.5 shrink-0 bg-amber-50/80 md:bg-transparent p-4 md:p-0 rounded-2xl border border-amber-200/60 md:border-0">
+                      <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400">
+                        Status Terkini
+                      </span>
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-amber-100 text-amber-900 border border-amber-300 font-black text-xs rounded-full">
+                        <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+                        {trackedResult.status}
+                      </span>
+                      <span className="text-[10px] text-slate-400">
+                        Tgl Pengajuan: {trackedResult.submittedDate}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Overall Progress Meter */}
+                  <div className="pt-6">
+                    <div className="flex justify-between items-center text-xs font-bold text-slate-700 mb-2">
+                      <span>Tahapan Seleksi: 3 dari 6 Tahap Selesai</span>
+                      <span className="text-brand">50% Tahapan Selesai</span>
+                    </div>
+                    <div className="w-full bg-slate-100 rounded-full h-3.5 overflow-hidden p-0.5 border border-slate-200">
+                      <div 
+                        className="bg-gradient-to-r from-brand via-amber-500 to-emerald-500 h-full rounded-full transition-all duration-500" 
+                        style={{ width: '50%' }}
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Active Stage Callout Details (Wawancara User) */}
+                {trackedResult.interviewDetails && (
+                  <div className="bg-gradient-to-r from-red-50 to-orange-50/60 border border-red-200/80 rounded-3xl p-6 sm:p-7 shadow-xs">
+                    <div className="flex items-start gap-4">
+                      <div className="w-10 h-10 rounded-xl bg-brand text-white flex items-center justify-center font-bold text-lg shrink-0 shadow-sm">
+                        📌
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex flex-wrap items-center gap-2 mb-1">
+                          <h3 className="font-black text-slate-900 text-sm sm:text-base">
+                            Informasi Wawancara User &amp; Evaluasi Teknis
+                          </h3>
+                          <span className="px-2 py-0.5 bg-red-100 text-brand text-[10px] font-bold rounded">
+                            Tahap Berjalan
+                          </span>
+                        </div>
+                        <p className="text-xs text-slate-600 mb-4">
+                          Tim personalia telah mengonfirmasi jadwal sesi wawancara teknis Anda dengan rincian sebagai berikut:
+                        </p>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs bg-white/90 p-4 rounded-2xl border border-red-100 mb-3">
+                          <div>
+                            <p className="text-[10px] uppercase font-bold text-slate-400">Jadwal Sesi</p>
+                            <p className="font-bold text-slate-900 mt-0.5">🗓️ {trackedResult.interviewDetails.date}</p>
+                          </div>
+                          <div>
+                            <p className="text-[10px] uppercase font-bold text-slate-400">Pewawancara</p>
+                            <p className="font-bold text-slate-900 mt-0.5">👤 {trackedResult.interviewDetails.interviewer}</p>
+                          </div>
+                          <div className="sm:col-span-2 pt-2 border-t border-slate-100">
+                            <p className="text-[10px] uppercase font-bold text-slate-400">Lokasi / Media Pertemuan</p>
+                            <p className="font-bold text-slate-900 mt-0.5">📍 {trackedResult.interviewDetails.platform}</p>
+                          </div>
+                        </div>
+
+                        <p className="text-[11px] text-slate-600 bg-amber-50 p-3 rounded-xl border border-amber-200/80 leading-relaxed">
+                          💡 <strong>Catatan Persiapan:</strong> {trackedResult.interviewDetails.notes}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Stepper Breakdown: 6 Official Stages */}
+                <div className="bg-white rounded-3xl border border-slate-200/90 shadow-sm p-6 sm:p-8">
+                  <h3 className="font-black text-base text-slate-900 mb-6 flex items-center gap-2">
+                    <span>📋</span>
+                    <span>Rincian 6 Tahap Seleksi Resmi PT Lisa Concrete Indonesia</span>
+                  </h3>
+
+                  <div className="space-y-4">
+                    {trackedResult.steps.map((step, idx) => (
+                      <div 
+                        key={idx}
+                        className={`p-4 sm:p-5 rounded-2xl border transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${
+                          step.done
+                            ? 'bg-emerald-50/40 border-emerald-200'
+                            : step.active
+                              ? 'bg-red-50/50 border-brand ring-2 ring-brand/20 shadow-sm'
+                              : 'bg-slate-50 border-slate-200 opacity-75'
+                        }`}
+                      >
+                        <div className="flex items-start gap-4">
+                          <div className={`w-8 h-8 rounded-xl flex items-center justify-center font-black text-xs shrink-0 mt-0.5 ${
+                            step.done
+                              ? 'bg-emerald-600 text-white shadow-xs'
+                              : step.active
+                                ? 'bg-brand text-white animate-pulse shadow-md shadow-brand/30'
+                                : 'bg-slate-200 text-slate-500'
+                          }`}>
+                            {step.done ? '✓' : step.num}
+                          </div>
+                          <div>
+                            <div className="flex flex-wrap items-center gap-2">
+                              <h4 className={`text-xs sm:text-sm font-black ${
+                                step.active ? 'text-brand' : 'text-slate-900'
+                              }`}>
+                                {step.label}
+                              </h4>
+                              {step.done && (
+                                <span className="px-2 py-0.5 bg-emerald-100 text-emerald-800 text-[10px] font-bold rounded-full">
+                                  Selesai
+                                </span>
+                              )}
+                              {step.active && (
+                                <span className="px-2 py-0.5 bg-red-100 text-brand text-[10px] font-bold rounded-full animate-pulse">
+                                  Sedang Berjalan
+                                </span>
+                              )}
+                            </div>
+                            <p className="text-[11px] sm:text-xs text-slate-500 mt-1 leading-relaxed max-w-xl">
+                              {step.desc}
+                            </p>
+                            {step.note && step.note !== '-' && (
+                              <p className="text-[11px] font-semibold text-slate-600 mt-1">
+                                Catatan: {step.note}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+
+                        <div className="sm:text-right shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-200">
+                          <p className="text-[10px] uppercase font-bold text-slate-400">Jadwal / Status</p>
+                          <p className={`text-xs font-bold mt-0.5 ${
+                            step.active ? 'text-brand font-black' : step.done ? 'text-emerald-700' : 'text-slate-500'
+                          }`}>
+                            {step.date}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Action Tools & Help Box */}
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4">
+                  <div className="flex items-center gap-3">
+                    <button 
+                      onClick={() => { setTrackedResult(null); setTrackingCode(''); }}
+                      className="px-5 py-2.5 rounded-xl bg-white border border-slate-300 hover:border-slate-400 text-slate-700 font-bold text-xs transition-colors cursor-pointer"
+                    >
+                      🔍 Lacak Pelamar Lain
+                    </button>
+                    <button 
+                      onClick={() => window.print()}
+                      className="px-5 py-2.5 rounded-xl bg-white border border-slate-300 hover:border-slate-400 text-slate-700 font-bold text-xs transition-colors cursor-pointer"
+                    >
+                      🖨️ Cetak / Simpan PDF
+                    </button>
+                  </div>
+
+                  <p className="text-[11px] text-slate-500 text-center sm:text-right">
+                    Butuh bantuan tim personalia? Hubungi <a href="mailto:admpersonnel@lisaconcrete.com" className="text-brand font-bold hover:underline">admpersonnel@lisaconcrete.com</a>
+                  </p>
+                </div>
+              </div>
+            ) : (
+              /* Initial Info & Help Guide (before tracking) */
+              <div className="space-y-8 animate-fade-in">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs">
+                    <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 font-black flex items-center justify-center text-lg mb-4">
+                      ⚡
+                    </div>
+                    <h3 className="font-black text-slate-900 text-sm mb-2">Transparan &amp; Real-Time</h3>
+                    <p className="text-xs text-slate-500 leading-relaxed">
+                      Setiap pembaruan status seleksi berkas hingga jadwal wawancara diinput langsung oleh tim HR personalia secara berkala.
+                    </p>
+                  </div>
+
+                  <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs">
+                    <div className="w-10 h-10 rounded-xl bg-red-50 text-brand font-black flex items-center justify-center text-lg mb-4">
+                      🛡️
+                    </div>
+                    <h3 className="font-black text-slate-900 text-sm mb-2">6 Tahap Seleksi Resmi</h3>
+                    <p className="text-xs text-slate-500 leading-relaxed">
+                      Alur seleksi jelas dan terukur: Berkas &rarr; Wawancara HR &rarr; Wawancara User &rarr; Psikotes &rarr; Offering &rarr; Onboarding.
+                    </p>
+                  </div>
+
+                  <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs">
+                    <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 font-black flex items-center justify-center text-lg mb-4">
+                      ⭐
+                    </div>
+                    <h3 className="font-black text-slate-900 text-sm mb-2">100% Bebas Biaya</h3>
+                    <p className="text-xs text-slate-500 leading-relaxed">
+                      PT Lisa Concrete Indonesia tidak pernah memungut biaya apapun dari pelamar dalam bentuk akomodasi, tiket, maupun registrasi.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="bg-white rounded-3xl border border-slate-200/80 shadow-xs p-6 sm:p-8">
+                  <h3 className="font-black text-base text-slate-900 mb-4">
+                    Panduan Cara Melacak Status Lamaran
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs text-slate-600">
+                    <div className="flex gap-3 items-start">
+                      <span className="w-6 h-6 rounded-full bg-slate-900 text-white font-bold text-[11px] flex items-center justify-center shrink-0">1</span>
+                      <div>
+                        <p className="font-bold text-slate-900 mb-1">Cek Konfirmasi Lamaran</p>
+                        <p className="text-slate-500 leading-relaxed">Periksa email masuk atau WhatsApp konfirmasi setelah Anda mengirimkan lamaran kerja.</p>
+                      </div>
+                    </div>
+                    <div className="flex gap-3 items-start">
+                      <span className="w-6 h-6 rounded-full bg-slate-900 text-white font-bold text-[11px] flex items-center justify-center shrink-0">2</span>
+                      <div>
+                        <p className="font-bold text-slate-900 mb-1">Ketik Nomor Registrasi / Email</p>
+                        <p className="text-slate-500 leading-relaxed">Salin Nomor Registrasi (LISA-XXXXXX) atau cukup gunakan alamat email aktif Anda.</p>
+                      </div>
+                    </div>
+                    <div className="flex gap-3 items-start">
+                      <span className="w-6 h-6 rounded-full bg-slate-900 text-white font-bold text-[11px] flex items-center justify-center shrink-0">3</span>
+                      <div>
+                        <p className="font-bold text-slate-900 mb-1">Tekan "Cek Status"</p>
+                        <p className="text-slate-500 leading-relaxed">Sistem akan menampilkan secara lengkap tahapan seleksi beserta jadwal wawancara.</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mt-6 pt-6 border-t border-slate-100 flex flex-wrap items-center justify-between gap-4">
+                    <p className="text-xs text-slate-500">Ingin melihat contoh format status pelamar?</p>
+                    <button
+                      type="button"
+                      onClick={() => handleOpenTracking(true)}
+                      className="px-5 py-2.5 bg-brand/10 hover:bg-brand text-brand hover:text-white rounded-xl text-xs font-bold transition-all cursor-pointer"
+                    >
+                      Lihat Simulasi Contoh Pelamar &rarr;
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </main>
+      ) : (
+        <>
+          {/* HERO SECTION */}
+          <section id="home" className="relative w-full max-w-full bg-slate-950 text-white pt-24 pb-32 overflow-hidden">
         {/* Background Overlay with Industrial Aesthetic */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b15_1px,transparent_1px),linear-gradient(to_bottom,#1e293b15_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
         <div className="absolute top-0 right-0 w-[550px] h-[550px] bg-brand/25 rounded-full blur-3xl pointer-events-none"></div>
@@ -462,7 +1009,7 @@ export default function App() {
                 </svg>
               </a>
               <button 
-                onClick={() => setTrackingModalOpen(true)}
+                onClick={() => handleOpenTracking()}
                 className="bg-slate-800/90 hover:bg-slate-800 text-slate-200 border border-slate-700 hover:border-brand px-6 py-3.5 rounded-xl font-bold text-sm transition-all flex items-center gap-2 whitespace-nowrap cursor-pointer"
               >
                 <span>🔍 Lacak Status Lamaran</span>
@@ -674,8 +1221,8 @@ export default function App() {
             {/* Quick Track Application CTA */}
             <div>
               <button 
-                onClick={() => setTrackingModalOpen(true)}
-                className="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-5 py-3 rounded-xl text-xs font-bold tracking-wider uppercase transition-all flex items-center gap-2 whitespace-nowrap"
+                onClick={() => handleOpenTracking()}
+                className="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-5 py-3 rounded-xl text-xs font-bold tracking-wider uppercase transition-all flex items-center gap-2 whitespace-nowrap cursor-pointer"
               >
                 <svg className="w-4 h-4 text-brand-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
@@ -801,6 +1348,8 @@ export default function App() {
           </div>
         </div>
       </section>
+      </>
+      )}
 
       {/* FOOTER */}
       <footer id="kontak" className="w-full max-w-full overflow-hidden bg-slate-950 text-slate-400 pt-16 pb-12 border-t border-slate-800 text-xs">
@@ -831,7 +1380,7 @@ export default function App() {
               <ul className="space-y-2 text-xs">
                 <li><a href="#tentang" className="hover:text-white transition-colors">Tentang Perusahaan</a></li>
                 <li><a href="#karir" className="hover:text-white transition-colors">Portal Karir &amp; Lowongan</a></li>
-                <li><button onClick={() => setTrackingModalOpen(true)} className="hover:text-white transition-colors text-left cursor-pointer">Lacak Status Pelamar</button></li>
+                <li><button onClick={() => handleOpenTracking()} className="hover:text-white transition-colors text-left cursor-pointer">Lacak Status Pelamar</button></li>
                 <li>
                   <a 
                     href="https://www.lisaconcrete.com" 
@@ -1039,77 +1588,7 @@ export default function App() {
         </div>
       )}
 
-      {/* MODAL: LACAK STATUS LAMARAN */}
-      {trackingModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-          <div className="bg-white rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl relative text-slate-800">
-            <button 
-              onClick={() => { setTrackingModalOpen(false); setTrackedResult(null); }}
-              className="absolute top-6 right-6 text-slate-400 hover:text-slate-700 p-2 rounded-full hover:bg-slate-100"
-            >
-              ✕
-            </button>
 
-            <h3 className="text-xl font-black text-slate-900 mb-2">Lacak Status Rekrutmen Pelamar</h3>
-            <p className="text-xs text-slate-500 mb-6">
-              Masukkan Nomor Registrasi Lamaran atau Email yang didaftarkan pada sistem rekrutmen PT Lisa Concrete.
-            </p>
-
-            <form onSubmit={handleTrackApplication} className="flex gap-2 mb-6">
-              <input 
-                type="text" 
-                value={trackingCode}
-                onChange={(e) => setTrackingCode(e.target.value)}
-                placeholder="Contoh: LISA-123456 atau email Anda" 
-                className="flex-1 px-4 py-2.5 rounded-xl border border-slate-300 focus:border-brand focus:outline-none text-xs"
-                required
-              />
-              <button 
-                type="submit"
-                className="px-5 py-2.5 bg-brand text-white rounded-xl text-xs font-bold hover:bg-brand-dark transition-all"
-              >
-                Cek Status
-              </button>
-            </form>
-
-            {trackedResult && (
-              <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200">
-                <div className="flex justify-between items-start mb-4 border-b border-slate-200 pb-3">
-                  <div>
-                    <h4 className="font-bold text-slate-900 text-xs">{trackedResult.name}</h4>
-                    <p className="text-[11px] text-slate-500">{trackedResult.jobTitle}</p>
-                  </div>
-                  <span className="text-[11px] bg-amber-100 text-amber-900 font-bold px-3 py-1 rounded-full">
-                    {trackedResult.status}
-                  </span>
-                </div>
-
-                <div className="space-y-3.5">
-                  {trackedResult.steps.map((step, idx) => (
-                    <div key={idx} className="flex items-start gap-3 text-xs">
-                      <div className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5 text-[10px] ${
-                        step.done 
-                          ? 'bg-emerald-600 text-white font-bold' 
-                          : step.active 
-                            ? 'bg-brand text-white font-bold animate-pulse' 
-                            : 'bg-slate-200 text-slate-400'
-                      }`}>
-                        {step.done ? '✓' : idx + 1}
-                      </div>
-                      <div className="flex-1">
-                        <p className={`font-bold ${step.active ? 'text-brand' : 'text-slate-800'}`}>
-                          {step.label}
-                        </p>
-                        <p className="text-[10px] text-slate-400">{step.date}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
     </div>
   )
 }
