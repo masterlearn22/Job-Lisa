@@ -99,8 +99,39 @@ const initialJobs = [
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('home')
-  const [jobs] = useState(initialJobs)
+  const [jobs, setJobs] = useState(initialJobs)
   
+  // Fetch real jobs from Database API
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        const res = await fetch('http://localhost:5000/api/jobs');
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.length > 0) {
+            const formattedJobs = data.map(j => ({
+              id: j.id.toString(), // Use DB ID
+              title: j.title,
+              department: j.department, // From JOIN in API
+              location: j.location,
+              type: j.type,
+              experience: j.experience,
+              education: j.education,
+              deadline: j.deadline,
+              description: j.description,
+              requirements: j.requirements || [],
+              benefits: j.benefits || []
+            }));
+            setJobs(formattedJobs);
+          }
+        }
+      } catch (err) {
+        console.log('Backend not connected, using fallback initialJobs');
+      }
+    }
+    fetchJobs();
+  }, []);
+
   // Search & Filters Karir
   const [searchKeyword, setSearchKeyword] = useState('')
   const [selectedLocation, setSelectedLocation] = useState('')

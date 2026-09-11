@@ -29,13 +29,14 @@ const db = require('./config/db');
 app.get('/api/jobs', async (req, res) => {
     try {
         const [jobs] = await db.query(
-            `SELECT j.id, j.title, j.description, j.status, d.name as division 
+            `SELECT j.*, d.name as department 
              FROM jobs j 
              LEFT JOIN divisions d ON j.division_id = d.id 
              WHERE j.status = 'OPEN'`
         );
         res.json(jobs);
     } catch (error) {
+        console.error(error);
         res.status(500).json({ error: 'Database error' });
     }
 });
