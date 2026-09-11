@@ -296,13 +296,45 @@ export default function App() {
   }
 
   // Handle Apply Form
-  const handleApplySubmit = (e) => {
+  const [applyTrackingResult, setApplyTrackingResult] = useState('')
+  const handleApplySubmit = async (e) => {
     e.preventDefault()
-    setApplySuccess(true)
-    setTimeout(() => {
-      setApplySuccess(false)
-      setApplyModalJob(null)
-    }, 2800)
+    
+    const formData = new FormData(e.target);
+    
+    // Ekstrak ID integer dari ID string mock (contoh: LISA-JOB-001 -> 1)
+    let jobId = 1; 
+    if (applyModalJob && applyModalJob.id) {
+       const match = applyModalJob.id.match(/\d+/);
+       if (match) jobId = parseInt(match[0], 10);
+    }
+    
+    formData.append('job_id', jobId);
+    formData.append('divisionName', applyModalJob.department);
+    formData.append('jobTitle', applyModalJob.title);
+
+    try {
+        const response = await fetch('http://localhost:5000/api/applications', {
+            method: 'POST',
+            body: formData,
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            setApplyTrackingResult(data.tracking_id);
+            setApplySuccess(true);
+            setTimeout(() => {
+              setApplySuccess(false)
+              setApplyModalJob(null)
+              setApplyTrackingResult('')
+            }, 8000)
+        } else {
+            alert('Gagal mengirim lamaran. Pastikan server backend sudah dijalankan (npm start di folder server).');
+        }
+    } catch (error) {
+        console.error(error);
+        alert('Tidak dapat terhubung ke backend. Pastikan server backend berjalan di http://localhost:5000.');
+    }
   }
 
   // Navigation and Filter Helpers
@@ -1504,7 +1536,7 @@ export default function App() {
                   Berkas lamaran untuk posisi <strong>{applyModalJob.title}</strong> di PT Lisa Concrete Indonesia telah masuk ke sistem HRD kami.
                 </p>
                 <div className="mt-4 p-3 bg-slate-50 rounded-xl inline-block text-xs font-mono text-slate-600">
-                  Kode Pelacakan Anda: <strong>LISA-{Math.floor(100000 + Math.random() * 900000)}</strong>
+                  Kode Pelacakan Anda: <strong>{applyTrackingResult || `LISA-${Math.floor(100000 + Math.random() * 900000)}`}</strong>
                 </div>
               </div>
             ) : (
@@ -1519,6 +1551,7 @@ export default function App() {
                     <label className="block font-bold text-slate-700 mb-1">Nama Lengkap Sesuai KTP *</label>
                     <input 
                       required 
+                      name="name"
                       type="text" 
                       placeholder="Masukkan nama lengkap" 
                       className="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:border-brand focus:outline-none text-xs"
@@ -1530,6 +1563,7 @@ export default function App() {
                       <label className="block font-bold text-slate-700 mb-1">Email Aktif *</label>
                       <input 
                         required 
+                        name="email"
                         type="email" 
                         placeholder="nama@email.com" 
                         className="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:border-brand focus:outline-none text-xs"
@@ -1539,6 +1573,7 @@ export default function App() {
                       <label className="block font-bold text-slate-700 mb-1">Nomor WhatsApp *</label>
                       <input 
                         required 
+                        name="phone"
                         type="tel" 
                         placeholder="08xxxxxxxxxx" 
                         className="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:border-brand focus:outline-none text-xs"
@@ -1550,6 +1585,7 @@ export default function App() {
                     <label className="block font-bold text-slate-700 mb-1">Pendidikan &amp; Universitas / Politeknik *</label>
                     <input 
                       required 
+                      name="education"
                       type="text" 
                       placeholder="Contoh: S1 Teknik Sipil - Institut Teknologi Sepuluh Nopember (ITS)" 
                       className="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:border-brand focus:outline-none text-xs"
@@ -1560,6 +1596,7 @@ export default function App() {
                     <label className="block font-bold text-slate-700 mb-1">Upload Resume / CV (Format PDF, Maks. 5MB) *</label>
                     <input 
                       required 
+                      name="cvFile"
                       type="file" 
                       accept=".pdf" 
                       className="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-brand/10 file:text-brand hover:file:bg-brand/20 cursor-pointer"
