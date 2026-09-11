@@ -21,25 +21,11 @@ app.get('/', (req, res) => {
     res.send('Job Portal API is running');
 });
 
+const jobRoutes = require('./routes/jobRoutes');
+
 // API Routes
 app.use('/api/applications', applicationRoutes);
-
-// Mock Data endpoint for jobs (while waiting for DB populating from frontend)
-const db = require('./config/db');
-app.get('/api/jobs', async (req, res) => {
-    try {
-        const [jobs] = await db.query(
-            `SELECT j.*, d.name as department 
-             FROM jobs j 
-             LEFT JOIN divisions d ON j.division_id = d.id 
-             WHERE j.status = 'OPEN'`
-        );
-        res.json(jobs);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Database error' });
-    }
-});
+app.use('/api/jobs', jobRoutes);
 
 // Start Server
 app.listen(PORT, () => {

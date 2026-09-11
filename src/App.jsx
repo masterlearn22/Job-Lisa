@@ -102,33 +102,34 @@ export default function App() {
   const [jobs, setJobs] = useState(initialJobs)
   
   // Fetch real jobs from Database API
-  useEffect(() => {
-    const fetchJobs = async () => {
-      try {
-        const res = await fetch('http://localhost:5000/api/jobs');
-        if (res.ok) {
-          const data = await res.json();
-          if (data && data.length > 0) {
-            const formattedJobs = data.map(j => ({
-              id: j.id.toString(), // Use DB ID
-              title: j.title,
-              department: j.department, // From JOIN in API
-              location: j.location,
-              type: j.type,
-              experience: j.experience,
-              education: j.education,
-              deadline: j.deadline,
-              description: j.description,
-              requirements: j.requirements || [],
-              benefits: j.benefits || []
-            }));
-            setJobs(formattedJobs);
-          }
+  const fetchJobs = async () => {
+    try {
+      const res = await fetch('http://localhost:5000/api/jobs');
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.length > 0) {
+          const formattedJobs = data.map(j => ({
+            id: j.id.toString(), // Use DB ID
+            title: j.title,
+            department: j.department, // From JOIN in API
+            location: j.location,
+            type: j.type,
+            experience: j.experience,
+            education: j.education,
+            deadline: j.deadline,
+            description: j.description,
+            requirements: j.requirements || [],
+            benefits: j.benefits || []
+          }));
+          setJobs(formattedJobs);
         }
-      } catch (err) {
-        console.log('Backend not connected, using fallback initialJobs');
       }
+    } catch (err) {
+      console.log('Backend not connected, using fallback initialJobs');
     }
+  };
+
+  useEffect(() => {
     fetchJobs();
   }, []);
 
@@ -202,6 +203,35 @@ export default function App() {
   const [adminTargetNotes, setAdminTargetNotes] = useState('');
   const [adminStatusSaving, setAdminStatusSaving] = useState(false);
 
+  // Admin Sub-Tab: 'applications' (Kelola Pelamar) vs 'jobs' (Kelola Lowongan)
+  const [adminActiveTab, setAdminActiveTab] = useState('applications');
+
+  // Admin Job Management States
+  const [adminJobs, setAdminJobs] = useState([]);
+  const [adminJobsLoading, setAdminJobsLoading] = useState(false);
+  const [adminJobFilterDiv, setAdminJobFilterDiv] = useState('all');
+  const [adminJobFilterStatus, setAdminJobFilterStatus] = useState('all');
+  const [adminJobSearch, setAdminJobSearch] = useState('');
+
+  // Modal Tambah / Edit Lowongan
+  const [jobModalOpen, setJobModalOpen] = useState(false);
+  const [jobModalMode, setJobModalMode] = useState('add'); // 'add' | 'edit'
+  const [jobModalSaving, setJobModalSaving] = useState(false);
+  const [jobFormData, setJobFormData] = useState({
+    id: null,
+    title: '',
+    division_id: 1,
+    location: 'Surabaya (Head Office)',
+    type: 'Full Time',
+    experience: 'Min. 2-3 Tahun',
+    education: 'S1 Teknik Sipil',
+    deadline: '30 November 2026',
+    status: 'OPEN',
+    description: '',
+    requirements: '',
+    benefits: ''
+  });
+
   // Fetch admin stats & applications
   const fetchAdminData = async () => {
     setAdminLoading(true);
@@ -231,10 +261,27 @@ export default function App() {
     }
   };
 
+  // Fetch Admin All Jobs
+  const fetchAdminJobs = async () => {
+    setAdminJobsLoading(true);
+    try {
+      const res = await fetch('http://localhost:5000/api/jobs/admin/all');
+      if (res.ok) {
+        const data = await res.json();
+        setAdminJobs(data);
+      }
+    } catch (err) {
+      console.warn('Gagal memuat lowongan admin:', err);
+    } finally {
+      setAdminJobsLoading(false);
+    }
+  };
+
   // Trigger fetch when on admin tab and logged in
   useEffect(() => {
     if (activeTab === 'admin' && adminUser) {
       fetchAdminData();
+      fetchAdminJobs();
     }
   }, [activeTab, adminUser, adminFilterDiv, adminFilterStatus]);
 
@@ -329,6 +376,169 @@ export default function App() {
       alert('Gagal menghubungi backend.');
     }
   };
+
+  // ================= ADMIN JOB MANAGEMENT HANDLERS =================
+  // Buka Modal Tambah Lowongan
+  const handleOpenAddJobModal = () => {
+    setJobModalMode('add');
+    setJobFormData({
+      id: null,
+      title: '',
+      division_id: 1,
+      location: 'Surabaya (Head Office)',
+      type: 'Full Time',
+      experience: 'Min. 2-3 Tahun',
+      education: 'S1 Teknik Sipil',
+      deadline: '30 November 2026',
+      status: 'OPEN',
+      description: '',
+      requirements: '',
+      benefits: ''
+    });
+    setJobModalOpen(true);
+  };
+
+  // Buka Modal Edit Lowongan
+  const handleOpenEditJobModal = (job) => {
+    setJobModalMode('edit');
+    const reqText = Array.isArray(job.requirements) ? job.requirements.join('\n') : (job.requirements || '');
+    const benText = Array.isArray(job.benefits) ? job.benefits.join('\n') : (job.benefits || '');
+
+    setJobFormData({
+      id: job.id,
+      title: job.title || '',
+      division_id: job.division_id || 1,
+      location: job.location || 'Surabaya (Head Office)',
+      type: job.type || 'Full Time',
+      experience: job.experience || 'Min. 2 Tahun',
+      education: job.education || 'S1',
+      deadline: job.deadline || 'Terbuka',
+      status: job.status || 'OPEN',
+      description: job.description || '',
+      requirements: reqText,
+      benefits: benText
+    });
+    setJobModalOpen(true);
+  };
+
+  // Simpan Lowongan (Tambah Baru atau Update)
+  const handleSaveJob = async (e) => {
+    e.preventDefault();
+    if (!jobFormData.title.trim()) {
+      alert('Judul lowongan pekerjaan wajib diisi!');
+      return;
+    }
+
+    setJobModalSaving(true);
+    try {
+      const reqList = jobFormData.requirements
+        .split('\n')
+        .map(r => r.trim())
+        .filter(r => r.length > 0);
+
+      const benList = jobFormData.benefits
+        .split('\n')
+        .map(b => b.trim())
+        .filter(b => b.length > 0);
+
+      const payload = {
+        title: jobFormData.title.trim(),
+        division_id: parseInt(jobFormData.division_id, 10) || 1,
+        location: jobFormData.location.trim(),
+        type: jobFormData.type,
+        experience: jobFormData.experience.trim(),
+        education: jobFormData.education.trim(),
+        deadline: jobFormData.deadline.trim(),
+        status: jobFormData.status,
+        description: jobFormData.description.trim(),
+        requirements: reqList,
+        benefits: benList
+      };
+
+      const isEdit = jobModalMode === 'edit' && jobFormData.id;
+      const url = isEdit 
+        ? `http://localhost:5000/api/jobs/${jobFormData.id}`
+        : 'http://localhost:5000/api/jobs';
+      const method = isEdit ? 'PUT' : 'POST';
+
+      const res = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (res.ok) {
+        alert(isEdit ? `Lowongan "${jobFormData.title}" berhasil diperbarui!` : `Lowongan baru "${jobFormData.title}" berhasil ditambahkan!`);
+        setJobModalOpen(false);
+        fetchAdminJobs();
+        fetchJobs(); // Update public listing
+      } else {
+        const errJson = await res.json().catch(() => ({}));
+        alert(`Gagal menyimpan lowongan: ${errJson.error || 'Terjadi kesalahan'}`);
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Gagal menghubungi server backend.');
+    } finally {
+      setJobModalSaving(false);
+    }
+  };
+
+  // Toggle Cepat Status Lowongan (Buka / Tutup)
+  const handleToggleJobStatus = async (job) => {
+    const nextStatus = job.status === 'OPEN' ? 'CLOSED' : 'OPEN';
+    const actionLabel = nextStatus === 'CLOSED' ? 'menutup lowongan' : 'mengaktifkan kembali lowongan';
+    
+    if (!window.confirm(`Apakah Anda yakin ingin ${actionLabel} "${job.title}"?`)) return;
+
+    try {
+      const res = await fetch(`http://localhost:5000/api/jobs/${job.id}/status`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: nextStatus })
+      });
+      if (res.ok) {
+        fetchAdminJobs();
+        fetchJobs();
+      } else {
+        alert('Gagal mengubah status lowongan.');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Gagal menghubungi backend.');
+    }
+  };
+
+  // Hapus Lowongan Kerja
+  const handleDeleteJob = async (job) => {
+    if (!window.confirm(`Apakah Anda yakin ingin menghapus lowongan "${job.title}" secara permanen?`)) return;
+
+    try {
+      const res = await fetch(`http://localhost:5000/api/jobs/${job.id}`, {
+        method: 'DELETE'
+      });
+      if (res.ok) {
+        alert(`Lowongan "${job.title}" berhasil dihapus.`);
+        fetchAdminJobs();
+        fetchJobs();
+      } else {
+        alert('Gagal menghapus lowongan.');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Gagal menghubungi backend.');
+    }
+  };
+
+  // Filter Admin Jobs
+  const filteredAdminJobs = adminJobs.filter(job => {
+    const matchKeyword = (job.title || '').toLowerCase().includes(adminJobSearch.toLowerCase()) ||
+                         (job.location || '').toLowerCase().includes(adminJobSearch.toLowerCase()) ||
+                         (job.department || '').toLowerCase().includes(adminJobSearch.toLowerCase());
+    const matchDiv = adminJobFilterDiv === 'all' || job.department === adminJobFilterDiv || job.division_id?.toString() === adminJobFilterDiv;
+    const matchStatus = adminJobFilterStatus === 'all' || job.status === adminJobFilterStatus;
+    return matchKeyword && matchDiv && matchStatus;
+  });
 
   // Filter Jobs
   const filteredJobs = jobs.filter(job => {
@@ -1475,17 +1685,26 @@ export default function App() {
                     <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
                     <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Sistem Rekrutmen Terpadu</span>
                   </div>
-                  <h1 className="text-xl sm:text-2xl font-black text-slate-900">Dashboard Manajemen Pelamar</h1>
-                  <p className="text-xs text-slate-500">Kelola berkas masuk, sortir per divisi, dan perbarui tahapan seleksi</p>
+                  <h1 className="text-xl sm:text-2xl font-black text-slate-900">
+                    {adminActiveTab === 'applications' ? 'Dashboard Manajemen Pelamar' : 'Kelola Lowongan Pekerjaan'}
+                  </h1>
+                  <p className="text-xs text-slate-500">
+                    {adminActiveTab === 'applications'
+                      ? 'Kelola berkas masuk, sortir per divisi, dan perbarui tahapan seleksi'
+                      : 'Tambah lowongan baru, kelola persyaratan kerja, dan atur status penerimaan pelamar'}
+                  </p>
                 </div>
 
                 <div className="flex flex-wrap items-center gap-3">
                   <button 
-                    onClick={fetchAdminData}
-                    disabled={adminLoading}
+                    onClick={() => {
+                      fetchAdminData();
+                      fetchAdminJobs();
+                    }}
+                    disabled={adminLoading || adminJobsLoading}
                     className="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer"
                   >
-                    <span className={adminLoading ? 'animate-spin' : ''}>🔄</span>
+                    <span className={adminLoading || adminJobsLoading ? 'animate-spin' : ''}>🔄</span>
                     <span>Refresh Data</span>
                   </button>
 
@@ -1512,8 +1731,40 @@ export default function App() {
                 </div>
               </div>
 
-              {/* METRICS STATS CARDS (6 TAHAPAN RESMI REKRUTMEN + TOTAL & DITOLAK) */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2.5 sm:gap-3">
+              {/* TAB SWITCHER: MANAJEMEN PELAMAR vs KELOLA LOWONGAN */}
+              <div className="flex flex-wrap items-center gap-2 border-b border-slate-200/80 pb-1">
+                <button
+                  onClick={() => setAdminActiveTab('applications')}
+                  className={`px-5 py-2.5 rounded-2xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all cursor-pointer ${
+                    adminActiveTab === 'applications'
+                      ? 'bg-brand text-white shadow-md shadow-brand/20'
+                      : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-200'
+                  }`}
+                >
+                  <span>📁</span>
+                  <span>Manajemen Berkas Pelamar ({adminStats.total || adminApplications.length})</span>
+                </button>
+
+                <button
+                  onClick={() => {
+                    setAdminActiveTab('jobs');
+                    fetchAdminJobs();
+                  }}
+                  className={`px-5 py-2.5 rounded-2xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all cursor-pointer ${
+                    adminActiveTab === 'jobs'
+                      ? 'bg-brand text-white shadow-md shadow-brand/20'
+                      : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-200'
+                  }`}
+                >
+                  <span>💼</span>
+                  <span>Kelola Lowongan Pekerjaan ({adminJobs.length})</span>
+                </button>
+              </div>
+
+              {adminActiveTab === 'applications' ? (
+                <>
+                  {/* METRICS STATS CARDS (6 TAHAPAN RESMI REKRUTMEN + TOTAL & DITOLAK) */}
+                  <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2.5 sm:gap-3">
                 <div className="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-xs">
                   <span className="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Total Pelamar</span>
                   <p className="text-xl sm:text-2xl font-black text-slate-900 mt-1">{adminStats.total}</p>
@@ -1735,7 +1986,219 @@ export default function App() {
                   </div>
                 )}
               </div>
-            </div>
+            </>
+          ) : (
+            /* KELOLA LOWONGAN PEKERJAAN VIEW */
+            <>
+              {/* METRICS STATS CARDS UNTUK LOWONGAN */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
+                  <span className="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Total Lowongan</span>
+                  <p className="text-2xl font-black text-slate-900 mt-1">{adminJobs.length}</p>
+                  <span className="text-[11px] text-slate-500">Semua formasi jabatan</span>
+                </div>
+
+                <div className="bg-emerald-50/80 p-4 rounded-2xl border border-emerald-200 shadow-xs">
+                  <span className="text-[10px] font-bold uppercase text-emerald-700 tracking-wider">Lowongan Aktif</span>
+                  <p className="text-2xl font-black text-emerald-700 mt-1">
+                    {adminJobs.filter(j => j.status === 'OPEN').length}
+                  </p>
+                  <span className="text-[11px] text-emerald-600">Terbuka untuk pelamar (OPEN)</span>
+                </div>
+
+                <div className="bg-slate-100/90 p-4 rounded-2xl border border-slate-200 shadow-xs">
+                  <span className="text-[10px] font-bold uppercase text-slate-600 tracking-wider">Lowongan Ditutup</span>
+                  <p className="text-2xl font-black text-slate-800 mt-1">
+                    {adminJobs.filter(j => j.status === 'CLOSED').length}
+                  </p>
+                  <span className="text-[11px] text-slate-500">Pendaftaran ditutup (CLOSED)</span>
+                </div>
+
+                <div className="bg-blue-50/80 p-4 rounded-2xl border border-blue-200 shadow-xs">
+                  <span className="text-[10px] font-bold uppercase text-blue-700 tracking-wider">Total Berkas Terdaftar</span>
+                  <p className="text-2xl font-black text-blue-700 mt-1">
+                    {adminJobs.reduce((acc, curr) => acc + (parseInt(curr.applicant_count) || 0), 0)}
+                  </p>
+                  <span className="text-[11px] text-blue-600">Pelamar di seluruh lowongan</span>
+                </div>
+              </div>
+
+              {/* FILTER & ACTION BAR */}
+              <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-col md:flex-row gap-3 items-center justify-between">
+                <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
+                  <button
+                    onClick={handleOpenAddJobModal}
+                    className="px-4 py-2.5 bg-brand hover:bg-brand-dark text-white rounded-xl text-xs font-bold transition-all shadow-md shadow-brand/20 flex items-center gap-2 cursor-pointer"
+                  >
+                    <span>➕</span>
+                    <span>Tambah Lowongan Baru</span>
+                  </button>
+
+                  {/* Filter Divisi */}
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold text-slate-500 whitespace-nowrap">Divisi:</span>
+                    <select
+                      value={adminJobFilterDiv}
+                      onChange={(e) => setAdminJobFilterDiv(e.target.value)}
+                      className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 focus:outline-none focus:border-brand cursor-pointer"
+                    >
+                      <option value="all">Semua Divisi</option>
+                      {(adminStats.divisions && adminStats.divisions.length > 0 ? adminStats.divisions : [
+                        { id: 1, name: 'Teknik Sipil & Proyek' },
+                        { id: 2, name: 'Produksi Beton & Operasional Pabrik' },
+                        { id: 3, name: 'Quality Assurance & Quality Control' },
+                        { id: 4, name: 'Kesehatan & Keselamatan Kerja (K3)' },
+                        { id: 5, name: 'Engineering & Estimator' },
+                        { id: 6, name: 'Pemasaran & Administrasi Proyek' }
+                      ]).map(d => (
+                        <option key={d.id} value={d.name}>{d.name}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Filter Status */}
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold text-slate-500 whitespace-nowrap">Status:</span>
+                    <select
+                      value={adminJobFilterStatus}
+                      onChange={(e) => setAdminJobFilterStatus(e.target.value)}
+                      className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 focus:outline-none focus:border-brand cursor-pointer"
+                    >
+                      <option value="all">Semua Status</option>
+                      <option value="OPEN">🟢 Terbuka (OPEN)</option>
+                      <option value="CLOSED">🔴 Ditutup (CLOSED)</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* Search Box */}
+                <div className="w-full md:w-72 relative">
+                  <input
+                    type="text"
+                    value={adminJobSearch}
+                    onChange={(e) => setAdminJobSearch(e.target.value)}
+                    placeholder="Cari nama lowongan, divisi, lokasi..."
+                    className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:border-brand"
+                  />
+                  <span className="absolute left-3 top-2.5 text-slate-400 text-xs">🔍</span>
+                </div>
+              </div>
+
+              {/* TABEL DATA LOWONGAN */}
+              <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+                <div className="p-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+                  <div>
+                    <h3 className="font-bold text-slate-800 text-xs sm:text-sm">
+                      Daftar Formasi Lowongan Pekerjaan ({filteredAdminJobs.length} Posisi)
+                    </h3>
+                    <p className="text-[11px] text-slate-500 mt-0.5">
+                      Kelola lowongan aktif untuk tayang di halaman karir publik secara otomatis.
+                    </p>
+                  </div>
+                  <button
+                    onClick={handleOpenAddJobModal}
+                    className="px-3 py-1.5 bg-brand/10 hover:bg-brand/20 text-brand rounded-xl font-bold text-xs transition-colors cursor-pointer hidden sm:flex items-center gap-1.5"
+                  >
+                    <span>➕ Buat Lowongan Baru</span>
+                  </button>
+                </div>
+
+                {adminJobsLoading ? (
+                  <div className="p-12 text-center text-slate-400 text-xs">
+                    <div className="w-8 h-8 border-3 border-brand border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
+                    <span>Memuat daftar lowongan pekerjaan...</span>
+                  </div>
+                ) : filteredAdminJobs.length === 0 ? (
+                  <div className="p-12 text-center text-slate-400 text-xs">
+                    <p className="text-3xl mb-2">💼</p>
+                    <p className="font-bold text-slate-600">Tidak ada data lowongan pekerjaan.</p>
+                    <p className="text-[11px] mt-1 text-slate-400">Klik tombol "Tambah Lowongan Baru" di atas untuk menambahkan formasi posisi kerja.</p>
+                  </div>
+                ) : (
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left text-xs text-slate-700">
+                      <thead className="bg-slate-50 text-[11px] uppercase font-bold text-slate-400 tracking-wider border-b border-slate-200">
+                        <tr>
+                          <th className="py-3 px-4">Posisi &amp; Kualifikasi</th>
+                          <th className="py-3 px-4">Divisi</th>
+                          <th className="py-3 px-4">Lokasi &amp; Tipe</th>
+                          <th className="py-3 px-4">Batas Lamaran</th>
+                          <th className="py-3 px-4 text-center">Pelamar Masuk</th>
+                          <th className="py-3 px-4 text-center">Status Pendaftaran</th>
+                          <th className="py-3 px-4 text-center">Aksi HR</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100 font-medium">
+                        {filteredAdminJobs.map((job) => (
+                          <tr key={job.id} className="hover:bg-slate-50/80 transition-colors">
+                            <td className="py-3.5 px-4">
+                              <div className="font-bold text-slate-900 text-sm">{job.title}</div>
+                              <div className="text-[11px] text-slate-500 mt-0.5 flex flex-wrap items-center gap-1.5">
+                                <span>🎓 {job.education || 'S1 / D4'}</span>
+                                <span>•</span>
+                                <span>⏳ {job.experience || 'Min. 1-2 Tahun'}</span>
+                              </div>
+                            </td>
+                            <td className="py-3.5 px-4 whitespace-nowrap">
+                              <span className="px-2.5 py-1 bg-slate-100 text-slate-700 rounded-lg text-[11px] font-bold border border-slate-200 inline-block">
+                                🏢 {job.division || job.department}
+                              </span>
+                            </td>
+                            <td className="py-3.5 px-4 whitespace-nowrap">
+                              <div className="font-semibold text-slate-800">📍 {job.location}</div>
+                              <div className="text-[11px] text-slate-400">{job.type}</div>
+                            </td>
+                            <td className="py-3.5 px-4 whitespace-nowrap text-slate-600 font-medium">
+                              📅 {job.deadline || 'Terbuka'}
+                            </td>
+                            <td className="py-3.5 px-4 text-center whitespace-nowrap">
+                              <span className="px-2.5 py-1 bg-blue-50 text-blue-700 font-bold rounded-full text-[11px] border border-blue-200">
+                                {job.applicant_count || 0} Berkas
+                              </span>
+                            </td>
+                            <td className="py-3.5 px-4 text-center whitespace-nowrap">
+                              <button
+                                onClick={() => handleToggleJobStatus(job)}
+                                className={`px-3 py-1.5 rounded-full text-xs font-bold border transition-all cursor-pointer inline-flex items-center gap-1.5 ${
+                                  job.status === 'OPEN'
+                                    ? 'bg-emerald-50 text-emerald-700 border-emerald-300 hover:bg-emerald-100'
+                                    : 'bg-slate-100 text-slate-500 border-slate-300 hover:bg-slate-200'
+                                }`}
+                                title="Klik untuk Buka/Tutup Lowongan Langsung"
+                              >
+                                <span className={`w-2 h-2 rounded-full ${job.status === 'OPEN' ? 'bg-emerald-500 animate-pulse' : 'bg-slate-400'}`}></span>
+                                <span>{job.status === 'OPEN' ? '🟢 DIBUKA' : '🔴 DITUTUP'}</span>
+                              </button>
+                            </td>
+                            <td className="py-3.5 px-4 text-center whitespace-nowrap">
+                              <div className="inline-flex items-center gap-1.5">
+                                <button
+                                  onClick={() => handleOpenEditJobModal(job)}
+                                  className="px-3 py-1.5 bg-brand hover:bg-brand-dark text-white font-bold rounded-xl text-xs transition-colors shadow-xs cursor-pointer inline-flex items-center gap-1"
+                                  title="Edit Lowongan"
+                                >
+                                  <span>✏️</span>
+                                  <span>Edit</span>
+                                </button>
+                                <button
+                                  onClick={() => handleDeleteJob(job)}
+                                  className="p-1.5 text-slate-400 hover:text-rose-600 rounded-lg hover:bg-rose-50 transition-colors cursor-pointer"
+                                  title="Hapus Lowongan Permanen"
+                                >
+                                  🗑️
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
+            </>
+          )}
+        </div>
 
             {/* MODAL KELOLA STATUS & JADWAL INTERVIEW */}
             {adminManageModal && (
@@ -1825,6 +2288,240 @@ export default function App() {
                         className="px-5 py-2.5 bg-brand hover:bg-brand-dark text-white rounded-xl font-bold shadow-md shadow-brand/20 flex items-center gap-2 disabled:opacity-50 cursor-pointer"
                       >
                         {adminStatusSaving ? 'Menyimpan & Mengirim Email...' : 'Simpan & Kirim Update'}
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            )}
+
+            {/* MODAL TAMBAH / EDIT LOWONGAN */}
+            {jobModalOpen && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fadeIn overflow-y-auto">
+                <div className="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-7 shadow-2xl text-slate-800 border border-slate-200 my-8">
+                  <div className="flex justify-between items-start pb-4 border-b border-slate-100 mb-5">
+                    <div>
+                      <span className="text-[10px] font-bold text-brand uppercase tracking-wider block">
+                        {jobModalMode === 'edit' ? 'Edit Formasi Lowongan' : 'Tambah Lowongan Pekerjaan Baru'}
+                      </span>
+                      <h3 className="text-xl font-black text-slate-900">
+                        {jobModalMode === 'edit' ? `Edit: ${jobFormData.title}` : 'Formulir Lowongan Kerja Baru'}
+                      </h3>
+                      <p className="text-xs text-slate-500 mt-0.5">
+                        Posisi yang disimpan akan otomatis disinkronisasi ke katalog karir publik.
+                      </p>
+                    </div>
+                    <button 
+                      onClick={() => setJobModalOpen(false)}
+                      className="text-slate-400 hover:text-slate-700 p-1.5 rounded-full hover:bg-slate-100 text-sm cursor-pointer"
+                    >
+                      ✕
+                    </button>
+                  </div>
+
+                  <form onSubmit={handleSaveJob} className="space-y-4 text-xs">
+                    {/* Baris 1: Judul Posisi & Divisi */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block font-bold text-slate-700 mb-1">
+                          Nama Posisi / Jabatan *
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          value={jobFormData.title}
+                          onChange={(e) => setJobFormData({ ...jobFormData, title: e.target.value })}
+                          placeholder="Contoh: Civil Site Engineer"
+                          className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl font-semibold text-slate-800 focus:outline-none focus:border-brand"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block font-bold text-slate-700 mb-1">
+                          Departemen / Divisi *
+                        </label>
+                        <select
+                          value={jobFormData.division_id}
+                          onChange={(e) => setJobFormData({ ...jobFormData, division_id: e.target.value })}
+                          className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl font-semibold text-slate-800 focus:outline-none focus:border-brand cursor-pointer"
+                        >
+                          {(adminStats.divisions && adminStats.divisions.length > 0 ? adminStats.divisions : [
+                            { id: 1, name: 'Teknik Sipil & Proyek' },
+                            { id: 2, name: 'Produksi Beton & Operasional Pabrik' },
+                            { id: 3, name: 'Quality Assurance & Quality Control' },
+                            { id: 4, name: 'Kesehatan & Keselamatan Kerja (K3)' },
+                            { id: 5, name: 'Engineering & Estimator' },
+                            { id: 6, name: 'Pemasaran & Administrasi Proyek' }
+                          ]).map((d) => (
+                            <option key={d.id} value={d.id}>{d.name}</option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+
+                    {/* Baris 2: Lokasi Penempatan, Tipe Kerja, Status */}
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                      <div>
+                        <label className="block font-bold text-slate-700 mb-1">
+                          Lokasi Penempatan *
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          value={jobFormData.location}
+                          onChange={(e) => setJobFormData({ ...jobFormData, location: e.target.value })}
+                          placeholder="Contoh: Surabaya / Proyek IKN"
+                          className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl font-semibold text-slate-800 focus:outline-none focus:border-brand"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block font-bold text-slate-700 mb-1">
+                          Tipe Ikatan Kerja *
+                        </label>
+                        <select
+                          value={jobFormData.type}
+                          onChange={(e) => setJobFormData({ ...jobFormData, type: e.target.value })}
+                          className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl font-semibold text-slate-800 focus:outline-none focus:border-brand cursor-pointer"
+                        >
+                          <option value="Full Time">Full Time</option>
+                          <option value="Kontrak Proyek">Kontrak Proyek</option>
+                          <option value="Internship / Magang">Internship / Magang</option>
+                          <option value="Part Time">Part Time</option>
+                        </select>
+                      </div>
+
+                      <div>
+                        <label className="block font-bold text-slate-700 mb-1">
+                          Status Penerimaan *
+                        </label>
+                        <select
+                          value={jobFormData.status}
+                          onChange={(e) => setJobFormData({ ...jobFormData, status: e.target.value })}
+                          className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl font-semibold text-slate-800 focus:outline-none focus:border-brand cursor-pointer"
+                        >
+                          <option value="OPEN">🟢 DIBUKA (OPEN)</option>
+                          <option value="CLOSED">🔴 DITUTUP (CLOSED)</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    {/* Baris 3: Pendidikan, Pengalaman, Batas Lamaran */}
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                      <div>
+                        <label className="block font-bold text-slate-700 mb-1">
+                          Minimal Pendidikan *
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          value={jobFormData.education}
+                          onChange={(e) => setJobFormData({ ...jobFormData, education: e.target.value })}
+                          placeholder="Contoh: S1 Teknik Sipil"
+                          className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl font-semibold text-slate-800 focus:outline-none focus:border-brand"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block font-bold text-slate-700 mb-1">
+                          Pengalaman Kerja *
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          value={jobFormData.experience}
+                          onChange={(e) => setJobFormData({ ...jobFormData, experience: e.target.value })}
+                          placeholder="Contoh: Min. 2 Tahun / Fresh Graduate"
+                          className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl font-semibold text-slate-800 focus:outline-none focus:border-brand"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block font-bold text-slate-700 mb-1">
+                          Batas Waktu Lamaran *
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          value={jobFormData.deadline}
+                          onChange={(e) => setJobFormData({ ...jobFormData, deadline: e.target.value })}
+                          placeholder="Contoh: 30 November 2026"
+                          className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl font-semibold text-slate-800 focus:outline-none focus:border-brand"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Ringkasan Pekerjaan */}
+                    <div>
+                      <label className="block font-bold text-slate-700 mb-1">
+                        Deskripsi &amp; Gambaran Tugas Pekerjaan *
+                      </label>
+                      <textarea
+                        rows="3"
+                        required
+                        value={jobFormData.description}
+                        onChange={(e) => setJobFormData({ ...jobFormData, description: e.target.value })}
+                        placeholder="Jelaskan peran utama dan tanggung jawab posisi pekerjaan ini..."
+                        className="w-full p-3 bg-slate-50 border border-slate-300 rounded-xl text-xs text-slate-800 focus:outline-none focus:border-brand"
+                      ></textarea>
+                    </div>
+
+                    {/* Kualifikasi / Persyaratan (Per Baris) */}
+                    <div>
+                      <div className="flex justify-between items-center mb-1">
+                        <label className="block font-bold text-slate-700">
+                          Kualifikasi &amp; Persyaratan (Pisahkan setiap poin dengan baris baru / Enter) *
+                        </label>
+                        <span className="text-[10px] text-slate-400">1 baris = 1 butir kualifikasi</span>
+                      </div>
+                      <textarea
+                        rows="4"
+                        value={jobFormData.requirements}
+                        onChange={(e) => setJobFormData({ ...jobFormData, requirements: e.target.value })}
+                        placeholder="Contoh:
+Pria/Wanita, Usia maks. 32 tahun
+Pengalaman min. 2 tahun di bidang fabrikasi pracetak
+Menguasai AutoCAD dan SAP2000
+Bersedia ditempatkan di unit proyek luar kota"
+                        className="w-full p-3 bg-slate-50 border border-slate-300 rounded-xl text-xs text-slate-800 focus:outline-none focus:border-brand font-mono"
+                      ></textarea>
+                    </div>
+
+                    {/* Benefit / Fasilitas (Per Baris) */}
+                    <div>
+                      <div className="flex justify-between items-center mb-1">
+                        <label className="block font-bold text-slate-700">
+                          Benefit &amp; Fasilitas Kerja (Opsional, pisahkan setiap poin dengan Enter)
+                        </label>
+                        <span className="text-[10px] text-slate-400">1 baris = 1 butir fasilitas</span>
+                      </div>
+                      <textarea
+                        rows="3"
+                        value={jobFormData.benefits}
+                        onChange={(e) => setJobFormData({ ...jobFormData, benefits: e.target.value })}
+                        placeholder="Contoh:
+Gaji kompetitif + Tunjangan Proyek
+BPJS Kesehatan & Ketenagakerjaan
+Akomodasi & mess proyek
+Jenjang karir profesional di DUSASPUN Group"
+                        className="w-full p-3 bg-slate-50 border border-slate-300 rounded-xl text-xs text-slate-800 focus:outline-none focus:border-brand font-mono"
+                      ></textarea>
+                    </div>
+
+                    <div className="pt-3 flex justify-end gap-3 border-t border-slate-100">
+                      <button
+                        type="button"
+                        onClick={() => setJobModalOpen(false)}
+                        className="px-4 py-2.5 rounded-xl font-bold text-slate-600 hover:bg-slate-100 cursor-pointer"
+                      >
+                        Batal
+                      </button>
+                      <button
+                        type="submit"
+                        disabled={jobModalSaving}
+                        className="px-6 py-2.5 bg-brand hover:bg-brand-dark text-white rounded-xl font-bold shadow-md shadow-brand/20 flex items-center gap-2 disabled:opacity-50 cursor-pointer"
+                      >
+                        {jobModalSaving ? 'Menyimpan Lowongan...' : (jobModalMode === 'edit' ? 'Simpan Perubahan' : 'Terbitkan Lowongan Baru')}
                       </button>
                     </div>
                   </form>
