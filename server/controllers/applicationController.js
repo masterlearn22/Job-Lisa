@@ -252,18 +252,28 @@ const updateApplicationStatus = async (req, res) => {
         );
 
         // 4. Send Email Notification to Applicant
+        let emailStatus = { sent: false, simulated: false };
         try {
-            await sendEmail(
+            const mailInfo = await sendEmail(
                 app.email,
                 `Update Status Lamaran - ${app.job_title}`,
                 `Halo ${app.name},\n\nStatus lamaran Anda untuk posisi ${app.job_title} telah diperbarui menjadi:\n\n**${status}**\n\nCatatan: ${notes || '-'}\n\nAnda selalu dapat mengeceknya menggunakan Tracking ID: ${app.tracking_id}\n\nTerima kasih.`,
                 `<p>Halo ${app.name},</p><p>Status lamaran Anda untuk posisi <b>${app.job_title}</b> telah diperbarui menjadi:</p><h3>${status}</h3><p>Catatan: ${notes || '-'}</p><p>Terima kasih.</p>`
             );
+            emailStatus = { 
+                sent: !mailInfo?.simulated, 
+                simulated: !!mailInfo?.simulated 
+            };
         } catch (emailErr) {
-            console.error("Gagal mengirim email status", emailErr);
+            console.error("Gagal mengirim email status", emailErr.message);
+            emailStatus = { sent: false, simulated: false, error: emailErr.message };
         }
 
-        res.json({ message: 'Status updated successfully', new_status: status });
+        res.json({ 
+            message: 'Status updated successfully', 
+            new_status: status,
+            emailStatus
+        });
 
     } catch (error) {
         console.error('Error in updateApplicationStatus:', error);

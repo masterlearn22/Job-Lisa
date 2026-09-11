@@ -290,7 +290,14 @@ export default function App() {
         })
       });
       if (res.ok) {
-        alert(`Status pelamar "${adminManageModal.applicant_name}" berhasil diperbarui menjadi "${adminTargetStatus}" dan email notifikasi telah dikirimkan!`);
+        const resData = await res.json().catch(() => ({}));
+        if (resData.emailStatus?.sent) {
+          alert(`Status pelamar "${adminManageModal.applicant_name}" berhasil diperbarui menjadi "${adminTargetStatus}"!\n\nEmail notifikasi resmi telah berhasil dikirimkan ke: ${adminManageModal.applicant_email}`);
+        } else if (resData.emailStatus?.simulated) {
+          alert(`Status pelamar "${adminManageModal.applicant_name}" berhasil diperbarui menjadi "${adminTargetStatus}" di database!\n\n⚠️ Catatan Pengiriman Email:\nEmail ke "${adminManageModal.applicant_email}" belum terkirim ke internet karena akun email pengirim (SMTP_USER & SMTP_PASS) belum disetel di file server/.env.`);
+        } else {
+          alert(`Status pelamar "${adminManageModal.applicant_name}" berhasil diperbarui menjadi "${adminTargetStatus}"!`);
+        }
         setAdminManageModal(null);
         fetchAdminData();
       } else {
@@ -1796,7 +1803,12 @@ export default function App() {
 
                     <div className="p-3 bg-blue-50 border border-blue-200 rounded-xl text-[11px] text-blue-700 flex items-start gap-2">
                       <span>💡</span>
-                      <span>Pelamar akan otomatis menerima email notifikasi resmi mengenai pembaruan status ini beserta catatan di atas.</span>
+                      <div>
+                        <p className="font-bold">Notifikasi Email Otomatis</p>
+                        <p className="text-blue-600 mt-0.5">
+                          Sistem akan mengirimkan email resmi ke <strong>{adminManageModal.applicant_email}</strong>. Pastikan akun email pengirim telah dikonfigurasi di <code>server/.env</code> agar email terkirim langsung ke internet.
+                        </p>
+                      </div>
                     </div>
 
                     <div className="pt-2 flex justify-end gap-3">
