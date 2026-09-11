@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 // DATA LOWONGAN KERJA PT LISA CONCRETE INDONESIA
 const initialJobs = [
   {
-    id: 'LISA-JOB-001',
+    id: '1',
     title: 'Precast Civil Engineer & Drafter',
     department: 'Engineering & Technical',
     location: 'Surabaya (Head Office)',
@@ -22,7 +22,7 @@ const initialJobs = [
     benefits: ['Gaji Pokok & Tunjangan Posisi Menarik', 'BPJS Ketenagakerjaan & Kesehatan', 'Bonus Tahunan & Kinerja Proyek', 'Pelatihan Sertifikasi Keahlian']
   },
   {
-    id: 'LISA-JOB-002',
+    id: '2',
     title: 'Quality Control (QC) Precast Inspector',
     department: 'Quality Assurance & Lab',
     location: 'Ngoro Plant (Mojokerto, Jatim)',
@@ -41,7 +41,7 @@ const initialJobs = [
     benefits: ['Tunjangan Lokasi Pabrik & Uang Makan', 'Fasilitas Mess / Akomodasi Karyawan Pabrik', 'Asuransi Kesehatan', 'Jenjang Karir Terbuka']
   },
   {
-    id: 'LISA-JOB-003',
+    id: '3',
     title: 'Technical Sales & Project Marketing Executive',
     department: 'Commercial & Marketing',
     location: 'Surabaya / Jawa Timur Area',
@@ -58,42 +58,6 @@ const initialJobs = [
       'Target-oriented dan memiliki daya juang tinggi'
     ],
     benefits: ['Komisi Penjualan Proyek yang Sangat Menarik', 'Tunjangan Transportasi & Komunikasi', 'Peluang Pengembangan Jaringan Industri']
-  },
-  {
-    id: 'LISA-JOB-004',
-    title: 'Production Supervisor (Batching & Casting)',
-    department: 'Manufacturing & Plant Operation',
-    location: 'Karangasem Plant (Bali)',
-    type: 'Full Time',
-    experience: 'Min. 3 Tahun',
-    education: 'D3 / S1 Teknik Mesin / Sipil / Industri',
-    deadline: '15 November 2026',
-    description: 'Mengawasi alur proses batching plant, pengecoran (casting), pelepasan cetakan (demolding), perawatan beton (steam curing), dan manajemen tenaga kerja harian pabrik.',
-    requirements: [
-      'Pengalaman kerja min. 3 tahun di bidang manufaktur beton atau batching plant',
-      'Memahami operasional mesin batching plant, overhead crane, dan hidrolik formwork',
-      'Keahlian leadership dan problem-solving lapangan yang tangguh',
-      'Bersedia penempatan di Plant Karangasem, Bali'
-    ],
-    benefits: ['Tunjangan Penempatan Bali & Fasilitas Mess', 'BPJS Komprehensif', 'Insentif Efisiensi Produksi']
-  },
-  {
-    id: 'LISA-JOB-005',
-    title: 'Health, Safety & Environment (HSE) Officer',
-    department: 'HSE & Safety',
-    location: 'Ngoro Plant (Mojokerto, Jatim)',
-    type: 'Full Time',
-    experience: 'Min. 2 Tahun',
-    education: 'D3/S1 K3 / Teknik Lingkungan / Teknik Sipil',
-    deadline: '28 Oktober 2026',
-    description: 'Menerapkan SMK3, inspeksi keselamatan kerja alat berat crane dan area casting pabrik, mitigasi bahaya kerja, serta pengelolaan limbah produksi ramah lingkungan.',
-    requirements: [
-      'Memiliki sertifikat resmi Ahli K3 Umum (Kemnaker RI) aktif',
-      'Pengalaman mengelola keselamatan kerja pada pabrik manufaktur berat atau konstruksi',
-      'Mampu menyusun JSA (Job Safety Analysis) dan laporan investigasi insiden',
-      'Tegas, proaktif, dan berorientasi pada zero accident'
-    ],
-    benefits: ['Tunjangan K3 Khusus', 'Fasilitas Kesehatan Lengkap', 'Program Sertifikasi Berkelanjutan']
   }
 ]
 
