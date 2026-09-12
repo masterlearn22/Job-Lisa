@@ -1,5 +1,46 @@
 import React, { useState, useEffect } from 'react'
 
+import bgFactoryHome from '../assets/factory-home.jpg'
+import bgFactoryHome23 from '../assets/factory-home-23.jpg'
+import bgBoxCulvert from '../assets/Box-Culvert-Monolith-Project-Pakuwon.jpg'
+import bgFacadeHotel from '../assets/Facade-Hotel-Agogo-Surabaya-home.jpg'
+import bgFencePanel from '../assets/Fence-Panel-GG-Magetan-2021.jpg'
+import bgArch from '../assets/arch.jpg'
+
+// Lisa Concrete Asset Slideshow untuk Hero Background
+const HERO_SLIDES = [
+  {
+    image: bgFactoryHome,
+    title: 'Fasilitas Pabrik Beton Pracetak Lisa Concrete',
+    subtitle: 'Plant Ngoro (Mojokerto) & Karangasem (Bali)',
+  },
+  {
+    image: bgFactoryHome23,
+    title: 'Pusat Manufaktur & Presisi Precast',
+    subtitle: 'Kapasitas Produksi Skala Besar & Bersertifikasi Mutu',
+  },
+  {
+    image: bgBoxCulvert,
+    title: 'Proyek Box Culvert Monolith Pakuwon',
+    subtitle: 'Rekayasa Struktur Drainase Pracetak Terintegrasi',
+  },
+  {
+    image: bgFacadeHotel,
+    title: 'Proyek Facade Hotel Agogo Surabaya',
+    subtitle: 'Solusi Rekayasa Panel Beton Arsitektural Mewah',
+  },
+  {
+    image: bgFencePanel,
+    title: 'Proyek Fence Panel Precast Magetan',
+    subtitle: 'Sistem Pagar Beton Pracetak Kokoh, Cepat & Efisien',
+  },
+  {
+    image: bgArch,
+    title: 'Struktur Beton Lengkung & Girder Berat',
+    subtitle: 'Inovasi Kontinu untuk Ketahanan Infrastruktur Nasional',
+  },
+]
+
 // BASE API URL (Mendukung localhost & remote backend via env)
 const API_BASE_URL = (typeof window !== 'undefined' && window.__API_URL__) || 
   import.meta.env.VITE_API_BASE_URL || 
@@ -48,6 +89,23 @@ export default function App() {
 
   useEffect(() => {
     fetchJobs();
+  }, []);
+
+  // Hero Background Slideshow State & Timer (Berganti otomatis setiap 5 detik)
+  const [heroSlide, setHeroSlide] = useState(0);
+
+  useEffect(() => {
+    HERO_SLIDES.forEach((slide) => {
+      const img = new Image();
+      img.src = slide.image;
+    });
+  }, []);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setHeroSlide((prev) => (prev + 1) % HERO_SLIDES.length);
+    }, 5000);
+    return () => clearInterval(timer);
   }, []);
 
   // Search & Filters Karir
@@ -928,10 +986,10 @@ export default function App() {
                 }}
               />
               <div className="flex flex-col border-l-2 border-brand pl-3 whitespace-nowrap">
-                <span className="font-black text-lg sm:text-xl tracking-tight text-slate-900 leading-none">
+                <span className="font-black text-lg sm:text-xl tracking-tight text-slate-900 group-hover:text-red-600 transition-colors duration-300 leading-none">
                   LISA CONCRETE
                 </span>
-                <span className="text-[10px] sm:text-[11px] font-semibold text-slate-500 tracking-wider mt-0.5 whitespace-nowrap">
+                <span className="text-[10px] sm:text-[11px] font-semibold text-slate-500 group-hover:text-slate-700 tracking-wider mt-0.5 whitespace-nowrap transition-colors">
                   PT. Lisa Concrete Indonesia
                 </span>
               </div>
@@ -945,11 +1003,11 @@ export default function App() {
                 <a 
                   href="#karir" 
                   onClick={(e) => { e.preventDefault(); handleToKarir(); }}
-                  className={`px-3 py-2 rounded-xl whitespace-nowrap transition-colors flex items-center gap-1.5 cursor-pointer ${activeTab === 'karir' ? 'text-brand bg-red-50 font-black' : 'hover:text-brand hover:bg-slate-50'}`}
+                  className={`px-3 py-2 rounded-xl whitespace-nowrap transition-all duration-300 flex items-center gap-1.5 cursor-pointer ${activeTab === 'karir' ? 'text-brand bg-red-50 font-black' : 'hover:text-red-600 hover:bg-red-50/60 hover:scale-105'}`}
                 >
                   <span>Karir</span>
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                  <svg className="w-3 h-3 text-slate-400 group-hover:text-brand group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse group-hover:bg-red-500 transition-colors"></span>
+                  <svg className="w-3 h-3 text-slate-400 group-hover:text-red-600 group-hover:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" />
                   </svg>
                 </a>
@@ -1031,13 +1089,13 @@ export default function App() {
               <div className="relative py-2">
                 <button 
                   onClick={() => handleOpenTracking()}
-                  className={`px-3 py-2 rounded-xl transition-colors flex items-center gap-1.5 whitespace-nowrap font-bold text-xs normal-case cursor-pointer ${
+                  className={`px-3.5 py-2 rounded-xl transition-all duration-300 flex items-center gap-1.5 whitespace-nowrap font-bold text-xs normal-case cursor-pointer group ${
                     activeTab === 'lacak'
                       ? 'text-brand bg-red-50 font-black ring-1 ring-brand/30'
-                      : 'text-slate-700 hover:text-brand hover:bg-slate-50'
+                      : 'text-slate-700 hover:text-red-600 hover:bg-red-50/60 hover:scale-105'
                   }`}
                 >
-                  <svg className="w-4 h-4 text-brand shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 text-brand group-hover:text-red-600 group-hover:scale-110 transition-all duration-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                   </svg>
                   <span className="whitespace-nowrap">Lacak Lamaran</span>
@@ -1050,9 +1108,9 @@ export default function App() {
               <a 
                 href="#kontak" 
                 onClick={() => handleJumpSection('kontak', 'kontak')}
-                className="bg-brand hover:bg-brand-dark text-white px-5 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all shadow-md shadow-brand/20 flex items-center gap-2 whitespace-nowrap shrink-0"
+                className="group bg-brand hover:bg-red-600 active:scale-95 text-white px-5 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all duration-300 shadow-md shadow-brand/20 hover:shadow-red-600/40 hover:scale-105 flex items-center gap-2 whitespace-nowrap shrink-0"
               >
-                <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 shrink-0 text-white/90 group-hover:text-white group-hover:scale-110 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
                 <span className="whitespace-nowrap">Kontak Kami</span>
@@ -2450,152 +2508,264 @@ Jenjang karir profesional di DUSASPUN Group"
       ) : (
         <>
           {/* HERO SECTION */}
-          <section id="home" className="relative w-full max-w-full bg-slate-950 text-white pt-24 pb-32 overflow-hidden">
-        {/* Background Overlay with Industrial Aesthetic */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b15_1px,transparent_1px),linear-gradient(to_bottom,#1e293b15_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
-        <div className="absolute top-0 right-0 w-[550px] h-[550px] bg-brand/25 rounded-full blur-3xl pointer-events-none"></div>
-        <div className="absolute bottom-0 left-0 w-[450px] h-[450px] bg-slate-800/40 rounded-full blur-3xl pointer-events-none"></div>
+          <section id="home" className="relative w-full max-w-full bg-slate-950 text-white pt-24 pb-28 sm:pb-32 overflow-hidden">
+            {/* Animated Lisa Concrete Background Slideshow */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+              {HERO_SLIDES.map((slide, idx) => {
+                const isActive = idx === heroSlide;
+                return (
+                  <div
+                    key={idx}
+                    className={`hero-bg-slide ${
+                      isActive ? 'hero-bg-active opacity-100 z-10' : 'opacity-0 z-0'
+                    }`}
+                  >
+                    <img
+                      src={slide.image}
+                      alt={slide.title}
+                      className="hero-bg-image"
+                      loading={idx === 0 ? 'eager' : 'lazy'}
+                    />
+                  </div>
+                );
+              })}
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900 border border-slate-700 text-amber-400 text-xs font-bold uppercase tracking-wider mb-6 shadow-inner">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-              Portal Karir &amp; Rekrutmen Resmi
+              {/* Subtle Natural Tint (Menjaga foto tetap terang & jelas terlihat, tanpa penutup tebal) */}
+              <div className="absolute inset-0 bg-slate-950/30 z-10"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-slate-950/60 via-slate-950/15 to-transparent z-10"></div>
+              <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-slate-950/90 to-transparent z-10"></div>
             </div>
 
-            <h1 className="text-4xl sm:text-6xl font-black tracking-tight leading-tight mb-6">
-              BANGUN KARIR ANDA <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-rose-400 to-amber-300">
-                BERSAMA LISA CONCRETE
-              </span>
-            </h1>
+            <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="max-w-3xl">
+                {/* Badge Rekrutmen */}
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900/90 backdrop-blur-md border border-slate-700/80 text-amber-400 text-xs font-bold uppercase tracking-wider mb-6 shadow-inner transition-all duration-300 hover:border-red-500 hover:bg-slate-900 hover:shadow-lg hover:shadow-red-950/50 hover:scale-105 cursor-pointer group select-none">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse group-hover:bg-red-500 group-hover:scale-125 transition-all duration-300"></span>
+                  <span className="transition-colors duration-300 group-hover:text-white">Portal Karir &amp; Rekrutmen Resmi</span>
+                </div>
 
-            <p className="text-base sm:text-lg text-slate-300 mb-10 leading-relaxed font-normal max-w-2xl">
-              PT Lisa Concrete Indonesia (member of DUSASPUN Group) mengundang talenta teknik sipil, manufaktur beton pracetak, QC, dan profesional muda berintegritas tinggi untuk berkarya dan berinovasi dalam membangun infrastruktur Indonesia.
-            </p>
+                {/* Headline: Berubah Merah saat Dilewati Kursor */}
+                <h1 className="text-4xl sm:text-6xl font-black tracking-tight leading-tight mb-6 drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)] text-white select-none">
+                  <span className="inline-block transition-all duration-300 hover:text-red-500 hover:scale-[1.02] origin-left cursor-pointer">
+                    BANGUN KARIR ANDA
+                  </span> <br />
+                  <span className="inline-block transition-all duration-300 hover:text-red-500 hover:scale-[1.02] origin-left cursor-pointer">
+                    BERSAMA LISA CONCRETE
+                  </span>
+                </h1>
 
-            {/* Quick Links & CTA */}
-            <div className="flex flex-wrap items-center gap-4">
-              <a 
-                href="#karir" 
-                onClick={() => handleJumpSection('karir', 'karir')}
-                className="bg-brand hover:bg-brand-dark text-white px-7 py-3.5 rounded-xl font-bold text-sm transition-all shadow-xl shadow-brand/30 flex items-center gap-2 whitespace-nowrap"
-              >
-                <span>Lihat Lowongan Kerja ({jobs.length} Posisi)</span>
-                <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                </svg>
-              </a>
-              <button 
-                onClick={() => handleOpenTracking()}
-                className="bg-slate-800/90 hover:bg-slate-800 text-slate-200 border border-slate-700 hover:border-brand px-6 py-3.5 rounded-xl font-bold text-sm transition-all flex items-center gap-2 whitespace-nowrap cursor-pointer"
-              >
-                <span>🔍 Lacak Status Lamaran</span>
-              </button>
-              <a 
-                href="https://www.lisaconcrete.com" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="text-xs text-amber-300 hover:text-white transition-colors flex items-center gap-1.5 font-bold px-3 py-2"
-              >
-                <span>🌐 Kunjungi Web Utama: www.lisaconcrete.com</span>
-                <span>&rarr;</span>
-              </a>
+                {/* Deskripsi dengan Interactive Keyword Hover */}
+                <p className="text-base sm:text-lg text-white/95 font-medium mb-10 leading-relaxed max-w-2xl drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] transition-colors duration-300">
+                  <span className="transition-all duration-300 hover:text-red-400 hover:underline decoration-red-500/50 underline-offset-4 cursor-pointer">
+                    PT Lisa Concrete Indonesia (member of DUSASPUN Group)
+                  </span>{' '}
+                  mengundang talenta{' '}
+                  <span className="transition-colors duration-300 hover:text-red-400 font-semibold cursor-pointer">teknik sipil</span>,{' '}
+                  <span className="transition-colors duration-300 hover:text-red-400 font-semibold cursor-pointer">manufaktur beton pracetak</span>,{' '}
+                  <span className="transition-colors duration-300 hover:text-red-400 font-semibold cursor-pointer">QC</span>, dan profesional muda berintegritas tinggi untuk berkarya dan berinovasi dalam membangun infrastruktur Indonesia.
+                </p>
+
+                {/* Quick Links & CTA Buttons */}
+                <div className="flex flex-wrap items-center gap-4">
+                  <a 
+                    href="#karir" 
+                    onClick={() => handleJumpSection('karir', 'karir')}
+                    className="group bg-brand hover:bg-red-600 active:scale-95 text-white px-7 py-3.5 rounded-xl font-bold text-sm transition-all duration-300 shadow-xl shadow-black/40 hover:shadow-red-600/40 hover:scale-105 flex items-center gap-2 whitespace-nowrap cursor-pointer"
+                  >
+                    <span className="transition-colors duration-300 group-hover:text-white">Lihat Lowongan Kerja ({jobs.length} Posisi)</span>
+                    <svg 
+                      className="w-4 h-4 shrink-0 text-white/80 transition-all duration-300 group-hover:text-white group-hover:translate-x-1.5" 
+                      fill="none" 
+                      stroke="currentColor" 
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                  </a>
+                  <button 
+                    onClick={() => handleOpenTracking()}
+                    className="group bg-slate-900/90 hover:bg-red-950/80 active:scale-95 text-slate-200 hover:text-white border border-slate-600 hover:border-red-500 px-6 py-3.5 rounded-xl font-bold text-sm transition-all duration-300 flex items-center gap-2.5 whitespace-nowrap cursor-pointer shadow-lg shadow-black/30 hover:shadow-red-900/40 hover:scale-105 backdrop-blur-sm"
+                  >
+                    <svg 
+                      className="w-4 h-4 text-slate-400 group-hover:text-white group-hover:scale-110 transition-all duration-300" 
+                      fill="none" 
+                      stroke="currentColor" 
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                    <span className="transition-colors duration-300 group-hover:text-white">Lacak Status Lamaran</span>
+                  </button>
+                  <a 
+                    href="https://www.lisaconcrete.com" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="group text-xs text-amber-300 hover:text-white transition-all duration-300 flex items-center gap-2 font-bold px-3 py-2 drop-shadow-md hover:translate-x-1"
+                  >
+                    <svg 
+                      className="w-3.5 h-3.5 text-amber-400/80 group-hover:text-white transition-all duration-300" 
+                      fill="none" 
+                      stroke="currentColor" 
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                    </svg>
+                    <span className="transition-colors duration-300 group-hover:text-red-400">Kunjungi Web Utama: www.lisaconcrete.com</span>
+                    <span className="transition-transform duration-300 group-hover:translate-x-1 text-amber-300 group-hover:text-white">&rarr;</span>
+                  </a>
+                </div>
+
+                {/* Metrics: Micro-cards dengan Hover Glow & Red Accent */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mt-14 pt-8 border-t border-slate-700/60 drop-shadow-md">
+                  <div className="group p-3 rounded-xl transition-all duration-300 hover:bg-slate-900/80 hover:backdrop-blur-md hover:border hover:border-red-500/50 hover:shadow-xl hover:shadow-red-950/40 hover:-translate-y-1 cursor-pointer">
+                    <p className="text-3xl font-black text-white group-hover:text-red-500 transition-colors duration-300 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+                      1994
+                    </p>
+                    <p className="text-xs text-slate-300 uppercase tracking-wider mt-1 font-semibold drop-shadow-sm group-hover:text-white transition-colors duration-300">
+                      Tahun Berdiri
+                    </p>
+                  </div>
+                  <div className="group p-3 rounded-xl transition-all duration-300 hover:bg-slate-900/80 hover:backdrop-blur-md hover:border hover:border-red-500/50 hover:shadow-xl hover:shadow-red-950/40 hover:-translate-y-1 cursor-pointer">
+                    <p className="text-3xl font-black text-amber-400 group-hover:text-red-400 transition-colors duration-300 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+                      ISO 9001
+                    </p>
+                    <p className="text-xs text-slate-300 uppercase tracking-wider mt-1 font-semibold drop-shadow-sm group-hover:text-white transition-colors duration-300">
+                      Sertifikasi Mutu (2004)
+                    </p>
+                  </div>
+                  <div className="group p-3 rounded-xl transition-all duration-300 hover:bg-slate-900/80 hover:backdrop-blur-md hover:border hover:border-red-500/50 hover:shadow-xl hover:shadow-red-950/40 hover:-translate-y-1 cursor-pointer">
+                    <p className="text-3xl font-black text-white group-hover:text-red-500 transition-colors duration-300 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+                      2 Plant
+                    </p>
+                    <p className="text-xs text-slate-300 uppercase tracking-wider mt-1 font-semibold drop-shadow-sm group-hover:text-white transition-colors duration-300">
+                      Ngoro &amp; Karangasem
+                    </p>
+                  </div>
+                  <div className="group p-3 rounded-xl transition-all duration-300 hover:bg-slate-900/80 hover:backdrop-blur-md hover:border hover:border-red-500/50 hover:shadow-xl hover:shadow-red-950/40 hover:-translate-y-1 cursor-pointer">
+                    <p className="text-3xl font-black text-brand-light group-hover:text-red-400 transition-colors duration-300 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+                      {jobs.length} Posisi
+                    </p>
+                    <p className="text-xs text-slate-300 uppercase tracking-wider mt-1 font-semibold drop-shadow-sm group-hover:text-white transition-colors duration-300">
+                      Loker Terbuka
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            {/* Metrics */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mt-14 pt-8 border-t border-slate-800">
-              <div className="whitespace-nowrap">
-                <p className="text-3xl font-black text-white">1994</p>
-                <p className="text-xs text-slate-400 uppercase tracking-wider mt-1">Tahun Berdiri</p>
-              </div>
-              <div className="whitespace-nowrap">
-                <p className="text-3xl font-black text-amber-400">ISO 9001</p>
-                <p className="text-xs text-slate-400 uppercase tracking-wider mt-1">Sertifikasi Mutu (2004)</p>
-              </div>
-              <div className="whitespace-nowrap">
-                <p className="text-3xl font-black text-white">2 Plant</p>
-                <p className="text-xs text-slate-400 uppercase tracking-wider mt-1">Ngoro &amp; Karangasem</p>
-              </div>
-              <div className="whitespace-nowrap">
-                <p className="text-3xl font-black text-brand-light">{jobs.length} Posisi</p>
-                <p className="text-xs text-slate-400 uppercase tracking-wider mt-1">Loker Terbuka</p>
+            {/* Slide Indicator Bar & Live Project Caption */}
+            <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+              <div className="group flex flex-wrap items-center justify-between gap-4 py-3 px-4 rounded-xl bg-slate-900/70 hover:bg-slate-900/90 backdrop-blur-md border border-slate-800/80 hover:border-red-500/50 transition-all duration-300 text-xs shadow-lg hover:shadow-red-950/30">
+                <div className="flex items-center gap-2.5 overflow-hidden">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75 group-hover:bg-red-500 transition-colors duration-300"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500 group-hover:bg-red-500 transition-colors duration-300"></span>
+                  </span>
+                  <span className="font-semibold text-slate-400 group-hover:text-slate-200 transition-colors duration-300 shrink-0">
+                    Showcase Proyek &amp; Fasilitas:
+                  </span>
+                  <span className="text-amber-300 font-bold truncate transition-all duration-300 hover:text-red-400 cursor-pointer">
+                    {HERO_SLIDES[heroSlide]?.title}
+                  </span>
+                  <span className="text-slate-500 hidden md:inline">&mdash;</span>
+                  <span className="text-slate-400 hidden md:inline truncate group-hover:text-slate-300 transition-colors duration-300">
+                    {HERO_SLIDES[heroSlide]?.subtitle}
+                  </span>
+                </div>
+
+                {/* Progress Indicators */}
+                <div className="flex items-center gap-2 shrink-0">
+                  {HERO_SLIDES.map((slide, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setHeroSlide(idx)}
+                      aria-label={`Slide ${idx + 1}: ${slide.title}`}
+                      className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
+                        idx === heroSlide 
+                          ? 'w-8 bg-gradient-to-r from-red-500 to-amber-500 shadow-sm shadow-red-500/50' 
+                          : 'w-2 bg-slate-700 hover:bg-red-500 hover:scale-125 hover:w-4'
+                      }`}
+                      title={slide.title}
+                    />
+                  ))}
+                  <span className="ml-1.5 font-mono text-[11px] text-slate-400 group-hover:text-white font-medium transition-colors duration-300">
+                    {String(heroSlide + 1).padStart(2, '0')}/{String(HERO_SLIDES.length).padStart(2, '0')}
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
+          </section>
 
       {/* TENTANG KAMI & NILAI L.I.S.A */}
       <section id="tentang" className="py-24 bg-white w-full max-w-full overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-20">
             <div className="lg:col-span-6 space-y-6">
-              <span className="text-brand font-bold text-xs uppercase tracking-widest bg-red-50 px-3.5 py-1.5 rounded-full">
+              <span className="inline-block text-brand hover:text-white font-bold text-xs uppercase tracking-widest bg-red-50 hover:bg-red-600 px-3.5 py-1.5 rounded-full transition-all duration-300 cursor-pointer shadow-xs hover:scale-105">
                 Profil Perusahaan
               </span>
-              <h2 className="text-3xl sm:text-4xl font-black text-slate-900 leading-tight">
+              <h2 className="text-3xl sm:text-4xl font-black text-slate-900 hover:text-red-600 leading-tight transition-colors duration-300 cursor-pointer">
                 Sejarah Dedikasi PT Lisa Concrete Indonesia
               </h2>
               <div className="space-y-4 text-slate-600 text-sm leading-relaxed">
-                <p>
-                  <strong>PT Lisa Concrete Indonesia</strong> didirikan pada tahun <strong>1994</strong> dan berkembang pesat sebagai salah satu produsen beton pracetak (precast concrete) terkemuka di Indonesia di bawah naungan <strong>PT. Duta Sarana Perkasa (DUSASPUN Group)</strong>.
+                <p className="transition-colors duration-300 hover:text-slate-900">
+                  <strong className="hover:text-red-600 transition-colors cursor-pointer">PT Lisa Concrete Indonesia</strong> didirikan pada tahun <strong className="hover:text-red-600 transition-colors cursor-pointer">1994</strong> dan berkembang pesat sebagai salah satu produsen beton pracetak (precast concrete) terkemuka di Indonesia di bawah naungan <strong className="hover:text-red-600 transition-colors cursor-pointer">PT. Duta Sarana Perkasa (DUSASPUN Group)</strong>.
                 </p>
-                <p>
-                  Perjalanan diawali dengan dedikasi tinggi memproduksi pipa beton bertulang dan elemen pracetak bermutu tinggi untuk memenuhi kebutuhan berbagai proyek infrastruktur strategis di Jawa Timur dan penjuru Indonesia. Seiring pesatnya kepercayaan publik serta mitra BUMN maupun swasta, perusahaan terus berekspansi dengan fasilitas pabrik modern di <strong>Ngoro (Mojokerto, Jawa Timur)</strong> dan fasilitas produksi di <strong>Karangasem (Bali)</strong>.
+                <p className="transition-colors duration-300 hover:text-slate-900">
+                  Perjalanan diawali dengan dedikasi tinggi memproduksi pipa beton bertulang dan elemen pracetak bermutu tinggi untuk memenuhi kebutuhan berbagai proyek infrastruktur strategis di Jawa Timur dan penjuru Indonesia. Seiring pesatnya kepercayaan publik serta mitra BUMN maupun swasta, perusahaan terus berekspansi dengan fasilitas pabrik modern di <strong className="hover:text-red-600 transition-colors cursor-pointer">Ngoro (Mojokerto, Jawa Timur)</strong> dan fasilitas produksi di <strong className="hover:text-red-600 transition-colors cursor-pointer">Karangasem (Bali)</strong>.
                 </p>
-                <p>
-                  Sebagai pilar utama dari <strong>DUSASPUN Group</strong>, PT Lisa Concrete Indonesia berkomitmen menghadirkan solusi rekayasa beton pracetak berstandar mutu tertinggi ISO 9001:2015 dengan kapasitas produksi andal dan pengiriman tepat waktu untuk memajukan pembangunan nasional.
+                <p className="transition-colors duration-300 hover:text-slate-900">
+                  Sebagai pilar utama dari <strong className="hover:text-red-600 transition-colors cursor-pointer">DUSASPUN Group</strong>, PT Lisa Concrete Indonesia berkomitmen menghadirkan solusi rekayasa beton pracetak berstandar mutu tertinggi ISO 9001:2015 dengan kapasitas produksi andal dan pengiriman tepat waktu untuk memajukan pembangunan nasional.
                 </p>
               </div>
             </div>
 
             <div className="lg:col-span-6">
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-tr from-brand to-amber-500 rounded-3xl transform rotate-2 scale-105 opacity-20 blur-md"></div>
-                <div className="relative bg-slate-900 text-white p-8 rounded-3xl shadow-2xl border border-slate-800">
-                  <h3 className="text-xl font-black text-white mb-6 flex items-center gap-2">
-                    <span className="w-3 h-3 rounded-full bg-brand"></span>
+              <div className="relative group">
+                <div className="absolute inset-0 bg-gradient-to-tr from-brand to-amber-500 rounded-3xl transform rotate-2 scale-105 opacity-20 group-hover:opacity-30 blur-md transition-opacity duration-300"></div>
+                <div className="relative bg-slate-900 text-white p-8 rounded-3xl shadow-2xl border border-slate-800 hover:border-red-500/60 hover:shadow-red-950/40 transition-all duration-300">
+                  <h3 className="text-xl font-black text-white hover:text-red-400 mb-6 flex items-center gap-2.5 transition-colors duration-300 cursor-pointer">
+                    <span className="w-3 h-3 rounded-full bg-brand group-hover:bg-red-500 group-hover:scale-125 transition-all duration-300"></span>
                     Visi &amp; Nilai Inti: "L . I . S . A"
                   </h3>
-                  <div className="space-y-5">
-                    <div className="flex gap-4">
-                      <div className="w-10 h-10 rounded-xl bg-brand text-white font-black flex items-center justify-center shrink-0 text-lg">
+                  <div className="space-y-4">
+                    <div className="flex gap-4 p-3 -mx-3 rounded-2xl transition-all duration-300 hover:bg-slate-800/80 hover:border hover:border-red-500/40 hover:scale-[1.02] cursor-pointer group/item">
+                      <div className="w-10 h-10 rounded-xl bg-brand group-hover/item:bg-red-600 group-hover/item:scale-110 text-white font-black flex items-center justify-center shrink-0 text-lg transition-all duration-300 shadow-md">
                         L
                       </div>
                       <div>
-                        <h4 className="font-bold text-white text-sm">Lift the livelihood of communities &amp; care for climate</h4>
-                        <p className="text-xs text-slate-400 mt-0.5">Meningkatkan taraf hidup komunitas sekitar dan berdedikasi menjaga kelestarian lingkungan serta iklim.</p>
+                        <h4 className="font-bold text-white group-hover/item:text-red-400 text-sm transition-colors duration-300">Lift the livelihood of communities &amp; care for climate</h4>
+                        <p className="text-xs text-slate-400 group-hover/item:text-slate-300 mt-0.5 transition-colors duration-300">Meningkatkan taraf hidup komunitas sekitar dan berdedikasi menjaga kelestarian lingkungan serta iklim.</p>
                       </div>
                     </div>
 
-                    <div className="flex gap-4">
-                      <div className="w-10 h-10 rounded-xl bg-brand text-white font-black flex items-center justify-center shrink-0 text-lg">
+                    <div className="flex gap-4 p-3 -mx-3 rounded-2xl transition-all duration-300 hover:bg-slate-800/80 hover:border hover:border-red-500/40 hover:scale-[1.02] cursor-pointer group/item">
+                      <div className="w-10 h-10 rounded-xl bg-brand group-hover/item:bg-red-600 group-hover/item:scale-110 text-white font-black flex items-center justify-center shrink-0 text-lg transition-all duration-300 shadow-md">
                         I
                       </div>
                       <div>
-                        <h4 className="font-bold text-white text-sm">Inspire positive change for country &amp; children</h4>
-                        <p className="text-xs text-slate-400 mt-0.5">Menginspirasi transformasi positif bagi kemajuan bangsa Indonesia dan generasi masa depan.</p>
+                        <h4 className="font-bold text-white group-hover/item:text-red-400 text-sm transition-colors duration-300">Inspire positive change for country &amp; children</h4>
+                        <p className="text-xs text-slate-400 group-hover/item:text-slate-300 mt-0.5 transition-colors duration-300">Menginspirasi transformasi positif bagi kemajuan bangsa Indonesia dan generasi masa depan.</p>
                       </div>
                     </div>
 
-                    <div className="flex gap-4">
-                      <div className="w-10 h-10 rounded-xl bg-brand text-white font-black flex items-center justify-center shrink-0 text-lg">
+                    <div className="flex gap-4 p-3 -mx-3 rounded-2xl transition-all duration-300 hover:bg-slate-800/80 hover:border hover:border-red-500/40 hover:scale-[1.02] cursor-pointer group/item">
+                      <div className="w-10 h-10 rounded-xl bg-brand group-hover/item:bg-red-600 group-hover/item:scale-110 text-white font-black flex items-center justify-center shrink-0 text-lg transition-all duration-300 shadow-md">
                         S
                       </div>
                       <div>
-                        <h4 className="font-bold text-white text-sm">Strengthen partnerships with all stakeholders</h4>
-                        <p className="text-xs text-slate-400 mt-0.5">Memperkokoh relasi kemitraan yang transparan, profesional, dan saling menguntungkan dengan seluruh pemangku kepentingan.</p>
+                        <h4 className="font-bold text-white group-hover/item:text-red-400 text-sm transition-colors duration-300">Strengthen partnerships with all stakeholders</h4>
+                        <p className="text-xs text-slate-400 group-hover/item:text-slate-300 mt-0.5 transition-colors duration-300">Memperkokoh relasi kemitraan yang transparan, profesional, dan saling menguntungkan dengan seluruh pemangku kepentingan.</p>
                       </div>
                     </div>
 
-                    <div className="flex gap-4">
-                      <div className="w-10 h-10 rounded-xl bg-brand text-white font-black flex items-center justify-center shrink-0 text-lg">
+                    <div className="flex gap-4 p-3 -mx-3 rounded-2xl transition-all duration-300 hover:bg-slate-800/80 hover:border hover:border-red-500/40 hover:scale-[1.02] cursor-pointer group/item">
+                      <div className="w-10 h-10 rounded-xl bg-brand group-hover/item:bg-red-600 group-hover/item:scale-110 text-white font-black flex items-center justify-center shrink-0 text-lg transition-all duration-300 shadow-md">
                         A
                       </div>
                       <div>
-                        <h4 className="font-bold text-white text-sm">Achieve consistent growth &amp; sustainability</h4>
-                        <p className="text-xs text-slate-400 mt-0.5">Mencapai pertumbuhan bisnis yang berkesinambungan dengan landasan inovasi teknologi beton mutakhir.</p>
+                        <h4 className="font-bold text-white group-hover/item:text-red-400 text-sm transition-colors duration-300">Achieve consistent growth &amp; sustainability</h4>
+                        <p className="text-xs text-slate-400 group-hover/item:text-slate-300 mt-0.5 transition-colors duration-300">Mencapai pertumbuhan bisnis yang berkesinambungan dengan landasan inovasi teknologi beton mutakhir.</p>
                       </div>
                     </div>
                   </div>
@@ -2610,10 +2780,10 @@ Jenjang karir profesional di DUSASPUN Group"
       <section className="py-20 bg-slate-100 border-y border-slate-200 w-full max-w-full overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-14">
-            <span className="text-brand font-bold text-xs uppercase tracking-widest bg-red-50 px-3.5 py-1.5 rounded-full border border-red-100">
+            <span className="inline-block text-brand hover:text-white font-bold text-xs uppercase tracking-widest bg-red-50 hover:bg-red-600 px-3.5 py-1.5 rounded-full border border-red-100 transition-all duration-300 cursor-pointer hover:scale-105">
               Transparan &amp; Terstruktur
             </span>
-            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 mt-3 mb-3">
+            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 hover:text-red-600 mt-3 mb-3 transition-colors duration-300 cursor-pointer">
               Tahapan Seleksi Rekrutmen
             </h2>
             <p className="text-slate-600 text-sm">
@@ -2632,19 +2802,19 @@ Jenjang karir profesional di DUSASPUN Group"
             ].map((st, idx) => (
               <div 
                 key={idx} 
-                className="bg-white rounded-2xl p-5 border border-slate-200/90 hover:border-brand/50 hover:shadow-xl transition-all flex flex-col justify-between relative group"
+                className="bg-white rounded-2xl p-5 border border-slate-200/90 hover:border-red-500 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between relative group cursor-pointer"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <span className="text-2xl">{st.icon}</span>
-                    <span className="text-xs font-black text-brand bg-red-50 px-2 py-0.5 rounded-md font-mono">
+                    <span className="text-2xl transition-transform duration-300 group-hover:scale-125">{st.icon}</span>
+                    <span className="text-xs font-black text-brand group-hover:bg-red-600 group-hover:text-white bg-red-50 px-2 py-0.5 rounded-md font-mono transition-all duration-300">
                       {st.no}
                     </span>
                   </div>
-                  <h3 className="font-bold text-slate-900 text-xs mb-1.5 group-hover:text-brand transition-colors leading-snug">
+                  <h3 className="font-bold text-slate-900 text-xs mb-1.5 group-hover:text-red-600 transition-colors leading-snug">
                     {st.title}
                   </h3>
-                  <p className="text-[11px] text-slate-500 leading-relaxed">
+                  <p className="text-[11px] text-slate-500 group-hover:text-slate-700 leading-relaxed transition-colors">
                     {st.desc}
                   </p>
                 </div>
@@ -2653,12 +2823,12 @@ Jenjang karir profesional di DUSASPUN Group"
           </div>
 
           {/* Banner Menuju Web Utama www.lisaconcrete.com */}
-          <div className="mt-14 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white rounded-3xl p-8 sm:p-10 border border-slate-700/60 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="mt-14 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white rounded-3xl p-8 sm:p-10 border border-slate-700/60 hover:border-red-500/50 shadow-xl transition-all duration-300 flex flex-col md:flex-row items-center justify-between gap-6 group">
             <div className="max-w-xl text-center md:text-left">
               <span className="text-amber-400 text-xs font-bold uppercase tracking-wider block mb-1">
-                🌐 Website Resmi Perusahaan
+                Website Resmi Perusahaan
               </span>
-              <h3 className="text-xl sm:text-2xl font-black text-white">
+              <h3 className="text-xl sm:text-2xl font-black text-white group-hover:text-red-400 transition-colors duration-300 cursor-pointer">
                 Mencari Katalog Produk &amp; Portofolio Proyek?
               </h3>
               <p className="text-slate-300 text-xs mt-2 leading-relaxed">
@@ -2669,10 +2839,10 @@ Jenjang karir profesional di DUSASPUN Group"
               href="https://www.lisaconcrete.com" 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="bg-brand hover:bg-brand-dark text-white px-6 py-3.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all shadow-lg shadow-brand/30 flex items-center gap-2 whitespace-nowrap shrink-0"
+              className="bg-brand hover:bg-red-600 active:scale-95 text-white px-6 py-3.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all duration-300 shadow-lg shadow-brand/30 hover:shadow-red-600/40 hover:scale-105 flex items-center gap-2 whitespace-nowrap shrink-0 group/btn"
             >
               <span>Kunjungi www.lisaconcrete.com</span>
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 transition-transform duration-300 group-hover/btn:translate-x-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
               </svg>
             </a>
@@ -2685,10 +2855,10 @@ Jenjang karir profesional di DUSASPUN Group"
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-12">
             <div>
-              <span className="inline-block px-3 py-1 rounded-full bg-brand/20 border border-brand/40 text-brand-light text-xs font-bold uppercase tracking-wider mb-3">
+              <span className="inline-block px-3 py-1 rounded-full bg-brand/20 hover:bg-red-600 hover:text-white border border-brand/40 text-brand-light text-xs font-bold uppercase tracking-wider mb-3 transition-all duration-300 cursor-pointer hover:scale-105">
                 Rekrutmen Resmi PT Lisa Concrete
               </span>
-              <h2 className="text-3xl sm:text-4xl font-black text-white">
+              <h2 className="text-3xl sm:text-4xl font-black text-white hover:text-red-400 transition-colors duration-300 cursor-pointer">
                 Tumbuh &amp; Membangun Bangsa Bersama Kami
               </h2>
               <p className="text-slate-400 text-sm mt-2 max-w-xl">
@@ -2700,19 +2870,19 @@ Jenjang karir profesional di DUSASPUN Group"
             <div>
               <button 
                 onClick={() => handleOpenTracking()}
-                className="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-5 py-3 rounded-xl text-xs font-bold tracking-wider uppercase transition-all flex items-center gap-2 whitespace-nowrap cursor-pointer"
+                className="group bg-slate-800 hover:bg-slate-700 hover:border-red-500 hover:text-white text-slate-200 border border-slate-700 px-5 py-3 rounded-xl text-xs font-bold tracking-wider uppercase transition-all duration-300 flex items-center gap-2 whitespace-nowrap cursor-pointer hover:scale-105 shadow-md hover:shadow-red-950/40"
               >
-                <svg className="w-4 h-4 text-brand-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 text-brand-light group-hover:text-white group-hover:scale-110 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                 </svg>
-                Lacak Lamaran yang Pernah Dikirim
+                <span>Lacak Lamaran yang Pernah Dikirim</span>
               </button>
             </div>
           </div>
 
           {/* Job Search & Filter Toolbar */}
-          <div className="bg-slate-800/90 border border-slate-700 p-4 rounded-2xl mb-8 flex flex-col md:flex-row gap-3">
-            <div className="flex-1 flex items-center px-4 py-2 bg-slate-900/90 rounded-xl border border-slate-700">
+          <div className="bg-slate-800/90 border border-slate-700 hover:border-red-500/50 p-4 rounded-2xl mb-8 flex flex-col md:flex-row gap-3 transition-all duration-300">
+            <div className="flex-1 flex items-center px-4 py-2 bg-slate-900/90 rounded-xl border border-slate-700 hover:border-red-500/50 transition-colors">
               <svg className="w-4 h-4 text-slate-400 mr-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
@@ -2725,7 +2895,7 @@ Jenjang karir profesional di DUSASPUN Group"
               />
             </div>
 
-            <div className="w-full md:w-56 flex items-center px-4 py-2 bg-slate-900/90 rounded-xl border border-slate-700">
+            <div className="w-full md:w-56 flex items-center px-4 py-2 bg-slate-900/90 rounded-xl border border-slate-700 hover:border-red-500/50 transition-colors">
               <select 
                 value={selectedLocation} 
                 onChange={(e) => setSelectedLocation(e.target.value)}
@@ -2738,7 +2908,7 @@ Jenjang karir profesional di DUSASPUN Group"
               </select>
             </div>
 
-            <div className="w-full md:w-56 flex items-center px-4 py-2 bg-slate-900/90 rounded-xl border border-slate-700">
+            <div className="w-full md:w-56 flex items-center px-4 py-2 bg-slate-900/90 rounded-xl border border-slate-700 hover:border-red-500/50 transition-colors">
               <select 
                 value={selectedDept} 
                 onChange={(e) => setSelectedDept(e.target.value)}
@@ -2771,7 +2941,7 @@ Jenjang karir profesional di DUSASPUN Group"
                 </p>
                 <button
                   onClick={fetchJobs}
-                  className="px-4 py-2 bg-brand hover:bg-brand-dark text-white text-xs font-bold rounded-xl cursor-pointer shadow-md transition-colors"
+                  className="px-4 py-2 bg-brand hover:bg-red-600 text-white text-xs font-bold rounded-xl cursor-pointer shadow-md transition-all duration-300 hover:scale-105"
                 >
                   Coba Hubungkan Ulang 🔄
                 </button>
@@ -2786,7 +2956,7 @@ Jenjang karir profesional di DUSASPUN Group"
                 {jobs.length > 0 && (
                   <button 
                     onClick={() => { setSearchKeyword(''); setSelectedLocation(''); setSelectedDept(''); }}
-                    className="px-4 py-2 bg-brand text-white text-xs font-bold rounded-xl cursor-pointer"
+                    className="px-4 py-2 bg-brand hover:bg-red-600 text-white text-xs font-bold rounded-xl cursor-pointer transition-all duration-300 hover:scale-105"
                   >
                     Reset Filter
                   </button>
@@ -2796,37 +2966,37 @@ Jenjang karir profesional di DUSASPUN Group"
               filteredJobs.map((job) => (
                 <div 
                   key={job.id} 
-                  className="bg-slate-800/80 border border-slate-700/80 hover:border-brand/60 rounded-2xl p-6 transition-all flex flex-col md:flex-row md:items-center justify-between gap-6 hover:bg-slate-800"
+                  className="bg-slate-800/80 border border-slate-700/80 hover:border-red-500 hover:bg-slate-800 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-red-950/40 rounded-2xl p-6 transition-all duration-300 flex flex-col md:flex-row md:items-center justify-between gap-6 group cursor-pointer"
                 >
                   <div className="flex-1">
                     <div className="flex flex-wrap items-center gap-2 mb-2">
-                      <span className="px-3 py-1 bg-brand/20 text-brand-light text-[11px] font-bold rounded-lg border border-brand/30">
+                      <span className="px-3 py-1 bg-brand/20 group-hover:bg-red-600 group-hover:text-white text-brand-light text-[11px] font-bold rounded-lg border border-brand/30 group-hover:border-red-500 transition-all duration-300">
                         {job.department}
                       </span>
-                      <span className="text-[11px] text-slate-400">
+                      <span className="text-[11px] text-slate-400 group-hover:text-slate-300 transition-colors">
                         Batas Lamaran: <strong>{job.deadline}</strong>
                       </span>
                     </div>
 
-                    <h3 className="text-xl font-bold text-white mb-2">
+                    <h3 className="text-xl font-bold text-white group-hover:text-red-400 mb-2 transition-colors duration-300">
                       {job.title}
                     </h3>
 
-                    <p className="text-xs text-slate-300 line-clamp-2 mb-4 leading-relaxed">
+                    <p className="text-xs text-slate-300 group-hover:text-slate-200 line-clamp-2 mb-4 leading-relaxed transition-colors">
                       {job.description}
                     </p>
 
-                    <div className="flex flex-wrap gap-4 text-xs text-slate-400">
-                      <span className="flex items-center gap-1.5">
+                    <div className="flex flex-wrap gap-4 text-xs text-slate-400 group-hover:text-slate-300 transition-colors">
+                      <span className="flex items-center gap-1.5 hover:text-white transition-colors">
                         📍 {job.location}
                       </span>
-                      <span className="flex items-center gap-1.5">
+                      <span className="flex items-center gap-1.5 hover:text-white transition-colors">
                         💼 {job.type}
                       </span>
-                      <span className="flex items-center gap-1.5">
+                      <span className="flex items-center gap-1.5 hover:text-white transition-colors">
                         🎓 {job.education}
                       </span>
-                      <span className="flex items-center gap-1.5">
+                      <span className="flex items-center gap-1.5 hover:text-white transition-colors">
                         ⏳ {job.experience}
                       </span>
                     </div>
@@ -2835,13 +3005,13 @@ Jenjang karir profesional di DUSASPUN Group"
                   <div className="flex flex-col sm:flex-row md:flex-col gap-2 shrink-0">
                     <button 
                       onClick={() => setSelectedJob(job)}
-                      className="px-5 py-2.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-bold rounded-xl transition-all text-center"
+                      className="px-5 py-2.5 bg-slate-700 hover:bg-slate-600 hover:text-white hover:scale-105 text-slate-200 text-xs font-bold rounded-xl transition-all duration-300 text-center cursor-pointer shadow-xs"
                     >
                       Detail Kualifikasi
                     </button>
                     <button 
                       onClick={() => setApplyModalJob(job)}
-                      className="px-6 py-2.5 bg-brand hover:bg-brand-dark text-white text-xs font-bold rounded-xl transition-all shadow-md shadow-brand/20 text-center"
+                      className="px-6 py-2.5 bg-brand hover:bg-red-600 hover:scale-105 active:scale-95 text-white text-xs font-bold rounded-xl transition-all duration-300 shadow-md shadow-brand/20 hover:shadow-red-600/40 text-center cursor-pointer"
                     >
                       Lamar Sekarang
                     </button>
@@ -2860,12 +3030,14 @@ Jenjang karir profesional di DUSASPUN Group"
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-slate-800">
             <div className="md:col-span-2 space-y-4">
-              <div className="flex items-center gap-3">
-                <div className="w-9 h-9 bg-brand rounded-lg flex items-center justify-center text-white font-black text-lg">
+              <div className="flex items-center gap-3 group cursor-pointer">
+                <div className="w-9 h-9 bg-brand group-hover:bg-red-600 group-hover:scale-110 rounded-lg flex items-center justify-center text-white font-black text-lg transition-all duration-300 shadow-md">
                   L
                 </div>
                 <div>
-                  <h3 className="text-white font-black text-base tracking-wider">PT LISA CONCRETE INDONESIA</h3>
+                  <h3 className="text-white group-hover:text-red-400 font-black text-base tracking-wider transition-colors duration-300">
+                    PT LISA CONCRETE INDONESIA
+                  </h3>
                   <p className="text-[10px] text-amber-400 font-bold uppercase tracking-widest">
                     A Member of DUSASPUN Group
                   </p>
@@ -2882,13 +3054,13 @@ Jenjang karir profesional di DUSASPUN Group"
             <div>
               <h4 className="text-white font-bold mb-4 uppercase text-xs tracking-wider">Navigasi Portal</h4>
               <ul className="space-y-2 text-xs">
-                <li><a href="#tentang" className="hover:text-white transition-colors">Tentang Perusahaan</a></li>
-                <li><a href="#karir" className="hover:text-white transition-colors">Portal Karir &amp; Lowongan</a></li>
-                <li><button onClick={() => handleOpenTracking()} className="hover:text-white transition-colors text-left cursor-pointer">Lacak Status Pelamar</button></li>
+                <li><a href="#tentang" className="hover:text-red-400 hover:translate-x-1.5 transition-all duration-200 inline-block">Tentang Perusahaan</a></li>
+                <li><a href="#karir" className="hover:text-red-400 hover:translate-x-1.5 transition-all duration-200 inline-block">Portal Karir &amp; Lowongan</a></li>
+                <li><button onClick={() => handleOpenTracking()} className="hover:text-red-400 hover:translate-x-1.5 transition-all duration-200 text-left cursor-pointer inline-block">Lacak Status Pelamar</button></li>
                 <li>
                   <button 
                     onClick={() => { setActiveTab('admin'); window.location.hash = '#admin'; window.scrollTo({ top: 0, behavior: 'smooth' }); }} 
-                    className="hover:text-amber-300 text-amber-400 font-bold transition-colors text-left cursor-pointer flex items-center gap-1"
+                    className="hover:text-red-400 text-amber-400 font-bold transition-all duration-200 text-left cursor-pointer flex items-center gap-1 hover:translate-x-1.5"
                   >
                     <span>🔐 Portal Masuk HRD / Admin</span>
                   </button>
@@ -2898,9 +3070,9 @@ Jenjang karir profesional di DUSASPUN Group"
                     href="https://www.lisaconcrete.com" 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className="hover:text-amber-300 text-amber-400 transition-colors flex items-center gap-1 font-semibold"
+                    className="hover:text-red-400 text-amber-400 transition-all duration-200 flex items-center gap-1 font-semibold hover:translate-x-1.5"
                   >
-                    <span>🌐 Website Utama: www.lisaconcrete.com</span>
+                    <span>Website Utama: www.lisaconcrete.com</span>
                     <span>&rarr;</span>
                   </a>
                 </li>
@@ -2910,16 +3082,16 @@ Jenjang karir profesional di DUSASPUN Group"
             <div>
               <h4 className="text-white font-bold mb-4 uppercase text-xs tracking-wider">Kontak &amp; Personalia</h4>
               <ul className="space-y-2 text-xs text-slate-400">
-                <li>Email Rekrutmen: <a href="mailto:admpersonnel@lisaconcrete.com" className="text-slate-200 hover:text-white font-semibold">admpersonnel@lisaconcrete.com</a></li>
-                <li>Web Utama: <a href="https://www.lisaconcrete.com" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-white">lisaconcrete.com</a></li>
-                <li>Situs Induk: dusaspun.com</li>
+                <li>Email Rekrutmen: <a href="mailto:admpersonnel@lisaconcrete.com" className="text-slate-200 hover:text-red-400 font-semibold transition-colors duration-200">admpersonnel@lisaconcrete.com</a></li>
+                <li>Web Utama: <a href="https://www.lisaconcrete.com" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-red-400 transition-colors duration-200">lisaconcrete.com</a></li>
+                <li>Situs Induk: <span className="hover:text-red-400 transition-colors cursor-pointer">dusaspun.com</span></li>
               </ul>
             </div>
           </div>
 
           <div className="pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-[11px] text-slate-500">
             <p>© {new Date().getFullYear()} PT LISA CONCRETE INDONESIA. Seluruh Hak Cipta Dilindungi Undang-Undang.</p>
-            <p>Your Innovative &amp; Trusted Partner</p>
+            <p className="hover:text-slate-300 transition-colors">Your Innovative &amp; Trusted Partner</p>
           </div>
         </div>
       </footer>
