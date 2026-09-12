@@ -41,6 +41,118 @@ const HERO_SLIDES = [
   },
 ]
 
+// TAHAPAN SELEKSI RESMI REKRUTMEN PT LISA CONCRETE INDONESIA (Tanpa MCU)
+const RECRUITMENT_STAGES = [
+  {
+    no: '01',
+    stage: 'Tahap 01',
+    shortLabel: 'Berkas',
+    category: 'Administrasi',
+    categoryColor: 'text-sky-700 bg-sky-50 border-sky-200/80',
+    title: 'Verifikasi Dokumen',
+    desc: 'Pemeriksaan berkas CV, portofolio proyek, dan keaslian dokumen kualifikasi kandidat.',
+    format: 'Seleksi Berkas Online',
+    iconType: 'doc'
+  },
+  {
+    no: '02',
+    stage: 'Tahap 02',
+    shortLabel: 'Wawancara HR',
+    category: 'Kepribadian',
+    categoryColor: 'text-amber-700 bg-amber-50 border-amber-200/80',
+    title: 'Wawancara HR & Budaya',
+    desc: 'Evaluasi integritas, kepribadian, serta keselarasan dengan 4 Nilai Inti L.I.S.A.',
+    format: 'Tatap Muka / Virtual',
+    iconType: 'hr'
+  },
+  {
+    no: '03',
+    stage: 'Tahap 03',
+    shortLabel: 'Uji Teknis',
+    category: 'Kompetensi',
+    categoryColor: 'text-red-700 bg-red-50 border-red-200/80',
+    title: 'Wawancara User Teknis',
+    desc: 'Uji kompetensi teknis rekayasa beton dan studi kasus bersama Division Lead.',
+    format: 'Lead & Engineering Manager',
+    iconType: 'tech'
+  },
+  {
+    no: '04',
+    stage: 'Tahap 04',
+    shortLabel: 'Psikotes',
+    category: 'Asesmen',
+    categoryColor: 'text-purple-700 bg-purple-50 border-purple-200/80',
+    title: 'Psikotes Terstandar',
+    desc: 'Pengujian penalaran logika, analitikal numerik, dan daya tahan stres profesional.',
+    format: 'Asesmen Psikologi',
+    iconType: 'psy'
+  },
+  {
+    no: '05',
+    stage: 'Tahap 05',
+    shortLabel: 'Offering',
+    category: 'Penawaran',
+    categoryColor: 'text-emerald-700 bg-emerald-50 border-emerald-200/80',
+    title: 'Offering Letter Resmi',
+    desc: 'Pemberian penawaran resmi paket kompensasi, benefit kesehatan, dan hak kerja.',
+    format: 'Dokumen Resmi HRD',
+    iconType: 'offer'
+  },
+  {
+    no: '06',
+    stage: 'Tahap 06',
+    shortLabel: 'Onboarding',
+    category: 'Penyambutan',
+    categoryColor: 'text-rose-700 bg-rose-50 border-rose-200/80',
+    title: 'Hari Pertama & Onboarding',
+    desc: 'Penyambutan resmi karyawan baru, serah terima fasilitas, dan pengenalan sistem kerja.',
+    format: 'Kantor Pusat / Plant',
+    iconType: 'rocket'
+  }
+];
+
+function getStageIcon(type) {
+  switch (type) {
+    case 'doc':
+      return (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
+      );
+    case 'hr':
+      return (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+        </svg>
+      );
+    case 'tech':
+      return (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+        </svg>
+      );
+    case 'psy':
+      return (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+        </svg>
+      );
+    case 'offer':
+      return (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+        </svg>
+      );
+    case 'rocket':
+    default:
+      return (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+        </svg>
+      );
+  }
+}
+
 // BASE API URL (Mendukung localhost & remote backend via env)
 const API_BASE_URL = (typeof window !== 'undefined' && window.__API_URL__) || 
   import.meta.env.VITE_API_BASE_URL || 
@@ -2816,55 +2928,156 @@ Jenjang karir profesional di DUSASPUN Group"
         </div>
       </section>
 
-      {/* TAHAPAN REKRUTMEN RESMI (6 LANGKAH SELEKSI - TANPA MCU) */}
-      <section className="py-14 sm:py-20 bg-slate-100 border-y border-slate-200 w-full max-w-full overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14">
-            <span className="inline-block text-brand hover:text-white font-bold text-xs uppercase tracking-widest bg-red-50 hover:bg-red-600 px-3.5 py-1.5 rounded-full border border-red-100 transition-all duration-300 cursor-pointer hover:scale-105">
-              Transparan &amp; Terstruktur
-            </span>
-            <h2 className="text-2xl sm:text-4xl font-black text-slate-900 hover:text-red-600 mt-3 mb-3 transition-colors duration-300 cursor-pointer">
+      {/* TAHAPAN REKRUTMEN RESMI - ULTRA MODERN CONNECTED ROADMAP (NO EMOJIS, HIGH-END CORPORATE BENTO CARDS) */}
+      <section id="tahapan" className="py-16 sm:py-24 bg-gradient-to-b from-slate-50 via-white to-slate-50 border-y border-slate-200/80 w-full max-w-full overflow-hidden relative">
+        {/* Subtle Architectural Blueprint Dot Matrix */}
+        <div className="absolute inset-0 bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] [background-size:24px_24px] opacity-35 pointer-events-none"></div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          {/* Section Header */}
+          <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-red-50/90 border border-red-200/70 text-brand text-xs font-bold uppercase tracking-widest mb-3.5 shadow-2xs hover:bg-brand hover:text-white transition-all duration-300 cursor-pointer hover:scale-105">
+              <span className="w-2 h-2 rounded-full bg-brand animate-pulse"></span>
+              <span>Roadmap Seleksi Resmi</span>
+            </div>
+            <h2 className="text-2xl sm:text-4xl font-black text-slate-900 hover:text-red-600 tracking-tight transition-colors duration-300 cursor-pointer">
               Tahapan Seleksi Rekrutmen
             </h2>
-            <p className="text-slate-600 text-xs sm:text-sm">
-              Proses seleksi penerimaan karyawan di PT Lisa Concrete Indonesia berlangsung profesional dan transparan melalui 6 tahapan resmi:
+            <p className="text-slate-600 text-xs sm:text-sm mt-2.5 max-w-2xl mx-auto leading-relaxed">
+              Proses seleksi penerimaan talenta PT Lisa Concrete Indonesia berlangsung terstruktur, transparan, dan berbasis kompetensi melalui 6 tahapan resmi tanpa pungutan biaya apapun:
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3 sm:gap-4 relative">
-            {[
-              { no: '01', title: 'Administrasi & Verifikasi Dokumen', desc: 'Pemeriksaan berkas CV, portofolio, dan keaslian dokumen kualifikasi.', icon: '📄' },
-              { no: '02', title: 'Wawancara HR', desc: 'Evaluasi kepribadian, integritas, dan keselarasan dengan budaya L.I.S.A.', icon: '🤝' },
-              { no: '03', title: 'Wawancara User', desc: 'Uji kompetensi teknis bersama Division Lead / Engineering Manager.', icon: '👨‍💼' },
-              { no: '04', title: 'Psikotes', desc: 'Evaluasi psikologis, penalaran logika, dan analisa potensi profesional.', icon: '🧠' },
-              { no: '05', title: 'Offering Letter', desc: 'Pemberian penawaran resmi paket kompensasi, benefit, dan hak kerja.', icon: '✉️' },
-              { no: '06', title: 'Onboarding', desc: 'Penyambutan karyawan baru, pengenalan sistem, dan serah terima tugas.', icon: '🚀' },
-            ].map((st, idx) => (
-              <div 
-                key={idx} 
-                className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 hover:border-red-500 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between relative group cursor-pointer"
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-3 sm:mb-4">
-                    <span className="text-xl sm:text-2xl transition-transform duration-300 group-hover:scale-125">{st.icon}</span>
-                    <span className="text-xs font-black text-brand group-hover:bg-red-600 group-hover:text-white bg-red-50 px-2 py-0.5 rounded-md font-mono transition-all duration-300">
+          {/* DESKTOP VIEW: Connected Flow Track & 6 Modern Bento Cards */}
+          <div className="hidden lg:block">
+            {/* Horizontal Milestone Tracker */}
+            <div className="max-w-6xl mx-auto mb-10 px-6 relative">
+              <div className="relative flex items-center justify-between">
+                {/* Continuous connection track */}
+                <div className="absolute left-8 right-8 top-4 -translate-y-1/2 h-1 bg-slate-200 rounded-full overflow-hidden">
+                  <div className="h-full w-full bg-gradient-to-r from-sky-400 via-amber-400 to-emerald-500 opacity-60"></div>
+                </div>
+
+                {RECRUITMENT_STAGES.map((st, i) => (
+                  <div key={i} className="relative z-10 flex flex-col items-center group/node cursor-pointer">
+                    <div className="w-8 h-8 rounded-full bg-white border-2 border-slate-300 group-hover/node:border-brand group-hover/node:bg-brand group-hover/node:text-white text-slate-700 font-mono text-xs font-black flex items-center justify-center shadow-md transition-all duration-300 group-hover/node:scale-115">
                       {st.no}
+                    </div>
+                    <span className="text-[11px] font-bold text-slate-600 group-hover/node:text-brand mt-2 transition-colors whitespace-nowrap">
+                      {st.shortLabel}
                     </span>
                   </div>
-                  <h3 className="font-bold text-slate-900 text-xs mb-1.5 group-hover:text-red-600 transition-colors leading-snug">
-                    {st.title}
-                  </h3>
-                  <p className="text-[11px] text-slate-500 group-hover:text-slate-700 leading-relaxed transition-colors">
-                    {st.desc}
-                  </p>
+                ))}
+              </div>
+            </div>
+
+            {/* 6 Bento Modern Cards Grid */}
+            <div className="grid grid-cols-6 gap-3.5 xl:gap-4 relative">
+              {RECRUITMENT_STAGES.map((st, idx) => (
+                <div 
+                  key={idx}
+                  className="relative bg-white rounded-2xl border border-slate-200/90 hover:border-red-400 shadow-xs hover:shadow-xl hover:-translate-y-2 transition-all duration-300 p-4 sm:p-5 flex flex-col justify-between overflow-hidden group cursor-pointer"
+                >
+                  {/* Top illuminated gradient micro-accent on hover */}
+                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-brand via-amber-500 to-red-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+                  {/* Faint architectural watermark numeral in corner */}
+                  <span className="absolute -bottom-3 -right-1 font-mono font-black text-6xl text-slate-100 group-hover:text-red-50/70 select-none pointer-events-none transition-colors duration-300">
+                    {st.no}
+                  </span>
+
+                  <div className="relative z-10">
+                    {/* Icon & Stage Badge */}
+                    <div className="flex items-center justify-between gap-2 mb-4">
+                      <div className="w-11 h-11 rounded-xl bg-slate-50 border border-slate-200/80 text-slate-700 flex items-center justify-center shrink-0 group-hover:bg-brand group-hover:text-white group-hover:border-brand group-hover:scale-110 group-hover:shadow-md group-hover:shadow-brand/20 transition-all duration-300">
+                        {getStageIcon(st.iconType)}
+                      </div>
+                      <span className="font-mono text-[10px] font-black text-slate-400 group-hover:text-brand bg-slate-100 group-hover:bg-red-50 border border-slate-200/60 group-hover:border-red-200 px-2 py-0.5 rounded-md transition-all">
+                        {st.stage}
+                      </span>
+                    </div>
+
+                    {/* Category Chip */}
+                    <span className={`inline-block text-[10px] font-bold px-2 py-0.5 rounded-full border mb-2 transition-colors ${st.categoryColor}`}>
+                      {st.category}
+                    </span>
+
+                    {/* Title */}
+                    <h3 className="font-black text-slate-900 text-xs sm:text-sm group-hover:text-red-600 transition-colors leading-snug">
+                      {st.title}
+                    </h3>
+
+                    {/* Description */}
+                    <p className="text-[11px] text-slate-600 group-hover:text-slate-700 leading-relaxed mt-2 transition-colors">
+                      {st.desc}
+                    </p>
+                  </div>
+
+                  {/* Micro Footer */}
+                  <div className="relative z-10 mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-400">
+                    <span className="font-medium text-slate-500 truncate">{st.format}</span>
+                    <span className="font-bold text-slate-300 group-hover:text-brand group-hover:translate-x-1 transition-all shrink-0 ml-1">&rarr;</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* MOBILE & TABLET VIEW: Connected Vertical Timeline Pipeline */}
+          <div className="lg:hidden relative pl-6 sm:pl-8 space-y-4 before:absolute before:left-3 sm:before:left-4 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-brand before:via-amber-400 before:to-emerald-500 before:opacity-50">
+            {RECRUITMENT_STAGES.map((st, idx) => (
+              <div key={idx} className="relative group cursor-pointer">
+                {/* Timeline Node on the Left Track */}
+                <div className="absolute -left-6 sm:-left-8 top-5 -translate-x-1/2 w-6 h-6 rounded-full bg-white border-2 border-brand text-brand font-mono font-black text-[10px] flex items-center justify-center shadow-xs group-hover:scale-125 group-hover:bg-brand group-hover:text-white transition-all duration-300">
+                  {st.no}
+                </div>
+
+                {/* Modern Bento Card on the Right */}
+                <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 shadow-xs hover:shadow-xl hover:border-red-400 transition-all duration-300 overflow-hidden relative">
+                  {/* Top illuminated line on hover */}
+                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-brand via-amber-500 to-red-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+                  {/* Faint watermark number in corner */}
+                  <span className="absolute -bottom-3 -right-1 font-mono font-black text-6xl text-slate-100/70 group-hover:text-red-50/70 select-none pointer-events-none transition-colors duration-300">
+                    {st.no}
+                  </span>
+
+                  <div className="relative z-10 flex items-start gap-3.5">
+                    <div className="w-11 h-11 rounded-xl bg-slate-50 border border-slate-200/80 text-slate-700 flex items-center justify-center shrink-0 group-hover:bg-brand group-hover:text-white group-hover:border-brand group-hover:scale-105 transition-all duration-300 shadow-xs">
+                      {getStageIcon(st.iconType)}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex flex-wrap items-center justify-between gap-1.5 mb-1.5">
+                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${st.categoryColor}`}>
+                          {st.category}
+                        </span>
+                        <span className="font-mono text-[10px] font-bold text-slate-400 group-hover:text-brand bg-slate-50 px-2 py-0.5 rounded">
+                          {st.stage}
+                        </span>
+                      </div>
+                      <h3 className="text-sm font-black text-slate-900 group-hover:text-red-600 transition-colors leading-snug">
+                        {st.title}
+                      </h3>
+                      <p className="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                        {st.desc}
+                      </p>
+                      <div className="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">
+                        <span className="text-slate-500 font-medium">{st.format}</span>
+                        <span className="font-bold text-brand group-hover:translate-x-1 transition-transform">&rarr;</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             ))}
           </div>
 
           {/* Banner Menuju Web Utama www.lisaconcrete.com */}
-          <div className="mt-10 sm:mt-14 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white rounded-2xl sm:rounded-3xl p-6 sm:p-10 border border-slate-700/60 hover:border-red-500/50 shadow-xl transition-all duration-300 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-6 group">
-            <div className="max-w-xl text-center md:text-left">
+          <div className="mt-12 sm:mt-16 relative overflow-hidden bg-slate-900 text-white rounded-2xl sm:rounded-3xl p-6 sm:p-10 border border-slate-800 shadow-2xl transition-all duration-300 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-6 group">
+            {/* Ambient gradient glow in corner */}
+            <div className="absolute -right-20 -top-20 w-64 h-64 bg-brand/20 rounded-full blur-3xl pointer-events-none group-hover:bg-brand/30 transition-all duration-500"></div>
+
+            <div className="relative z-10 max-w-xl text-center md:text-left">
               <span className="text-amber-400 text-xs font-bold uppercase tracking-wider block mb-1">
                 Website Resmi Perusahaan
               </span>
@@ -2879,7 +3092,7 @@ Jenjang karir profesional di DUSASPUN Group"
               href="https://www.lisaconcrete.com" 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="w-full md:w-auto justify-center bg-brand hover:bg-red-600 active:scale-95 text-white px-6 py-3.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all duration-300 shadow-lg shadow-brand/30 hover:shadow-red-600/40 hover:scale-105 flex items-center gap-2 whitespace-nowrap shrink-0 group/btn"
+              className="relative z-10 w-full md:w-auto justify-center bg-brand hover:bg-red-600 active:scale-95 text-white px-6 py-3.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all duration-300 shadow-lg shadow-brand/30 hover:shadow-red-600/40 hover:scale-105 flex items-center gap-2 whitespace-nowrap shrink-0 group/btn"
             >
               <span>Kunjungi www.lisaconcrete.com</span>
               <svg className="w-4 h-4 transition-transform duration-300 group-hover/btn:translate-x-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
