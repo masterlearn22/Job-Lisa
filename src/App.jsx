@@ -48,7 +48,7 @@ const RECRUITMENT_STAGES = [
     stage: 'Tahap 01',
     shortLabel: 'Berkas',
     category: 'Administrasi',
-    categoryColor: 'text-sky-700 bg-sky-50 border-sky-200/80',
+    categoryColor: 'text-slate-700 bg-white border-slate-200/80',
     title: 'Verifikasi Dokumen',
     desc: 'Pemeriksaan berkas CV, portofolio proyek, dan keaslian dokumen kualifikasi kandidat.',
     format: 'Seleksi Berkas Online',
@@ -59,7 +59,7 @@ const RECRUITMENT_STAGES = [
     stage: 'Tahap 02',
     shortLabel: 'Wawancara HR',
     category: 'Kepribadian',
-    categoryColor: 'text-amber-700 bg-amber-50 border-amber-200/80',
+    categoryColor: 'text-slate-700 bg-white border-slate-200/80',
     title: 'Wawancara HR & Budaya',
     desc: 'Evaluasi integritas, kepribadian, serta keselarasan dengan 4 Nilai Inti L.I.S.A.',
     format: 'Tatap Muka / Virtual',
@@ -70,7 +70,7 @@ const RECRUITMENT_STAGES = [
     stage: 'Tahap 03',
     shortLabel: 'Uji Teknis',
     category: 'Kompetensi',
-    categoryColor: 'text-red-700 bg-red-50 border-red-200/80',
+    categoryColor: 'text-slate-700 bg-white border-slate-200/80',
     title: 'Wawancara User Teknis',
     desc: 'Uji kompetensi teknis rekayasa beton dan studi kasus bersama Division Lead.',
     format: 'Lead & Engineering Manager',
@@ -81,7 +81,7 @@ const RECRUITMENT_STAGES = [
     stage: 'Tahap 04',
     shortLabel: 'Psikotes',
     category: 'Asesmen',
-    categoryColor: 'text-purple-700 bg-purple-50 border-purple-200/80',
+    categoryColor: 'text-slate-700 bg-white border-slate-200/80',
     title: 'Psikotes Terstandar',
     desc: 'Pengujian penalaran logika, analitikal numerik, dan daya tahan stres profesional.',
     format: 'Asesmen Psikologi',
@@ -92,7 +92,7 @@ const RECRUITMENT_STAGES = [
     stage: 'Tahap 05',
     shortLabel: 'Offering',
     category: 'Penawaran',
-    categoryColor: 'text-emerald-700 bg-emerald-50 border-emerald-200/80',
+    categoryColor: 'text-slate-700 bg-white border-slate-200/80',
     title: 'Offering Letter Resmi',
     desc: 'Pemberian penawaran resmi paket kompensasi, benefit kesehatan, dan hak kerja.',
     format: 'Dokumen Resmi HRD',
@@ -103,7 +103,7 @@ const RECRUITMENT_STAGES = [
     stage: 'Tahap 06',
     shortLabel: 'Onboarding',
     category: 'Penyambutan',
-    categoryColor: 'text-rose-700 bg-rose-50 border-rose-200/80',
+    categoryColor: 'text-red-700 bg-red-50 border-red-200/80',
     title: 'Hari Pertama & Onboarding',
     desc: 'Penyambutan resmi karyawan baru, serah terima fasilitas, dan pengenalan sistem kerja.',
     format: 'Kantor Pusat / Plant',
@@ -1055,8 +1055,8 @@ export default function App() {
       <div className="hidden sm:block w-full bg-slate-900 text-slate-300 text-xs py-2 px-4 border-b border-slate-800 overflow-hidden">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-2">
           <div className="flex flex-wrap items-center gap-4 text-center md:text-left">
-            <span className="inline-flex items-center gap-1.5 text-amber-400 font-semibold">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span className="inline-flex items-center gap-1.5 text-slate-300 font-semibold">
+              <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
               ISO 9001:2015 Certified Since 2004
             </span>
             <span className="hidden sm:inline text-slate-600">|</span>
@@ -1066,7 +1066,7 @@ export default function App() {
               href="https://www.lisaconcrete.com" 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="text-amber-300 hover:text-white transition-colors flex items-center gap-1 font-semibold"
+              className="text-slate-300 hover:text-white transition-colors flex items-center gap-1 font-semibold"
             >
               <span>🌐 Web Utama: www.lisaconcrete.com</span>
               <span>&rarr;</span>
@@ -1118,7 +1118,7 @@ export default function App() {
                   className={`px-3 py-2 rounded-xl whitespace-nowrap transition-all duration-300 flex items-center gap-1.5 cursor-pointer ${activeTab === 'karir' ? 'text-brand bg-red-50 font-black' : 'hover:text-red-600 hover:bg-red-50/60 hover:scale-105'}`}
                 >
                   <span>Karir</span>
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse group-hover:bg-red-500 transition-colors"></span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse group-hover:bg-red-500 transition-colors"></span>
                   <svg className="w-3 h-3 text-slate-400 group-hover:text-red-600 group-hover:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" />
                   </svg>
@@ -1132,8 +1132,8 @@ export default function App() {
                         <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Rekrutmen Resmi</span>
                         <h4 className="text-xs font-black text-slate-900">Lowongan Karir per Divisi</h4>
                       </div>
-                      <span className="px-2.5 py-1 bg-emerald-50 text-emerald-700 text-[10px] font-bold rounded-full border border-emerald-200 flex items-center gap-1">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                      <span className="px-2.5 py-1 bg-red-50 text-red-700 text-[10px] font-bold rounded-full border border-red-200 flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
                         {jobs.length} Posisi Dibuka
                       </span>
                     </div>
@@ -1163,7 +1163,7 @@ export default function App() {
                               <p className="text-xs font-bold text-slate-800 group-hover/item:text-brand truncate">
                                 {item.dept}
                               </p>
-                              <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded shrink-0">
+                              <span className="text-[10px] font-bold text-red-600 bg-red-50 px-1.5 py-0.5 rounded shrink-0">
                                 1 Posisi
                               </span>
                             </div>
@@ -1329,7 +1329,7 @@ export default function App() {
                   href="https://www.lisaconcrete.com" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="px-3.5 py-2 rounded-xl bg-slate-900 text-amber-300 hover:text-white flex items-center justify-between text-xs font-bold transition-colors"
+                  className="px-3.5 py-2 rounded-xl bg-slate-900 text-slate-300 hover:text-white flex items-center justify-between text-xs font-bold transition-colors"
                 >
                   <span>🌐 Kunjungi Web Utama</span>
                   <span>&rarr;</span>
@@ -1379,7 +1379,7 @@ export default function App() {
               <div className="absolute -right-20 -top-20 w-80 h-80 bg-brand/20 rounded-full blur-3xl pointer-events-none"></div>
               <div className="relative max-w-2xl">
                 <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-950/80 border border-brand/40 text-brand-light text-[11px] font-bold uppercase tracking-wider mb-4">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                  <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
                   Sistem Informasi Rekrutmen Resmi
                 </span>
                 <h1 className="text-2xl sm:text-4xl font-black tracking-tight mb-3">
@@ -1460,16 +1460,16 @@ export default function App() {
                       </div>
                     </div>
 
-                    <div className="flex flex-col sm:items-end gap-1.5 shrink-0 bg-amber-50/80 md:bg-transparent p-4 md:p-0 rounded-2xl border border-amber-200/60 md:border-0">
+                    <div className="flex flex-col sm:items-end gap-1.5 shrink-0 bg-slate-50/80 md:bg-transparent p-4 md:p-0 rounded-2xl border border-slate-200/60 md:border-0">
                       <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400">
                         Status Terkini
                       </span>
                       <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 font-black text-xs rounded-full border ${
                         trackedResult.isRejected
                           ? 'bg-rose-100 text-rose-800 border-rose-300'
-                          : 'bg-amber-100 text-amber-900 border-amber-300'
+                          : 'bg-slate-100 text-slate-900 border-slate-300'
                       }`}>
-                        <span className={`w-2 h-2 rounded-full ${trackedResult.isRejected ? 'bg-rose-600' : 'bg-amber-500 animate-pulse'}`}></span>
+                        <span className={`w-2 h-2 rounded-full ${trackedResult.isRejected ? 'bg-rose-600' : 'bg-red-500 animate-pulse'}`}></span>
                         {trackedResult.status}
                       </span>
                       <span className="text-[10px] text-slate-400">
@@ -1497,7 +1497,7 @@ export default function App() {
                         className={`h-full rounded-full transition-all duration-500 ${
                           trackedResult.isRejected 
                             ? 'bg-rose-500' 
-                            : 'bg-gradient-to-r from-brand via-amber-500 to-emerald-500'
+                            : 'bg-gradient-to-r from-red-600 via-red-500 to-slate-800'
                         }`} 
                         style={{ width: `${trackedResult.isRejected ? 100 : Math.max(12, Math.round((trackedResult.steps.filter(s => s.done).length / (trackedResult.totalSteps || 6)) * 100))}%` }}
                       ></div>
@@ -1540,7 +1540,7 @@ export default function App() {
                           </div>
                         </div>
 
-                        <p className="text-[11px] text-slate-600 bg-amber-50 p-3 rounded-xl border border-amber-200/80 leading-relaxed">
+                        <p className="text-[11px] text-slate-600 bg-slate-50 p-3 rounded-xl border border-slate-200/80 leading-relaxed">
                           💡 <strong>Catatan Persiapan:</strong> {trackedResult.interviewDetails.notes}
                         </p>
                       </div>
@@ -1563,7 +1563,7 @@ export default function App() {
                           step.rejected
                             ? 'bg-rose-50/70 border-rose-300 ring-2 ring-rose-200'
                             : step.done
-                              ? 'bg-emerald-50/40 border-emerald-200'
+                              ? 'bg-red-50/40 border-red-200'
                               : step.active
                                 ? 'bg-red-50/50 border-brand ring-2 ring-brand/20 shadow-sm'
                                 : 'bg-slate-50 border-slate-200 opacity-75'
@@ -1574,7 +1574,7 @@ export default function App() {
                             step.rejected
                               ? 'bg-rose-600 text-white shadow-xs'
                               : step.done
-                                ? 'bg-emerald-600 text-white shadow-xs'
+                                ? 'bg-red-600 text-white shadow-xs'
                                 : step.active
                                   ? 'bg-brand text-white animate-pulse shadow-md shadow-brand/30'
                                   : 'bg-slate-200 text-slate-500'
@@ -1594,7 +1594,7 @@ export default function App() {
                                 </span>
                               )}
                               {step.done && (
-                                <span className="px-2 py-0.5 bg-emerald-100 text-emerald-800 text-[10px] font-bold rounded-full">
+                                <span className="px-2 py-0.5 bg-red-100 text-red-800 text-[10px] font-bold rounded-full">
                                   Selesai
                                 </span>
                               )}
@@ -1618,7 +1618,7 @@ export default function App() {
                         <div className="sm:text-right shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-200">
                           <p className="text-[10px] uppercase font-bold text-slate-400">Jadwal / Status</p>
                           <p className={`text-xs font-bold mt-0.5 ${
-                            step.rejected ? 'text-rose-700 font-black' : step.active ? 'text-brand font-black' : step.done ? 'text-emerald-700' : 'text-slate-500'
+                            step.rejected ? 'text-rose-700 font-black' : step.active ? 'text-brand font-black' : step.done ? 'text-red-700' : 'text-slate-500'
                           }`}>
                             {step.date}
                           </p>
@@ -1655,7 +1655,7 @@ export default function App() {
               <div className="space-y-8 animate-fade-in">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs">
-                    <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 font-black flex items-center justify-center text-lg mb-4">
+                    <div className="w-10 h-10 rounded-xl bg-red-50 text-red-600 font-black flex items-center justify-center text-lg mb-4">
                       ⚡
                     </div>
                     <h3 className="font-black text-slate-900 text-sm mb-2">Transparan &amp; Real-Time</h3>
@@ -1675,7 +1675,7 @@ export default function App() {
                   </div>
 
                   <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs">
-                    <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 font-black flex items-center justify-center text-lg mb-4">
+                    <div className="w-10 h-10 rounded-xl bg-slate-50 text-slate-600 font-black flex items-center justify-center text-lg mb-4">
                       ⭐
                     </div>
                     <h3 className="font-black text-slate-900 text-sm mb-2">100% Bebas Biaya</h3>
@@ -1784,7 +1784,7 @@ export default function App() {
 
                 <div className="mt-4 p-3 bg-slate-900/90 rounded-xl border border-slate-800 text-[11px] text-slate-400 text-center">
                   <p>Kredensial Default:</p>
-                  <p className="font-mono text-amber-400 font-bold mt-0.5">admin@perusahaan.com / admin123</p>
+                  <p className="font-mono text-slate-300 font-bold mt-0.5">admin@perusahaan.com / admin123</p>
                 </div>
 
                 <div className="text-center pt-2">
@@ -1807,7 +1807,7 @@ export default function App() {
               <div className="bg-white rounded-2xl shadow-xs border border-slate-200 p-5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse"></span>
                     <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Sistem Rekrutmen Terpadu</span>
                   </div>
                   <h1 className="text-xl sm:text-2xl font-black text-slate-900">
@@ -1896,10 +1896,10 @@ export default function App() {
                   <span className="text-[10px] text-slate-500">Semua berkas</span>
                 </div>
 
-                <div className="bg-amber-50/70 p-3.5 rounded-2xl border border-amber-200 shadow-xs">
-                  <span className="text-[10px] font-bold uppercase text-amber-700 tracking-wider">01. Administrasi</span>
-                  <p className="text-xl sm:text-2xl font-black text-amber-700 mt-1">{adminStats.administrasi}</p>
-                  <span className="text-[10px] text-amber-600">Verifikasi CV</span>
+                <div className="bg-slate-50/70 p-3.5 rounded-2xl border border-slate-200 shadow-xs">
+                  <span className="text-[10px] font-bold uppercase text-slate-700 tracking-wider">01. Administrasi</span>
+                  <p className="text-xl sm:text-2xl font-black text-slate-700 mt-1">{adminStats.administrasi}</p>
+                  <span className="text-[10px] text-slate-600">Verifikasi CV</span>
                 </div>
 
                 <div className="bg-blue-50/70 p-3.5 rounded-2xl border border-blue-200 shadow-xs">
@@ -1914,10 +1914,10 @@ export default function App() {
                   <span className="text-[10px] text-indigo-600">Tes Teknis</span>
                 </div>
 
-                <div className="bg-purple-50/70 p-3.5 rounded-2xl border border-purple-200 shadow-xs">
-                  <span className="text-[10px] font-bold uppercase text-purple-700 tracking-wider">04. Psikotes</span>
-                  <p className="text-xl sm:text-2xl font-black text-purple-700 mt-1">{adminStats.psikotes}</p>
-                  <span className="text-[10px] text-purple-600">Uji Psikologis</span>
+                <div className="bg-slate-50/70 p-3.5 rounded-2xl border border-slate-200 shadow-xs">
+                  <span className="text-[10px] font-bold uppercase text-slate-700 tracking-wider">04. Psikotes</span>
+                  <p className="text-xl sm:text-2xl font-black text-slate-700 mt-1">{adminStats.psikotes}</p>
+                  <span className="text-[10px] text-slate-600">Uji Psikologis</span>
                 </div>
 
                 <div className="bg-cyan-50/70 p-3.5 rounded-2xl border border-cyan-200 shadow-xs">
@@ -1926,10 +1926,10 @@ export default function App() {
                   <span className="text-[10px] text-cyan-600">Penawaran Kerja</span>
                 </div>
 
-                <div className="bg-emerald-50/70 p-3.5 rounded-2xl border border-emerald-200 shadow-xs">
-                  <span className="text-[10px] font-bold uppercase text-emerald-700 tracking-wider">06. Onboarding</span>
-                  <p className="text-xl sm:text-2xl font-black text-emerald-700 mt-1">{adminStats.onboarding}</p>
-                  <span className="text-[10px] text-emerald-600">Karyawan Baru</span>
+                <div className="bg-red-50/70 p-3.5 rounded-2xl border border-red-200 shadow-xs">
+                  <span className="text-[10px] font-bold uppercase text-red-700 tracking-wider">06. Onboarding</span>
+                  <p className="text-xl sm:text-2xl font-black text-red-700 mt-1">{adminStats.onboarding}</p>
+                  <span className="text-[10px] text-red-600">Karyawan Baru</span>
                 </div>
 
                 <div className="bg-rose-50/70 p-3.5 rounded-2xl border border-rose-200 shadow-xs">
@@ -2029,19 +2029,19 @@ export default function App() {
                       <tbody className="divide-y divide-slate-100 font-medium">
                         {adminApplications.map((app) => {
                           const statusColors = {
-                            'Administrasi & Verifikasi Dokumen': 'bg-amber-50 text-amber-700 border-amber-200',
+                            'Administrasi & Verifikasi Dokumen': 'bg-slate-50 text-slate-700 border-slate-200',
                             'Wawancara HR': 'bg-blue-50 text-blue-700 border-blue-200',
                             'Wawancara User': 'bg-indigo-50 text-indigo-700 border-indigo-200',
-                            'Psikotes': 'bg-purple-50 text-purple-700 border-purple-200',
+                            'Psikotes': 'bg-purple-50 text-slate-700 border-slate-200',
                             'Offering Letter': 'bg-cyan-50 text-cyan-700 border-cyan-200',
-                            'Onboarding': 'bg-emerald-50 text-emerald-700 border-emerald-200',
+                            'Onboarding': 'bg-red-50 text-red-700 border-red-200',
                             'Tidak Lolos': 'bg-rose-50 text-rose-700 border-rose-200',
                             'Ditolak': 'bg-rose-50 text-rose-700 border-rose-200',
                             // Legacy mapping
-                            'Menunggu Review': 'bg-amber-50 text-amber-700 border-amber-200',
+                            'Menunggu Review': 'bg-slate-50 text-slate-700 border-slate-200',
                             'Tahap Seleksi': 'bg-blue-50 text-blue-700 border-blue-200',
                             'Interview': 'bg-indigo-50 text-indigo-700 border-indigo-200',
-                            'Diterima': 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                            'Diterima': 'bg-red-50 text-red-700 border-red-200'
                           };
                           const badgeStyle = statusColors[app.status] || 'bg-slate-50 text-slate-700 border-slate-200';
 
@@ -2123,12 +2123,12 @@ export default function App() {
                   <span className="text-[11px] text-slate-500">Semua formasi jabatan</span>
                 </div>
 
-                <div className="bg-emerald-50/80 p-4 rounded-2xl border border-emerald-200 shadow-xs">
-                  <span className="text-[10px] font-bold uppercase text-emerald-700 tracking-wider">Lowongan Aktif</span>
-                  <p className="text-2xl font-black text-emerald-700 mt-1">
+                <div className="bg-red-50/80 p-4 rounded-2xl border border-red-200 shadow-xs">
+                  <span className="text-[10px] font-bold uppercase text-red-700 tracking-wider">Lowongan Aktif</span>
+                  <p className="text-2xl font-black text-red-700 mt-1">
                     {adminJobs.filter(j => j.status === 'OPEN').length}
                   </p>
-                  <span className="text-[11px] text-emerald-600">Terbuka untuk pelamar (OPEN)</span>
+                  <span className="text-[11px] text-red-600">Terbuka untuk pelamar (OPEN)</span>
                 </div>
 
                 <div className="bg-slate-100/90 p-4 rounded-2xl border border-slate-200 shadow-xs">
@@ -2286,12 +2286,12 @@ export default function App() {
                                 onClick={() => handleToggleJobStatus(job)}
                                 className={`px-3 py-1.5 rounded-full text-xs font-bold border transition-all cursor-pointer inline-flex items-center gap-1.5 ${
                                   job.status === 'OPEN'
-                                    ? 'bg-emerald-50 text-emerald-700 border-emerald-300 hover:bg-emerald-100'
+                                    ? 'bg-red-50 text-red-700 border-red-300 hover:bg-red-100'
                                     : 'bg-slate-100 text-slate-500 border-slate-300 hover:bg-slate-200'
                                 }`}
                                 title="Klik untuk Buka/Tutup Lowongan Langsung"
                               >
-                                <span className={`w-2 h-2 rounded-full ${job.status === 'OPEN' ? 'bg-emerald-500 animate-pulse' : 'bg-slate-400'}`}></span>
+                                <span className={`w-2 h-2 rounded-full ${job.status === 'OPEN' ? 'bg-red-500 animate-pulse' : 'bg-slate-400'}`}></span>
                                 <span>{job.status === 'OPEN' ? '🟢 DIBUKA' : '🔴 DITUTUP'}</span>
                               </button>
                             </td>
@@ -2689,8 +2689,8 @@ Jenjang karir profesional di DUSASPUN Group"
             <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="max-w-3xl">
                 {/* Badge Rekrutmen */}
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full bg-slate-900/90 backdrop-blur-md border border-slate-700/80 text-amber-400 text-[11px] sm:text-xs font-bold uppercase tracking-wider mb-4 sm:mb-6 shadow-inner transition-all duration-300 hover:border-red-500 hover:bg-slate-900 hover:shadow-lg hover:shadow-red-950/50 hover:scale-105 cursor-pointer group select-none">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse group-hover:bg-red-500 group-hover:scale-125 transition-all duration-300"></span>
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full bg-slate-900/90 backdrop-blur-md border border-slate-700/80 text-slate-300 text-[11px] sm:text-xs font-bold uppercase tracking-wider mb-4 sm:mb-6 shadow-inner transition-all duration-300 hover:border-red-500 hover:bg-slate-900 hover:shadow-lg hover:shadow-red-950/50 hover:scale-105 cursor-pointer group select-none">
+                  <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse group-hover:bg-red-500 group-hover:scale-125 transition-all duration-300"></span>
                   <span className="transition-colors duration-300 group-hover:text-white">Portal Karir &amp; Rekrutmen Resmi</span>
                 </div>
 
@@ -2750,10 +2750,10 @@ Jenjang karir profesional di DUSASPUN Group"
                     href="https://www.lisaconcrete.com" 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className="justify-center sm:justify-start group text-xs text-amber-300 hover:text-white transition-all duration-300 flex items-center gap-2 font-bold px-3 py-2 drop-shadow-md hover:translate-x-1"
+                    className="justify-center sm:justify-start group text-xs text-slate-300 hover:text-white transition-all duration-300 flex items-center gap-2 font-bold px-3 py-2 drop-shadow-md hover:translate-x-1"
                   >
                     <svg 
-                      className="w-3.5 h-3.5 text-amber-400/80 group-hover:text-white transition-all duration-300" 
+                      className="w-3.5 h-3.5 text-slate-300/80 group-hover:text-white transition-all duration-300" 
                       fill="none" 
                       stroke="currentColor" 
                       viewBox="0 0 24 24"
@@ -2761,7 +2761,7 @@ Jenjang karir profesional di DUSASPUN Group"
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
                     </svg>
                     <span className="transition-colors duration-300 group-hover:text-red-400">Kunjungi Web Utama: www.lisaconcrete.com</span>
-                    <span className="transition-transform duration-300 group-hover:translate-x-1 text-amber-300 group-hover:text-white">&rarr;</span>
+                    <span className="transition-transform duration-300 group-hover:translate-x-1 text-slate-300 group-hover:text-white">&rarr;</span>
                   </a>
                 </div>
 
@@ -2776,7 +2776,7 @@ Jenjang karir profesional di DUSASPUN Group"
                     </p>
                   </div>
                   <div className="group p-3 rounded-xl transition-all duration-300 hover:bg-slate-900/80 hover:backdrop-blur-md hover:border hover:border-red-500/50 hover:shadow-xl hover:shadow-red-950/40 hover:-translate-y-1 cursor-pointer">
-                    <p className="text-2xl sm:text-3xl font-black text-amber-400 group-hover:text-red-400 transition-colors duration-300 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+                    <p className="text-2xl sm:text-3xl font-black text-slate-300 group-hover:text-red-400 transition-colors duration-300 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
                       ISO 9001
                     </p>
                     <p className="text-[10px] sm:text-xs text-slate-300 uppercase tracking-wider mt-1 font-semibold drop-shadow-sm group-hover:text-white transition-colors duration-300">
@@ -2808,13 +2808,13 @@ Jenjang karir profesional di DUSASPUN Group"
               <div className="group flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 py-2.5 sm:py-3 px-3.5 sm:px-4 rounded-xl bg-slate-900/70 hover:bg-slate-900/90 backdrop-blur-md border border-slate-800/80 hover:border-red-500/50 transition-all duration-300 text-xs shadow-lg hover:shadow-red-950/30">
                 <div className="flex items-center gap-2 overflow-hidden w-full sm:w-auto">
                   <span className="relative flex h-2 w-2 shrink-0">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75 group-hover:bg-red-500 transition-colors duration-300"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500 group-hover:bg-red-500 transition-colors duration-300"></span>
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75 group-hover:bg-red-500 transition-colors duration-300"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500 group-hover:bg-red-500 transition-colors duration-300"></span>
                   </span>
                   <span className="font-semibold text-slate-400 group-hover:text-slate-200 transition-colors duration-300 shrink-0 text-[11px] sm:text-xs">
                     Showcase:
                   </span>
-                  <span className="text-amber-300 font-bold truncate transition-all duration-300 hover:text-red-400 cursor-pointer text-[11px] sm:text-xs">
+                  <span className="text-slate-300 font-bold truncate transition-all duration-300 hover:text-red-400 cursor-pointer text-[11px] sm:text-xs">
                     {HERO_SLIDES[heroSlide]?.title}
                   </span>
                   <span className="text-slate-500 hidden md:inline">&mdash;</span>
@@ -2833,7 +2833,7 @@ Jenjang karir profesional di DUSASPUN Group"
                         aria-label={`Slide ${idx + 1}: ${slide.title}`}
                         className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
                           idx === heroSlide 
-                            ? 'w-7 sm:w-8 bg-gradient-to-r from-red-500 to-amber-500 shadow-sm shadow-red-500/50' 
+                            ? 'w-7 sm:w-8 bg-gradient-to-r from-red-600 to-red-500 shadow-sm shadow-red-500/50' 
                             : 'w-2 bg-slate-700 hover:bg-red-500 hover:scale-125 hover:w-4'
                         }`}
                         title={slide.title}
@@ -2874,7 +2874,7 @@ Jenjang karir profesional di DUSASPUN Group"
 
             <div className="lg:col-span-6">
               <div className="relative group">
-                <div className="absolute inset-0 bg-gradient-to-tr from-brand to-amber-500 rounded-3xl transform rotate-2 scale-105 opacity-20 group-hover:opacity-30 blur-md transition-opacity duration-300"></div>
+                <div className="absolute inset-0 bg-gradient-to-tr from-red-600 to-red-500 rounded-3xl transform rotate-2 scale-105 opacity-20 group-hover:opacity-30 blur-md transition-opacity duration-300"></div>
                 <div className="relative bg-slate-900 text-white p-5 sm:p-8 rounded-2xl sm:rounded-3xl shadow-2xl border border-slate-800 hover:border-red-500/60 hover:shadow-red-950/40 transition-all duration-300">
                   <h3 className="text-lg sm:text-xl font-black text-white hover:text-red-400 mb-5 sm:mb-6 flex items-center gap-2.5 transition-colors duration-300 cursor-pointer">
                     <span className="w-3 h-3 rounded-full bg-brand group-hover:bg-red-500 group-hover:scale-125 transition-all duration-300"></span>
@@ -2955,7 +2955,7 @@ Jenjang karir profesional di DUSASPUN Group"
               <div className="relative flex items-center justify-between">
                 {/* Continuous connection track */}
                 <div className="absolute left-8 right-8 top-4 -translate-y-1/2 h-1 bg-slate-200 rounded-full overflow-hidden">
-                  <div className="h-full w-full bg-gradient-to-r from-sky-400 via-amber-400 to-emerald-500 opacity-60"></div>
+                  <div className="h-full w-full bg-gradient-to-r from-red-600 via-red-500 to-slate-800 opacity-60"></div>
                 </div>
 
                 {RECRUITMENT_STAGES.map((st, i) => (
@@ -2979,7 +2979,7 @@ Jenjang karir profesional di DUSASPUN Group"
                   className="relative bg-white rounded-2xl border border-slate-200/90 hover:border-red-400 shadow-xs hover:shadow-xl hover:-translate-y-2 transition-all duration-300 p-4 sm:p-5 flex flex-col justify-between overflow-hidden group cursor-pointer"
                 >
                   {/* Top illuminated gradient micro-accent on hover */}
-                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-brand via-amber-500 to-red-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-600 via-red-500 to-red-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
                   {/* Faint architectural watermark numeral in corner */}
                   <span className="absolute -bottom-3 -right-1 font-mono font-black text-6xl text-slate-100 group-hover:text-red-50/70 select-none pointer-events-none transition-colors duration-300">
@@ -3035,7 +3035,7 @@ Jenjang karir profesional di DUSASPUN Group"
                 {/* Modern Bento Card on the Right */}
                 <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 shadow-xs hover:shadow-xl hover:border-red-400 transition-all duration-300 overflow-hidden relative">
                   {/* Top illuminated line on hover */}
-                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-brand via-amber-500 to-red-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-600 via-red-500 to-red-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
                   {/* Faint watermark number in corner */}
                   <span className="absolute -bottom-3 -right-1 font-mono font-black text-6xl text-slate-100/70 group-hover:text-red-50/70 select-none pointer-events-none transition-colors duration-300">
@@ -3078,7 +3078,7 @@ Jenjang karir profesional di DUSASPUN Group"
             <div className="absolute -right-20 -top-20 w-64 h-64 bg-brand/20 rounded-full blur-3xl pointer-events-none group-hover:bg-brand/30 transition-all duration-500"></div>
 
             <div className="relative z-10 max-w-xl text-center md:text-left">
-              <span className="text-amber-400 text-xs font-bold uppercase tracking-wider block mb-1">
+              <span className="text-slate-300 text-xs font-bold uppercase tracking-wider block mb-1">
                 Website Resmi Perusahaan
               </span>
               <h3 className="text-xl sm:text-2xl font-black text-white group-hover:text-red-400 transition-colors duration-300 cursor-pointer">
@@ -3291,7 +3291,7 @@ Jenjang karir profesional di DUSASPUN Group"
                   <h3 className="text-white group-hover:text-red-400 font-black text-base tracking-wider transition-colors duration-300">
                     PT LISA CONCRETE INDONESIA
                   </h3>
-                  <p className="text-[10px] text-amber-400 font-bold uppercase tracking-widest">
+                  <p className="text-[10px] text-slate-300 font-bold uppercase tracking-widest">
                     A Member of DUSASPUN Group
                   </p>
                 </div>
@@ -3313,7 +3313,7 @@ Jenjang karir profesional di DUSASPUN Group"
                 <li>
                   <button 
                     onClick={() => { setActiveTab('admin'); window.location.hash = '#admin'; window.scrollTo({ top: 0, behavior: 'smooth' }); }} 
-                    className="hover:text-red-400 text-amber-400 font-bold transition-all duration-200 text-left cursor-pointer flex items-center gap-1 hover:translate-x-1.5"
+                    className="hover:text-red-400 text-slate-300 font-bold transition-all duration-200 text-left cursor-pointer flex items-center gap-1 hover:translate-x-1.5"
                   >
                     <span>🔐 Portal Masuk HRD / Admin</span>
                   </button>
@@ -3323,7 +3323,7 @@ Jenjang karir profesional di DUSASPUN Group"
                     href="https://www.lisaconcrete.com" 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className="hover:text-red-400 text-amber-400 transition-all duration-200 flex items-center gap-1 font-semibold hover:translate-x-1.5"
+                    className="hover:text-red-400 text-slate-300 transition-all duration-200 flex items-center gap-1 font-semibold hover:translate-x-1.5"
                   >
                     <span>Website Utama: www.lisaconcrete.com</span>
                     <span>&rarr;</span>
@@ -3551,8 +3551,8 @@ Jenjang karir profesional di DUSASPUN Group"
       {/* MODAL: VERIFIKASI KONFIRMASI PEMBARUAN DATA (2x VERIFIKASI) */}
       {duplicatePrompt && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
-          <div className="bg-white rounded-3xl max-w-md w-full p-6 sm:p-7 shadow-2xl relative text-slate-800 border border-amber-200">
-            <div className="w-12 h-12 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center mb-4 text-2xl font-bold shadow-inner">
+          <div className="bg-white rounded-3xl max-w-md w-full p-6 sm:p-7 shadow-2xl relative text-slate-800 border border-slate-200">
+            <div className="w-12 h-12 bg-slate-100 text-slate-600 rounded-2xl flex items-center justify-center mb-4 text-2xl font-bold shadow-inner">
               ⚠️
             </div>
 
