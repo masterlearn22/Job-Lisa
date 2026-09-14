@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 
 import bgFactoryHome from '../assets/factory-home.jpg'
 import bgFactoryHome23 from '../assets/factory-home-23.jpg'
@@ -224,6 +224,44 @@ export default function App() {
   const [searchKeyword, setSearchKeyword] = useState('')
   const [selectedLocation, setSelectedLocation] = useState('')
   const [selectedDept, setSelectedDept] = useState('')
+
+  // Dynamic department mapping derived strictly from real database jobs
+  const getDeptIcon = (dept = '') => {
+    const lower = (dept || '').toLowerCase();
+    if (lower.includes('engineer') || lower.includes('technical')) return '📐';
+    if (lower.includes('quality') || lower.includes('lab') || lower.includes('qc')) return '🔬';
+    if (lower.includes('manufactur') || lower.includes('plant') || lower.includes('operat')) return '🏗️';
+    if (lower.includes('commercial') || lower.includes('market') || lower.includes('sales')) return '💼';
+    if (lower.includes('hse') || lower.includes('safety') || lower.includes('environ')) return '🛡️';
+    if (lower.includes('finance') || lower.includes('account')) return '💰';
+    if (lower.includes('hr') || lower.includes('human')) return '👥';
+    return '📁';
+  };
+
+  const availableDepartments = useMemo(() => {
+    const map = new Map();
+    jobs.forEach((job) => {
+      const dept = job.department || 'Umum';
+      if (!map.has(dept)) {
+        map.set(dept, {
+          dept,
+          count: 0,
+          roles: [],
+          loc: job.location || 'Indonesia'
+        });
+      }
+      const item = map.get(dept);
+      item.count += 1;
+      if (item.roles.length < 2 && job.title) {
+        item.roles.push(job.title);
+      }
+    });
+    return Array.from(map.values()).map((item) => ({
+      ...item,
+      icon: getDeptIcon(item.dept),
+      roleText: item.roles.join(', ')
+    }));
+  }, [jobs]);
 
   // Modals and Page state
   const [selectedJob, setSelectedJob] = useState(null)
@@ -1132,58 +1170,83 @@ export default function App() {
                         <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Rekrutmen Resmi</span>
                         <h4 className="text-xs font-black text-slate-900">Lowongan Karir per Divisi</h4>
                       </div>
-                      <span className="px-2.5 py-1 bg-red-50 text-red-700 text-[10px] font-bold rounded-full border border-red-200 flex items-center gap-1">
-                        <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
+                      <span className={`px-2.5 py-1 ${jobs.length > 0 ? 'bg-red-50 text-red-700 border-red-200' : 'bg-slate-100 text-slate-600 border-slate-200'} text-[10px] font-bold rounded-full border flex items-center gap-1`}>
+                        <span className={`w-1.5 h-1.5 rounded-full ${jobs.length > 0 ? 'bg-red-500 animate-pulse' : 'bg-slate-400'}`}></span>
                         {jobs.length} Posisi Dibuka
                       </span>
                     </div>
 
-                    <p className="text-[11px] text-slate-500 mb-2">
-                      Pilih divisi di bawah untuk melihat lowongan yang tersedia:
-                    </p>
+                    {jobsLoading ? (
+                      <div className="py-8 text-center space-y-2">
+                        <div className="w-6 h-6 border-2 border-brand border-t-transparent rounded-full animate-spin mx-auto"></div>
+                        <p className="text-xs font-semibold text-slate-600">Memeriksa lowongan kerja...</p>
+                      </div>
+                    ) : jobs.length === 0 ? (
+                      <div className="py-5 px-3 bg-slate-50 rounded-xl border border-slate-200/70 text-center my-1 space-y-2">
+                        <div className="w-10 h-10 rounded-full bg-slate-200/80 text-slate-500 flex items-center justify-center mx-auto text-lg">
+                          📭
+                        </div>
+                        <div>
+                          <p className="text-xs font-bold text-slate-800">Belum Ada Lowongan Dibuka</p>
+                          <p className="text-[11px] text-slate-500 mt-1 leading-relaxed px-2">
+                            {jobsError 
+                              ? 'Server database lowongan belum terhubung dengan website. Belum ada formasi lowongan aktif yang ditampilkan.' 
+                              : 'Saat ini belum ada formasi lowongan kerja aktif yang dibuka.'}
+                          </p>
+                        </div>
+                        <div className="pt-1 flex justify-center">
+                          <button
+                            onClick={fetchJobs}
+                            className="text-[10px] font-bold text-brand hover:underline flex items-center gap-1 cursor-pointer"
+                          >
+                            <span>🔄 Refresh Status Database</span>
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <>
+                        <p className="text-[11px] text-slate-500 mb-2">
+                          Pilih divisi di bawah untuk melihat lowongan yang tersedia:
+                        </p>
 
-                    <div className="space-y-1.5">
-                      {[
-                        { dept: 'Engineering & Technical', icon: '📐', roles: 'Precast Civil Engineer & Drafter', loc: 'Surabaya (Head Office)' },
-                        { dept: 'Quality Assurance & Lab', icon: '🔬', roles: 'QC Precast Inspector', loc: 'Ngoro Plant (Mojokerto)' },
-                        { dept: 'Manufacturing & Plant Operation', icon: '🏗️', roles: 'Production Supervisor (Batching & Casting)', loc: 'Karangasem Plant (Bali)' },
-                        { dept: 'Commercial & Marketing', icon: '💼', roles: 'Technical Sales & Project Marketing', loc: 'Surabaya / Jatim Area' },
-                        { dept: 'HSE & Safety', icon: '🛡️', roles: 'Health, Safety & Environment (HSE) Officer', loc: 'Ngoro Plant (Mojokerto)' },
-                      ].map((item) => (
-                        <button
-                          key={item.dept}
-                          onClick={() => handleSelectDepartment(item.dept)}
-                          className="w-full text-left p-2.5 rounded-xl hover:bg-red-50/70 transition-colors flex items-start gap-3 group/item border border-transparent hover:border-red-100 cursor-pointer"
-                        >
-                          <span className="w-8 h-8 rounded-lg bg-slate-100 group-hover/item:bg-brand group-hover/item:text-white flex items-center justify-center text-sm shrink-0 transition-colors shadow-xs">
-                            {item.icon}
-                          </span>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center justify-between gap-1">
-                              <p className="text-xs font-bold text-slate-800 group-hover/item:text-brand truncate">
-                                {item.dept}
-                              </p>
-                              <span className="text-[10px] font-bold text-red-600 bg-red-50 px-1.5 py-0.5 rounded shrink-0">
-                                1 Posisi
+                        <div className="space-y-1.5 max-h-64 overflow-y-auto pr-1">
+                          {availableDepartments.map((item) => (
+                            <button
+                              key={item.dept}
+                              onClick={() => handleSelectDepartment(item.dept)}
+                              className="w-full text-left p-2.5 rounded-xl hover:bg-red-50/70 transition-colors flex items-start gap-3 group/item border border-transparent hover:border-red-100 cursor-pointer"
+                            >
+                              <span className="w-8 h-8 rounded-lg bg-slate-100 group-hover/item:bg-brand group-hover/item:text-white flex items-center justify-center text-sm shrink-0 transition-colors shadow-xs">
+                                {item.icon}
                               </span>
-                            </div>
-                            <p className="text-[11px] text-slate-600 font-medium truncate mt-0.5">
-                              {item.roles}
-                            </p>
-                            <span className="text-[10px] text-slate-400 font-medium flex items-center gap-1 mt-0.5">
-                              📍 {item.loc}
-                            </span>
-                          </div>
-                        </button>
-                      ))}
-                    </div>
+                              <div className="flex-1 min-w-0">
+                                <div className="flex items-center justify-between gap-1">
+                                  <p className="text-xs font-bold text-slate-800 group-hover/item:text-brand truncate">
+                                    {item.dept}
+                                  </p>
+                                  <span className="text-[10px] font-bold text-red-600 bg-red-50 px-1.5 py-0.5 rounded shrink-0">
+                                    {item.count} Posisi
+                                  </span>
+                                </div>
+                                <p className="text-[11px] text-slate-600 font-medium truncate mt-0.5">
+                                  {item.roleText}
+                                </p>
+                                <span className="text-[10px] text-slate-400 font-medium flex items-center gap-1 mt-0.5">
+                                  📍 {item.loc}
+                                </span>
+                              </div>
+                            </button>
+                          ))}
+                        </div>
+                      </>
+                    )}
 
                     <div className="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
                       <button
                         onClick={() => { setSelectedDept(''); handleToKarir(); }}
                         className="text-[11px] font-bold text-brand hover:underline flex items-center gap-1 cursor-pointer"
                       >
-                        <span>Lihat Semua {jobs.length} Posisi</span>
+                        <span>{jobs.length > 0 ? `Lihat Semua ${jobs.length} Posisi` : 'Kunjungi Halaman Karir'}</span>
                         <span>&rarr;</span>
                       </button>
                       <button
@@ -1268,7 +1331,7 @@ export default function App() {
               </a>
 
               {/* Mobile Karir with Division Quick Filter Chips */}
-              <div className="bg-slate-50/90 rounded-2xl p-2 border border-slate-100">
+              <div className="bg-slate-50/90 rounded-2xl p-2.5 border border-slate-100">
                 <a 
                   href="#karir" 
                   onClick={(e) => { e.preventDefault(); handleToKarir(); setMobileMenuOpen(false); }}
@@ -1278,26 +1341,35 @@ export default function App() {
                     <span>💼</span>
                     <span>Karir &amp; Rekrutmen</span>
                   </span>
-                  <span className="text-[10px] bg-brand text-white font-bold px-2 py-0.5 rounded-full">{jobs.length} Loker</span>
+                  <span className={`text-[10px] ${jobs.length > 0 ? 'bg-brand text-white' : 'bg-slate-200 text-slate-600'} font-bold px-2 py-0.5 rounded-full`}>
+                    {jobs.length} Loker
+                  </span>
                 </a>
-                <div className="mt-1 space-y-1">
-                  {[
-                    { dept: 'Engineering & Technical', icon: '📐' },
-                    { dept: 'Quality Assurance & Lab', icon: '🔬' },
-                    { dept: 'Manufacturing & Plant Operation', icon: '🏗️' },
-                    { dept: 'Commercial & Marketing', icon: '💼' },
-                    { dept: 'HSE & Safety', icon: '🛡️' }
-                  ].map(d => (
-                    <button
-                      key={d.dept}
-                      onClick={() => { handleSelectDepartment(d.dept); setMobileMenuOpen(false); }}
-                      className="w-full text-left px-3 py-1.5 rounded-lg text-xs text-slate-600 hover:text-brand hover:bg-white flex items-center gap-2 transition-colors cursor-pointer"
-                    >
-                      <span>{d.icon}</span>
-                      <span className="truncate">{d.dept}</span>
-                    </button>
-                  ))}
-                </div>
+                {jobs.length === 0 ? (
+                  <div className="px-2.5 py-2 text-left">
+                    <p className="text-[11px] text-slate-500 font-medium">
+                      {jobsError ? 'Server database belum terhubung.' : 'Belum ada lowongan dibuka.'}
+                    </p>
+                  </div>
+                ) : (
+                  <div className="mt-1 space-y-1">
+                    {availableDepartments.map((d) => (
+                      <button
+                        key={d.dept}
+                        onClick={() => { handleSelectDepartment(d.dept); setMobileMenuOpen(false); }}
+                        className="w-full text-left px-3 py-1.5 rounded-lg text-xs text-slate-600 hover:text-brand hover:bg-white flex items-center justify-between gap-2 transition-colors cursor-pointer"
+                      >
+                        <span className="flex items-center gap-2 truncate">
+                          <span>{d.icon}</span>
+                          <span className="truncate">{d.dept}</span>
+                        </span>
+                        <span className="text-[10px] font-bold text-red-600 bg-red-50 px-1.5 py-0.5 rounded shrink-0">
+                          {d.count}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
 
               <button 
@@ -3168,11 +3240,11 @@ Jenjang karir profesional di DUSASPUN Group"
                 className="w-full bg-transparent border-none focus:outline-none text-xs text-slate-300 cursor-pointer"
               >
                 <option value="" className="bg-slate-900">Semua Divisi</option>
-                <option value="Engineering & Technical" className="bg-slate-900">Engineering & Technical</option>
-                <option value="Quality Assurance & Lab" className="bg-slate-900">Quality Assurance & Lab</option>
-                <option value="Commercial & Marketing" className="bg-slate-900">Commercial & Marketing</option>
-                <option value="Manufacturing & Plant Operation" className="bg-slate-900">Manufacturing Plant</option>
-                <option value="HSE & Safety" className="bg-slate-900">HSE & Safety</option>
+                {availableDepartments.map((d) => (
+                  <option key={d.dept} value={d.dept} className="bg-slate-900">
+                    {d.dept} ({d.count})
+                  </option>
+                ))}
               </select>
             </div>
           </div>
