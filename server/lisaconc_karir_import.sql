@@ -1,4 +1,13 @@
 -- ====================================================
+-- DATABASE EXPORT: lisaconc_karir
+-- PT Lisa Concrete Indonesia - Portal Rekrutmen
+-- Kompatibel dengan semua versi MySQL & MariaDB cPanel
+-- ====================================================
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- ====================================================
 -- DATABASE EXPORT: hrd_job_portal
 -- PT Lisa Concrete Indonesia - Portal Rekrutmen
 -- Siap di-import langsung ke database: lisaconc_karir
@@ -16,7 +25,7 @@ CREATE TABLE `applicants` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 
 -- Data tabel: `applicants` (3 baris)
 INSERT INTO `applicants` (`id`, `name`, `email`, `phone`, `created_at`) VALUES (1, 'Surya Dwi Satria', 'suryafc349@gmail.com', '085730033426', '2026-09-11 02:26:40');
@@ -39,7 +48,7 @@ CREATE TABLE `application_history` (
   KEY `changed_by` (`changed_by`),
   CONSTRAINT `application_history_ibfk_1` FOREIGN KEY (`application_id`) REFERENCES `applications` (`id`) ON DELETE CASCADE,
   CONSTRAINT `application_history_ibfk_2` FOREIGN KEY (`changed_by`) REFERENCES `users` (`id`) ON DELETE SET NULL
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4;
 
 -- Data tabel: `application_history` (11 baris)
 INSERT INTO `application_history` (`id`, `application_id`, `status`, `notes`, `changed_by`, `created_at`) VALUES (1, 1, 'Administrasi & Verifikasi Dokumen', 'Lamaran diajukan', NULL, '2026-09-11 02:26:40');
@@ -73,7 +82,7 @@ CREATE TABLE `applications` (
   KEY `job_id` (`job_id`),
   CONSTRAINT `applications_ibfk_1` FOREIGN KEY (`applicant_id`) REFERENCES `applicants` (`id`) ON DELETE CASCADE,
   CONSTRAINT `applications_ibfk_2` FOREIGN KEY (`job_id`) REFERENCES `jobs` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 
 -- Data tabel: `applications` (4 baris)
 INSERT INTO `applications` (`id`, `tracking_id`, `applicant_id`, `job_id`, `status`, `cv_path`, `created_at`, `updated_at`) VALUES (1, 'APP-6B6235A5', 1, 1, 'Wawancara User', '/uploads/lainnya/umum/Surya_Dwi_Satria_1789093600020.pdf', '2026-09-11 02:26:40', '2026-09-11 06:39:27');
@@ -90,7 +99,7 @@ CREATE TABLE `divisions` (
   `name` varchar(100) NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
 
 -- Data tabel: `divisions` (5 baris)
 INSERT INTO `divisions` (`id`, `name`, `created_at`) VALUES (1, 'Engineering & Technical', '2026-09-11 02:18:01');
@@ -120,7 +129,7 @@ CREATE TABLE `jobs` (
   PRIMARY KEY (`id`),
   KEY `division_id` (`division_id`),
   CONSTRAINT `jobs_ibfk_1` FOREIGN KEY (`division_id`) REFERENCES `divisions` (`id`) ON DELETE SET NULL
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
 
 -- Data tabel: `jobs` (3 baris)
 INSERT INTO `jobs` (`id`, `title`, `description`, `requirements`, `benefits`, `division_id`, `location`, `type`, `experience`, `education`, `deadline`, `status`, `created_at`) VALUES (1, 'Precast Civil Engineer & Drafter', 'Bertanggung jawab atas kalkulasi struktur beton pracetak, shop drawing detailing (AutoCAD/Tekla Structures), dan koordinasi metode instalasi erection bersama tim proyek lapangan.', '["Pendidikan S1 Teknik Sipil (IPK min. 3.00)","Menguasai software AutoCAD, Tekla Structures, ETABS, atau SAP2000","Memahami standar desain beton bertulang dan prategang (SNI / ACI / JIS)","Pengalaman kerja min. 2 tahun di industri precast concrete atau kontraktor sipil","Mampu membaca gambar kerja konstruksi dengan teliti dan bekerja sama dengan tim marketing/produksi"]', '["Gaji Pokok & Tunjangan Posisi Menarik","BPJS Ketenagakerjaan & Kesehatan","Bonus Tahunan & Kinerja Proyek","Pelatihan Sertifikasi Keahlian"]', 1, 'Surabaya (Head Office)', 'Full Time', 'Min. 2-3 Tahun', 'S1 Teknik Sipil', '20 Oktober 2026', 'OPEN', '2026-09-11 02:18:01');
@@ -135,7 +144,7 @@ CREATE TABLE `permissions` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------------------------------
 -- Struktur tabel: `role_permissions`
@@ -148,7 +157,7 @@ CREATE TABLE `role_permissions` (
   KEY `permission_id` (`permission_id`),
   CONSTRAINT `role_permissions_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE,
   CONSTRAINT `role_permissions_ibfk_2` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------------------------------
 -- Struktur tabel: `roles`
@@ -158,7 +167,7 @@ CREATE TABLE `roles` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 
 -- Data tabel: `roles` (2 baris)
 INSERT INTO `roles` (`id`, `name`) VALUES (1, 'Admin');
@@ -179,7 +188,9 @@ CREATE TABLE `users` (
   UNIQUE KEY `email` (`email`),
   KEY `role_id` (`role_id`),
   CONSTRAINT `users_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE SET NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 -- Data tabel: `users` (1 baris)
 INSERT INTO `users` (`id`, `email`, `password`, `name`, `role_id`, `created_at`) VALUES (1, 'admin@perusahaan.com', 'password_hash_disini', 'Super Admin', 1, '2026-09-11 02:18:01');
+
+SET FOREIGN_KEY_CHECKS = 1;
