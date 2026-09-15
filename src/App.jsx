@@ -3120,7 +3120,7 @@ Jenjang karir profesional di DUSASPUN Group"
         <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           {/* Section Header */}
           <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#952e2f]/80 backdrop-blur-md border border-[#952e2f]/50 text-white text-xs font-bold uppercase tracking-widest mb-3.5 shadow-lg shadow-[#952e2f]/10 hover:bg-[#952e2f] hover:scale-105 transition-all duration-300 cursor-pointer">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-br from-red-700/80 to-[#952e2f]/80 backdrop-blur-md border border-red-400/40 text-white text-xs font-bold uppercase tracking-widest mb-3.5 shadow-lg shadow-[#952e2f]/10 hover:from-red-700 hover:to-[#952e2f] hover:scale-105 transition-all duration-300 cursor-pointer">
               <span className="w-2 h-2 rounded-full bg-white animate-pulse"></span>
               <span>Roadmap Seleksi Resmi</span>
             </div>
@@ -3165,7 +3165,7 @@ Jenjang karir profesional di DUSASPUN Group"
                   <div className="w-full h-full relative transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
                     
                     {/* --- Sisi Depan (Front) --- */}
-                    <div className="absolute inset-0 [backface-visibility:hidden] bg-[#952e2f]/80 backdrop-blur-3xl rounded-2xl border border-[#952e2f]/50 shadow-xl shadow-[#952e2f]/20 ring-1 ring-[#952e2f]/40 p-4 flex flex-col justify-between overflow-hidden group-hover:bg-[#952e2f]/90 transition-colors duration-300">
+                    <div className="absolute inset-0 [backface-visibility:hidden] bg-gradient-to-br from-red-700/80 to-[#952e2f]/70 backdrop-blur-3xl rounded-2xl border border-red-400/40 shadow-xl shadow-red-900/10 ring-1 ring-white/20 p-4 flex flex-col justify-between overflow-hidden group-hover:from-red-700/90 group-hover:to-[#952e2f]/90 transition-all duration-300">
                       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-400 via-white/50 to-red-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                       <span className="absolute -bottom-3 -right-1 font-mono font-black text-6xl text-white/10 select-none pointer-events-none">
                         {st.no}
@@ -3222,7 +3222,7 @@ Jenjang karir profesional di DUSASPUN Group"
                 <div className="w-full h-full relative transition-transform duration-700 [transform-style:preserve-3d] peer-checked:[transform:rotateY(180deg)]">
                   
                   {/* --- Sisi Depan (Front) --- */}
-                  <div className="absolute inset-0 [backface-visibility:hidden] bg-[#952e2f]/80 backdrop-blur-3xl rounded-2xl border border-[#952e2f]/50 shadow-xl shadow-[#952e2f]/20 ring-1 ring-[#952e2f]/40 p-4 flex flex-col justify-between overflow-hidden peer-checked:bg-[#952e2f]/90 transition-colors duration-300">
+                  <div className="absolute inset-0 [backface-visibility:hidden] bg-gradient-to-br from-red-700/80 to-[#952e2f]/70 backdrop-blur-3xl rounded-2xl border border-red-400/40 shadow-xl shadow-red-900/10 ring-1 ring-white/20 p-4 flex flex-col justify-between overflow-hidden peer-checked:from-red-700/90 peer-checked:to-[#952e2f]/90 transition-all duration-300">
                     <span className="absolute -bottom-3 -right-1 font-mono font-black text-6xl text-white/10 select-none pointer-events-none">
                       {st.no}
                     </span>
