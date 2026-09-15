@@ -2818,23 +2818,7 @@ Jenjang karir profesional di DUSASPUN Group"
                     </svg>
                     <span className="transition-colors duration-300 group-hover:text-white">Lacak Status Lamaran</span>
                   </button>
-                  <a 
-                    href="https://www.lisaconcrete.com" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="justify-center sm:justify-start group text-xs text-slate-300 hover:text-white transition-all duration-300 flex items-center gap-2 font-bold px-3 py-2 drop-shadow-md hover:translate-x-1"
-                  >
-                    <svg 
-                      className="w-3.5 h-3.5 text-slate-300/80 group-hover:text-white transition-all duration-300" 
-                      fill="none" 
-                      stroke="currentColor" 
-                      viewBox="0 0 24 24"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
-                    </svg>
-                    <span className="transition-colors duration-300 group-hover:text-red-400">Kunjungi Web Utama: www.lisaconcrete.com</span>
-                    <span className="transition-transform duration-300 group-hover:translate-x-1 text-slate-300 group-hover:text-white">&rarr;</span>
-                  </a>
+
                 </div>
 
                 {/* Metrics: Micro-cards dengan Hover Glow & Red Accent - Responsive on mobile */}
