@@ -1312,23 +1312,7 @@ export default function App() {
           {/* Mobile Menu Dropdown */}
           {mobileMenuOpen && (
             <div className="lg:hidden border-t border-slate-100 py-3 px-2 space-y-1.5 bg-white rounded-b-2xl shadow-xl animate-fade-in text-sm font-semibold max-h-[80vh] overflow-y-auto">
-              <a 
-                href="#home" 
-                onClick={(e) => { e.preventDefault(); handleToHome(); setMobileMenuOpen(false); }}
-                className="px-3.5 py-2 rounded-xl hover:bg-slate-50 text-slate-800 flex items-center gap-2.5 font-bold"
-              >
-                <span>🏠</span>
-                <span>Beranda</span>
-              </a>
 
-              <a 
-                href="#tentang" 
-                onClick={(e) => { e.preventDefault(); handleJumpSection('tentang', 'tentang'); setMobileMenuOpen(false); }}
-                className="px-3.5 py-2 rounded-xl hover:bg-slate-50 text-slate-800 flex items-center gap-2.5 font-bold"
-              >
-                <span>🏢</span>
-                <span>Tentang PT Lisa Concrete</span>
-              </a>
 
               {/* Mobile Karir with Division Quick Filter Chips */}
               <div className="bg-slate-50/90 rounded-2xl p-2.5 border border-slate-100">
