@@ -1091,7 +1091,7 @@ export default function App() {
     <div className="min-h-screen flex flex-col bg-slate-50 text-slate-800 selection:bg-brand selection:text-white w-full max-w-full overflow-x-clip">
       {/* TOP HEADER BAR (Hidden on mobile for clean sticky navbar) */}
       <div className="hidden sm:block w-full bg-slate-900 text-slate-300 text-xs py-2 px-4 border-b border-slate-800 overflow-hidden">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-2">
+        <div className="max-w-[1600px] mx-auto flex flex-col md:flex-row justify-between items-center gap-2">
           <div className="flex flex-wrap items-center gap-4 text-center md:text-left">
             <span className="inline-flex items-center gap-1.5 text-slate-300 font-semibold">
               <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
@@ -1123,7 +1123,7 @@ export default function App() {
 
       {/* MAIN NAVBAR - Always Sticky Top on Mobile and Desktop */}
       <header className="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md border-b border-slate-200/90 shadow-sm transition-all">
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+        <div className="max-w-[1600px] mx-auto px-3 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16 sm:h-20 gap-2 sm:gap-4">
             {/* Logo */}
             <a href="#home" onClick={(e) => { e.preventDefault(); handleToHome(); }} className="flex items-center gap-2 sm:gap-3 group shrink min-w-0">
@@ -1407,7 +1407,7 @@ export default function App() {
              <div className="absolute top-[50%] left-[30%] w-[40vw] h-[40vw] bg-amber-300/20 rounded-full mix-blend-multiply blur-[100px] animate-pulse" style={{ animationDelay: '1s' }}></div>
           </div>
 
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             {/* Top Breadcrumb & Navigation */}
             <div className="flex flex-wrap items-center justify-between gap-3 mb-6 sm:mb-8">
               <div className="flex items-center gap-2 text-xs font-bold text-slate-700">
@@ -1920,7 +1920,7 @@ export default function App() {
         ) : (
           /* MAIN ADMIN DASHBOARD VIEW */
           <main className="min-h-screen bg-slate-100 py-8 px-4 sm:px-6 lg:px-8 flex-1">
-            <div className="max-w-7xl mx-auto space-y-6">
+            <div className="max-w-[1600px] mx-auto space-y-6">
               {/* TOP BAR DASHBOARD */}
               <div className="bg-white rounded-2xl shadow-xs border border-slate-200 p-5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
@@ -2804,7 +2804,7 @@ Jenjang karir profesional di DUSASPUN Group"
               <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-slate-950/90 to-transparent z-10"></div>
             </div>
 
-            <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="relative z-20 max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
               <div className="max-w-3xl">
                 {/* Badge Rekrutmen */}
                 <div className="inline-flex items-center gap-2 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full bg-slate-900/90 backdrop-blur-md border border-slate-700/80 text-slate-300 text-[11px] sm:text-xs font-bold uppercase tracking-wider mb-4 sm:mb-6 shadow-inner transition-all duration-300 hover:border-red-500 hover:bg-slate-900 hover:shadow-lg hover:shadow-red-950/50 hover:scale-105 cursor-pointer group select-none">
@@ -2906,7 +2906,7 @@ Jenjang karir profesional di DUSASPUN Group"
             </div>
 
             {/* Slide Indicator Bar & Live Project Caption - Responsive Stack */}
-            <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 sm:mt-8">
+            <div className="relative z-20 max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 mt-6 sm:mt-8">
               <div className="group flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 py-2.5 sm:py-3 px-3.5 sm:px-4 rounded-xl bg-slate-900/70 hover:bg-slate-900/90 backdrop-blur-md border border-slate-800/80 hover:border-red-500/50 transition-all duration-300 text-xs shadow-lg hover:shadow-red-950/30">
                 <div className="flex items-center gap-2 overflow-hidden w-full sm:w-auto">
                   <span className="relative flex h-2 w-2 shrink-0">
@@ -2952,7 +2952,7 @@ Jenjang karir profesional di DUSASPUN Group"
 
       {/* TENTANG KAMI & NILAI L.I.S.A */}
       <section id="tentang" className="py-14 sm:py-24 bg-white w-full max-w-full overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center mb-12 sm:mb-20">
             <div className="lg:col-span-6 space-y-4 sm:space-y-6">
               <span className="inline-block text-brand hover:text-white font-bold text-xs uppercase tracking-widest bg-red-50 hover:bg-red-600 px-3.5 py-1.5 rounded-full transition-all duration-300 cursor-pointer shadow-xs hover:scale-105">
@@ -3118,7 +3118,7 @@ Jenjang karir profesional di DUSASPUN Group"
         {/* Subtle Architectural Blueprint Dot Matrix */}
         <div className="absolute inset-0 bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] [background-size:24px_24px] opacity-35 pointer-events-none"></div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           {/* Section Header */}
           <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-red-50/90 border border-red-200/70 text-brand text-xs font-bold uppercase tracking-widest mb-3.5 shadow-2xs hover:bg-brand hover:text-white transition-all duration-300 cursor-pointer hover:scale-105">
@@ -3136,7 +3136,7 @@ Jenjang karir profesional di DUSASPUN Group"
           {/* DESKTOP VIEW: Connected Flow Track & 6 Modern Bento Cards */}
           <div className="hidden lg:block">
             {/* Horizontal Milestone Tracker */}
-            <div className="max-w-6xl mx-auto mb-10 px-6 relative">
+            <div className="max-w-[1400px] mx-auto mb-10 px-6 relative">
               <div className="relative flex items-center justify-between">
                 {/* Continuous connection track */}
                 <div className="absolute left-8 right-8 top-4 -translate-y-1/2 h-1 bg-slate-200 rounded-full overflow-hidden">
@@ -3292,7 +3292,7 @@ Jenjang karir profesional di DUSASPUN Group"
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-red-600/10 rounded-full blur-[100px] pointer-events-none"></div>
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-brand/10 rounded-full blur-[100px] pointer-events-none"></div>
         
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-8 sm:mb-12">
             <div>
               <span className="inline-block px-3 py-1 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-white/80 text-xs font-bold uppercase tracking-wider mb-3 transition-all duration-300 cursor-pointer shadow-inner backdrop-blur-sm">
@@ -3468,7 +3468,7 @@ Jenjang karir profesional di DUSASPUN Group"
 
       {/* FOOTER */}
       <footer id="kontak" className="w-full max-w-full overflow-hidden bg-[#050505] text-slate-400 pt-16 pb-12 border-t border-white/5 text-xs">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-white/5">
             <div className="md:col-span-2 space-y-4">
               <div className="flex items-center gap-3 group cursor-pointer">
