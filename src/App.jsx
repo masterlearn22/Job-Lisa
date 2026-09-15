@@ -3172,26 +3172,29 @@ Jenjang karir profesional di DUSASPUN Group"
                     
                     {/* --- Sisi Depan (Front) --- */}
                     <div className="absolute inset-0 [backface-visibility:hidden] bg-red-600/70 backdrop-blur-3xl rounded-2xl border border-red-500/50 shadow-xl shadow-red-900/10 ring-1 ring-white/30 p-4 flex flex-col justify-between overflow-hidden group-hover:bg-red-600/80 transition-all duration-300">
-                      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-400 via-white/50 to-red-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                      <span className="absolute -bottom-3 -right-1 font-mono font-black text-6xl text-white/10 select-none pointer-events-none">
+                      {/* Image as Background Texture */}
+                      <img src={st.image} alt={st.title} className="absolute inset-0 w-full h-full object-cover opacity-25 mix-blend-luminosity group-hover:scale-110 group-hover:opacity-40 transition-all duration-700 pointer-events-none" />
+                      
+                      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-400 via-white/50 to-red-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
+                      <span className="absolute -bottom-3 -right-1 font-mono font-black text-6xl text-white/10 select-none pointer-events-none z-10">
                         {st.no}
                       </span>
 
                       <div className="relative z-10">
                         <div className="flex items-center justify-between gap-2 mb-3">
-                          <span className="inline-block text-[9px] font-bold px-2 py-0.5 rounded-full border text-white border-white/30 bg-white/10">
+                          <span className="inline-block text-[9px] font-bold px-2 py-0.5 rounded-full border text-white border-white/30 bg-white/10 backdrop-blur-sm shadow-sm">
                             {st.category}
                           </span>
                           <span className="font-mono text-[9px] font-black text-white/90 bg-white/20 border border-white/20 shadow-sm px-2 py-0.5 rounded-md backdrop-blur-md">
                             {st.stage}
                           </span>
                         </div>
-                        <h3 className="font-black text-white text-xs xl:text-sm leading-tight drop-shadow-sm">
+                        <h3 className="font-black text-white text-xs xl:text-sm leading-tight drop-shadow-md">
                           {st.title}
                         </h3>
                       </div>
 
-                      <div className="relative z-10 mt-2 pt-2 border-t border-white/20 flex items-center justify-between text-[9px] text-white/80">
+                      <div className="relative z-10 mt-2 pt-2 border-t border-white/30 flex items-center justify-between text-[9px] text-white/90 drop-shadow-sm">
                         <span className="font-medium truncate">{st.format}</span>
                         <span className="font-bold text-white ml-1">&rarr;</span>
                       </div>
@@ -3199,13 +3202,16 @@ Jenjang karir profesional di DUSASPUN Group"
 
                     {/* --- Sisi Belakang (Back) --- */}
                     <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] bg-slate-900/90 backdrop-blur-3xl rounded-2xl border border-red-500/50 shadow-[0_8px_32px_0_rgba(31,38,135,0.15)] ring-1 ring-red-500/30 p-4 flex flex-col justify-center items-center text-center overflow-hidden">
-                      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-600 via-red-500 to-red-700"></div>
-                      <span className="absolute -bottom-3 -right-1 font-mono font-black text-6xl text-slate-800/50 select-none pointer-events-none">
+                      {/* Image as Background Texture on Back Face too */}
+                      <img src={st.image} alt={st.title} className="absolute inset-0 w-full h-full object-cover opacity-10 mix-blend-luminosity pointer-events-none" />
+                      <div className="absolute inset-0 bg-slate-900/50 pointer-events-none"></div>
+
+                      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-600 via-red-500 to-red-700 z-10"></div>
+                      <span className="absolute -bottom-3 -right-1 font-mono font-black text-6xl text-slate-800/50 select-none pointer-events-none z-10">
                         {st.no}
                       </span>
                       
                       <div className="relative z-10 w-full flex flex-col items-center">
-                        <img src={st.image} alt={st.title} className="w-16 h-16 object-cover rounded-full mb-3 shadow-[0_0_15px_rgba(220,38,38,0.3)] ring-2 ring-slate-800/80 group-hover:scale-110 transition-transform duration-500" />
                         <h4 className="text-white font-bold text-xs xl:text-sm mb-2 border-b border-slate-700/50 pb-1.5 w-full">{st.title}</h4>
                         <p className="text-[10px] text-slate-300 leading-relaxed px-1">
                           {st.desc}
@@ -3230,25 +3236,28 @@ Jenjang karir profesional di DUSASPUN Group"
                   
                   {/* --- Sisi Depan (Front) --- */}
                   <div className="absolute inset-0 [backface-visibility:hidden] bg-red-600/70 backdrop-blur-3xl rounded-2xl border border-red-500/50 shadow-xl shadow-red-900/10 ring-1 ring-white/30 p-4 flex flex-col justify-between overflow-hidden peer-checked:bg-red-600/80 transition-all duration-300">
-                    <span className="absolute -bottom-3 -right-1 font-mono font-black text-6xl text-white/10 select-none pointer-events-none">
+                    {/* Image as Background Texture */}
+                    <img src={st.image} alt={st.title} className="absolute inset-0 w-full h-full object-cover opacity-25 mix-blend-luminosity peer-checked:scale-110 peer-checked:opacity-40 transition-all duration-700 pointer-events-none" />
+
+                    <span className="absolute -bottom-3 -right-1 font-mono font-black text-6xl text-white/10 select-none pointer-events-none z-10">
                       {st.no}
                     </span>
 
                     <div className="relative z-10">
                       <div className="flex items-center justify-between gap-2 mb-3">
-                        <span className="inline-block text-[9px] font-bold px-2 py-0.5 rounded-full border text-white border-white/30 bg-white/10">
+                        <span className="inline-block text-[9px] font-bold px-2 py-0.5 rounded-full border text-white border-white/30 bg-white/10 backdrop-blur-sm shadow-sm">
                           {st.category}
                         </span>
                         <span className="font-mono text-[9px] font-black text-white/90 bg-white/20 border border-white/20 shadow-sm px-2 py-0.5 rounded-md backdrop-blur-md">
                           {st.stage}
                         </span>
                       </div>
-                      <h3 className="font-black text-white text-sm sm:text-base leading-tight drop-shadow-sm">
+                      <h3 className="font-black text-white text-sm sm:text-base leading-tight drop-shadow-md">
                         {st.title}
                       </h3>
                     </div>
 
-                    <div className="relative z-10 mt-1 pt-2 border-t border-white/20 flex items-center justify-between text-[9px] text-white/80">
+                    <div className="relative z-10 mt-1 pt-2 border-t border-white/30 flex items-center justify-between text-[9px] text-white/90 drop-shadow-sm">
                       <span className="font-medium truncate">{st.format}</span>
                       <span className="font-bold text-white flex items-center gap-1 animate-pulse">
                         Tap detail <span className="text-white">&rarr;</span>
@@ -3258,13 +3267,16 @@ Jenjang karir profesional di DUSASPUN Group"
 
                   {/* --- Sisi Belakang (Back) --- */}
                   <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] bg-slate-900/90 backdrop-blur-3xl rounded-2xl border border-red-500/50 shadow-[0_8px_32px_0_rgba(31,38,135,0.15)] ring-1 ring-red-500/30 p-5 flex flex-col justify-center items-center text-center overflow-hidden">
-                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-600 via-red-500 to-red-700"></div>
-                    <span className="absolute -bottom-3 -right-1 font-mono font-black text-6xl text-slate-800/50 select-none pointer-events-none">
+                    {/* Image as Background Texture on Back Face too */}
+                    <img src={st.image} alt={st.title} className="absolute inset-0 w-full h-full object-cover opacity-10 mix-blend-luminosity pointer-events-none" />
+                    <div className="absolute inset-0 bg-slate-900/50 pointer-events-none"></div>
+
+                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-600 via-red-500 to-red-700 z-10"></div>
+                    <span className="absolute -bottom-3 -right-1 font-mono font-black text-6xl text-slate-800/50 select-none pointer-events-none z-10">
                       {st.no}
                     </span>
                     
                     <div className="relative z-10 w-full flex flex-col items-center">
-                      <img src={st.image} alt={st.title} className="w-16 h-16 object-cover rounded-full mb-3 shadow-[0_0_15px_rgba(220,38,38,0.3)] ring-2 ring-slate-800/80 peer-checked:scale-110 transition-transform duration-500 delay-150" />
                       <h4 className="text-white font-bold text-xs sm:text-sm mb-2 border-b border-slate-700/50 pb-1.5 w-full">{st.title}</h4>
                       <p className="text-[10px] text-slate-300 leading-relaxed px-1">
                         {st.desc}
