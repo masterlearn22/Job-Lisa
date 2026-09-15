@@ -3183,7 +3183,7 @@ Jenjang karir profesional di DUSASPUN Group"
                         <span className={`inline-block text-[9px] font-bold px-2 py-0.5 rounded-full border mb-2 ${st.categoryColor}`}>
                           {st.category}
                         </span>
-                        <h3 className="font-black text-slate-900 text-[11px] leading-snug">
+                        <h3 className="font-black text-slate-900 text-xs xl:text-sm leading-tight">
                           {st.title}
                         </h3>
                       </div>
@@ -3205,7 +3205,7 @@ Jenjang karir profesional di DUSASPUN Group"
                         <div className="w-8 h-8 mx-auto rounded-xl bg-brand border border-red-500 text-white flex items-center justify-center mb-2">
                             {getStageIcon(st.iconType)}
                         </div>
-                        <h4 className="text-white font-bold text-[11px] mb-2 border-b border-slate-700 pb-1.5">{st.title}</h4>
+                        <h4 className="text-white font-bold text-xs xl:text-sm mb-2 border-b border-slate-700 pb-1.5">{st.title}</h4>
                         <p className="text-[10px] text-slate-300 leading-relaxed">
                           {st.desc}
                         </p>
@@ -3245,7 +3245,7 @@ Jenjang karir profesional di DUSASPUN Group"
                       <span className={`inline-block text-[9px] font-bold px-2 py-0.5 rounded-full border mb-1.5 ${st.categoryColor}`}>
                         {st.category}
                       </span>
-                      <h3 className="font-black text-slate-900 text-xs sm:text-sm leading-snug">
+                      <h3 className="font-black text-slate-900 text-sm sm:text-base leading-tight">
                         {st.title}
                       </h3>
                     </div>
@@ -3269,7 +3269,7 @@ Jenjang karir profesional di DUSASPUN Group"
                       <div className="w-10 h-10 mx-auto rounded-xl bg-brand border border-red-500 text-white flex items-center justify-center mb-2 shadow-md shadow-brand/20">
                           {getStageIcon(st.iconType)}
                       </div>
-                      <h4 className="text-white font-bold text-[11px] mb-2 border-b border-slate-700 pb-1.5">{st.title}</h4>
+                      <h4 className="text-white font-bold text-xs sm:text-sm mb-2 border-b border-slate-700 pb-1.5">{st.title}</h4>
                       <p className="text-[10px] text-slate-300 leading-relaxed">
                         {st.desc}
                       </p>
