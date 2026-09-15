@@ -3094,52 +3094,63 @@ Jenjang karir profesional di DUSASPUN Group"
               </div>
             </div>
 
-            {/* 6 Bento Modern Cards Grid */}
-            <div className="grid grid-cols-6 gap-3.5 xl:gap-4 relative">
+            {/* 6 Bento Modern Cards Grid (Desktop Flip Cards) */}
+            <div className="hidden lg:grid grid-cols-6 gap-3.5 xl:gap-4 relative">
               {RECRUITMENT_STAGES.map((st, idx) => (
                 <div 
                   key={idx}
-                  className="relative bg-white rounded-2xl border border-slate-200/90 hover:border-red-400 shadow-xs hover:shadow-xl hover:-translate-y-2 transition-all duration-300 p-4 sm:p-5 flex flex-col justify-between overflow-hidden group cursor-pointer"
+                  className="relative h-64 group cursor-pointer [perspective:1000px]"
                 >
-                  {/* Top illuminated gradient micro-accent on hover */}
-                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-600 via-red-500 to-red-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-
-                  {/* Faint architectural watermark numeral in corner */}
-                  <span className="absolute -bottom-3 -right-1 font-mono font-black text-6xl text-slate-100 group-hover:text-red-50/70 select-none pointer-events-none transition-colors duration-300">
-                    {st.no}
-                  </span>
-
-                  <div className="relative z-10">
-                    {/* Icon & Stage Badge */}
-                    <div className="flex items-center justify-between gap-2 mb-4">
-                      <div className="w-11 h-11 rounded-xl bg-slate-50 border border-slate-200/80 text-slate-700 flex items-center justify-center shrink-0 group-hover:bg-brand group-hover:text-white group-hover:border-brand group-hover:scale-110 group-hover:shadow-md group-hover:shadow-brand/20 transition-all duration-300">
-                        {getStageIcon(st.iconType)}
-                      </div>
-                      <span className="font-mono text-[10px] font-black text-slate-400 group-hover:text-brand bg-slate-100 group-hover:bg-red-50 border border-slate-200/60 group-hover:border-red-200 px-2 py-0.5 rounded-md transition-all">
-                        {st.stage}
+                  <div className="w-full h-full relative transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
+                    
+                    {/* --- Sisi Depan (Front) --- */}
+                    <div className="absolute inset-0 [backface-visibility:hidden] bg-white rounded-2xl border border-slate-200/90 shadow-xs p-4 flex flex-col justify-between overflow-hidden">
+                      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-600 via-red-500 to-red-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      <span className="absolute -bottom-3 -right-1 font-mono font-black text-6xl text-slate-100 select-none pointer-events-none">
+                        {st.no}
                       </span>
+
+                      <div className="relative z-10">
+                        <div className="flex items-center justify-between gap-2 mb-4">
+                          <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-200/80 text-slate-700 flex items-center justify-center shrink-0">
+                            {getStageIcon(st.iconType)}
+                          </div>
+                          <span className="font-mono text-[10px] font-black text-slate-400 bg-slate-100 border border-slate-200/60 px-2 py-0.5 rounded-md">
+                            {st.stage}
+                          </span>
+                        </div>
+                        <span className={`inline-block text-[9px] font-bold px-2 py-0.5 rounded-full border mb-2 ${st.categoryColor}`}>
+                          {st.category}
+                        </span>
+                        <h3 className="font-black text-slate-900 text-xs sm:text-sm leading-snug">
+                          {st.title}
+                        </h3>
+                      </div>
+
+                      <div className="relative z-10 mt-2 pt-2 border-t border-slate-100 flex items-center justify-between text-[9px] text-slate-400">
+                        <span className="font-medium text-slate-500 truncate">{st.format}</span>
+                        <span className="font-bold text-slate-300 ml-1">&rarr;</span>
+                      </div>
                     </div>
 
-                    {/* Category Chip */}
-                    <span className={`inline-block text-[10px] font-bold px-2 py-0.5 rounded-full border mb-2 transition-colors ${st.categoryColor}`}>
-                      {st.category}
-                    </span>
+                    {/* --- Sisi Belakang (Back) --- */}
+                    <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] bg-slate-900 rounded-2xl border border-red-500/50 shadow-xl p-5 flex flex-col justify-center items-center text-center overflow-hidden">
+                      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-600 via-red-500 to-red-700"></div>
+                      <span className="absolute -bottom-3 -right-1 font-mono font-black text-6xl text-slate-800/50 select-none pointer-events-none">
+                        {st.no}
+                      </span>
+                      
+                      <div className="relative z-10">
+                        <div className="w-10 h-10 mx-auto rounded-xl bg-brand border border-red-500 text-white flex items-center justify-center mb-3">
+                            {getStageIcon(st.iconType)}
+                        </div>
+                        <h4 className="text-white font-bold text-xs mb-2 border-b border-slate-700 pb-2">{st.title}</h4>
+                        <p className="text-[11px] text-slate-300 leading-relaxed">
+                          {st.desc}
+                        </p>
+                      </div>
+                    </div>
 
-                    {/* Title */}
-                    <h3 className="font-black text-slate-900 text-xs sm:text-sm group-hover:text-red-600 transition-colors leading-snug">
-                      {st.title}
-                    </h3>
-
-                    {/* Description */}
-                    <p className="text-[11px] text-slate-600 group-hover:text-slate-700 leading-relaxed mt-2 transition-colors">
-                      {st.desc}
-                    </p>
-                  </div>
-
-                  {/* Micro Footer */}
-                  <div className="relative z-10 mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-400">
-                    <span className="font-medium text-slate-500 truncate">{st.format}</span>
-                    <span className="font-bold text-slate-300 group-hover:text-brand group-hover:translate-x-1 transition-all shrink-0 ml-1">&rarr;</span>
                   </div>
                 </div>
               ))}
