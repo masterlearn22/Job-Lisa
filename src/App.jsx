@@ -2893,7 +2893,7 @@ Jenjang karir profesional di DUSASPUN Group"
                     </p>
                   </div>
                   <div className="group p-3 rounded-xl transition-all duration-300 hover:bg-slate-900/80 hover:backdrop-blur-md hover:border hover:border-red-500/50 hover:shadow-xl hover:shadow-red-950/40 hover:-translate-y-1 cursor-pointer">
-                    <p className="text-2xl sm:text-3xl font-black text-brand-light group-hover:text-red-400 transition-colors duration-300 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+                    <p className="text-2xl sm:text-3xl font-black text-red-400 group-hover:text-red-300 transition-colors duration-300 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
                       {jobs.length} Posisi
                     </p>
                     <p className="text-[10px] sm:text-xs text-slate-300 uppercase tracking-wider mt-1 font-semibold drop-shadow-sm group-hover:text-white transition-colors duration-300">
