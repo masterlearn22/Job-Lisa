@@ -3172,17 +3172,14 @@ Jenjang karir profesional di DUSASPUN Group"
                   <div className="w-full h-full relative transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
                     
                     {/* --- Sisi Depan (Front) --- */}
-                    <div className="absolute inset-0 [backface-visibility:hidden] bg-red-600/80 backdrop-blur-3xl rounded-2xl border border-red-500/50 shadow-xl shadow-red-900/10 ring-1 ring-red-500/40 p-4 flex flex-col justify-between overflow-hidden">
+                    <div className="absolute inset-0 [backface-visibility:hidden] bg-red-900/80 backdrop-blur-3xl rounded-2xl border border-red-500/50 shadow-xl shadow-red-950/20 ring-1 ring-red-500/40 p-4 flex flex-col justify-between overflow-hidden group-hover:bg-red-900/90 transition-colors duration-300">
                       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-400 via-white/50 to-red-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                       <span className="absolute -bottom-3 -right-1 font-mono font-black text-6xl text-white/10 select-none pointer-events-none">
                         {st.no}
                       </span>
 
                       <div className="relative z-10">
-                        <div className="flex items-center justify-between gap-2 mb-3">
-                          <div className="w-9 h-9 rounded-xl bg-white/20 border border-white/30 shadow-sm text-white flex items-center justify-center shrink-0 backdrop-blur-md">
-                            {getStageIcon(st.iconType)}
-                          </div>
+                        <div className="flex items-center justify-end gap-2 mb-3">
                           <span className="font-mono text-[9px] font-black text-white/90 bg-white/20 border border-white/20 shadow-sm px-2 py-0.5 rounded-md backdrop-blur-md">
                             {st.stage}
                           </span>
@@ -3209,9 +3206,6 @@ Jenjang karir profesional di DUSASPUN Group"
                       </span>
                       
                       <div className="relative z-10">
-                        <div className="w-8 h-8 mx-auto rounded-xl bg-brand border border-red-500 text-white flex items-center justify-center mb-2">
-                            {getStageIcon(st.iconType)}
-                        </div>
                         <h4 className="text-white font-bold text-xs xl:text-sm mb-2 border-b border-slate-700 pb-1.5">{st.title}</h4>
                         <p className="text-[10px] text-slate-300 leading-relaxed">
                           {st.desc}
@@ -3235,16 +3229,13 @@ Jenjang karir profesional di DUSASPUN Group"
                 <div className="w-full h-full relative transition-transform duration-700 [transform-style:preserve-3d] peer-checked:[transform:rotateY(180deg)]">
                   
                   {/* --- Sisi Depan (Front) --- */}
-                  <div className="absolute inset-0 [backface-visibility:hidden] bg-red-600/80 backdrop-blur-3xl rounded-2xl border border-red-500/50 shadow-xl shadow-red-900/10 ring-1 ring-red-500/40 p-4 flex flex-col justify-between overflow-hidden">
+                  <div className="absolute inset-0 [backface-visibility:hidden] bg-red-900/80 backdrop-blur-3xl rounded-2xl border border-red-500/50 shadow-xl shadow-red-950/20 ring-1 ring-red-500/40 p-4 flex flex-col justify-between overflow-hidden peer-checked:bg-red-900/90 transition-colors duration-300">
                     <span className="absolute -bottom-3 -right-1 font-mono font-black text-6xl text-white/10 select-none pointer-events-none">
                       {st.no}
                     </span>
 
                     <div className="relative z-10">
-                      <div className="flex items-center justify-between gap-2 mb-3">
-                        <div className="w-10 h-10 rounded-xl bg-white/20 border border-white/30 shadow-sm text-white flex items-center justify-center shrink-0 backdrop-blur-md">
-                          {getStageIcon(st.iconType)}
-                        </div>
+                      <div className="flex items-center justify-end gap-2 mb-3">
                         <span className="font-mono text-[9px] font-black text-white/90 bg-white/20 border border-white/20 shadow-sm px-2 py-0.5 rounded-md backdrop-blur-md">
                           {st.stage}
                         </span>
@@ -3273,9 +3264,6 @@ Jenjang karir profesional di DUSASPUN Group"
                     </span>
                     
                     <div className="relative z-10 w-full">
-                      <div className="w-10 h-10 mx-auto rounded-xl bg-brand/90 backdrop-blur-md border border-red-500/50 text-white flex items-center justify-center mb-2 shadow-md shadow-brand/20">
-                          {getStageIcon(st.iconType)}
-                      </div>
                       <h4 className="text-white font-bold text-xs sm:text-sm mb-2 border-b border-slate-700/50 pb-1.5">{st.title}</h4>
                       <p className="text-[10px] text-slate-300 leading-relaxed">
                         {st.desc}
