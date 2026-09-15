@@ -3407,9 +3407,9 @@ Jenjang karir profesional di DUSASPUN Group"
       )}
 
       {/* FOOTER */}
-      <footer id="kontak" className="w-full max-w-full overflow-hidden bg-slate-950 text-slate-400 pt-16 pb-12 border-t border-slate-800 text-xs">
+      <footer id="kontak" className="w-full max-w-full overflow-hidden bg-[#050505] text-slate-400 pt-16 pb-12 border-t border-white/5 text-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-slate-800">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-white/5">
             <div className="md:col-span-2 space-y-4">
               <div className="flex items-center gap-3 group cursor-pointer">
                 <div className="w-9 h-9 bg-brand group-hover:bg-red-600 group-hover:scale-110 rounded-lg flex items-center justify-center text-white font-black text-lg transition-all duration-300 shadow-md">
