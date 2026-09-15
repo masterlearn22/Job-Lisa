@@ -3157,52 +3157,66 @@ Jenjang karir profesional di DUSASPUN Group"
             </div>
           </div>
 
-          {/* MOBILE & TABLET VIEW: Connected Vertical Timeline Pipeline */}
-          <div className="lg:hidden relative pl-6 sm:pl-8 space-y-4 before:absolute before:left-3 sm:before:left-4 before:top-4 before:bottom-4 before:w-0.5 before:bg-gradient-to-b before:from-brand before:via-amber-400 before:to-emerald-500 before:opacity-50">
+          {/* MOBILE & TABLET VIEW: Horizontal Swipe & Tap to Flip Cards */}
+          <div className="lg:hidden flex overflow-x-auto gap-4 pb-8 px-1 mt-6 snap-x snap-mandatory [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {RECRUITMENT_STAGES.map((st, idx) => (
-              <div key={idx} className="relative group cursor-pointer">
-                {/* Timeline Node on the Left Track */}
-                <div className="absolute -left-6 sm:-left-8 top-5 -translate-x-1/2 w-6 h-6 rounded-full bg-white border-2 border-brand text-brand font-mono font-black text-[10px] flex items-center justify-center shadow-xs group-hover:scale-125 group-hover:bg-brand group-hover:text-white transition-all duration-300">
-                  {st.no}
-                </div>
+              <label key={idx} className="relative shrink-0 w-[80vw] sm:w-[50vw] h-64 snap-center cursor-pointer [perspective:1000px] group block">
+                {/* Checkbox for flip state on tap */}
+                <input type="checkbox" className="peer hidden" />
+                
+                <div className="w-full h-full relative transition-transform duration-700 [transform-style:preserve-3d] peer-checked:[transform:rotateY(180deg)]">
+                  
+                  {/* --- Sisi Depan (Front) --- */}
+                  <div className="absolute inset-0 [backface-visibility:hidden] bg-white rounded-2xl border border-slate-200/90 shadow-sm p-5 flex flex-col justify-between overflow-hidden">
+                    <span className="absolute -bottom-3 -right-1 font-mono font-black text-6xl text-slate-100 select-none pointer-events-none">
+                      {st.no}
+                    </span>
 
-                {/* Modern Bento Card on the Right */}
-                <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 shadow-xs hover:shadow-xl hover:border-red-400 transition-all duration-300 overflow-hidden relative">
-                  {/* Top illuminated line on hover */}
-                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-600 via-red-500 to-red-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-
-                  {/* Faint watermark number in corner */}
-                  <span className="absolute -bottom-3 -right-1 font-mono font-black text-6xl text-slate-100/70 group-hover:text-red-50/70 select-none pointer-events-none transition-colors duration-300">
-                    {st.no}
-                  </span>
-
-                  <div className="relative z-10 flex items-start gap-3.5">
-                    <div className="w-11 h-11 rounded-xl bg-slate-50 border border-slate-200/80 text-slate-700 flex items-center justify-center shrink-0 group-hover:bg-brand group-hover:text-white group-hover:border-brand group-hover:scale-105 transition-all duration-300 shadow-xs">
-                      {getStageIcon(st.iconType)}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex flex-wrap items-center justify-between gap-1.5 mb-1.5">
-                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${st.categoryColor}`}>
-                          {st.category}
-                        </span>
-                        <span className="font-mono text-[10px] font-bold text-slate-400 group-hover:text-brand bg-slate-50 px-2 py-0.5 rounded">
+                    <div className="relative z-10">
+                      <div className="flex items-center justify-between gap-2 mb-4">
+                        <div className="w-12 h-12 rounded-xl bg-slate-50 border border-slate-200/80 text-slate-700 flex items-center justify-center shrink-0 shadow-xs">
+                          {getStageIcon(st.iconType)}
+                        </div>
+                        <span className="font-mono text-[11px] font-black text-slate-500 bg-slate-100 border border-slate-200/60 px-2 py-0.5 rounded-md">
                           {st.stage}
                         </span>
                       </div>
-                      <h3 className="text-sm font-black text-slate-900 group-hover:text-red-600 transition-colors leading-snug">
+                      <span className={`inline-block text-[10px] font-bold px-2 py-1 rounded-full border mb-2 ${st.categoryColor}`}>
+                        {st.category}
+                      </span>
+                      <h3 className="font-black text-slate-900 text-sm sm:text-base leading-snug">
                         {st.title}
                       </h3>
-                      <p className="text-xs text-slate-600 mt-1.5 leading-relaxed">
-                        {st.desc}
-                      </p>
-                      <div className="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">
-                        <span className="text-slate-500 font-medium">{st.format}</span>
-                        <span className="font-bold text-brand group-hover:translate-x-1 transition-transform">&rarr;</span>
-                      </div>
+                    </div>
+
+                    <div className="relative z-10 mt-2 pt-3 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-400">
+                      <span className="font-medium text-slate-500 truncate">{st.format}</span>
+                      <span className="font-bold text-slate-400 flex items-center gap-1 animate-pulse">
+                        Tap detail <span className="text-brand">&rarr;</span>
+                      </span>
                     </div>
                   </div>
+
+                  {/* --- Sisi Belakang (Back) --- */}
+                  <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] bg-slate-900 rounded-2xl border border-red-500/50 shadow-xl p-6 flex flex-col justify-center items-center text-center overflow-hidden">
+                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-600 via-red-500 to-red-700"></div>
+                    <span className="absolute -bottom-3 -right-1 font-mono font-black text-6xl text-slate-800/50 select-none pointer-events-none">
+                      {st.no}
+                    </span>
+                    
+                    <div className="relative z-10 w-full">
+                      <div className="w-12 h-12 mx-auto rounded-xl bg-brand border border-red-500 text-white flex items-center justify-center mb-4 shadow-md shadow-brand/20">
+                          {getStageIcon(st.iconType)}
+                      </div>
+                      <h4 className="text-white font-bold text-sm mb-3 border-b border-slate-700 pb-2">{st.title}</h4>
+                      <p className="text-xs text-slate-300 leading-relaxed">
+                        {st.desc}
+                      </p>
+                    </div>
+                  </div>
+
                 </div>
-              </div>
+              </label>
             ))}
           </div>
 
