@@ -52,7 +52,8 @@ const RECRUITMENT_STAGES = [
     title: 'Verifikasi Dokumen',
     desc: 'Pemeriksaan berkas CV, portofolio proyek, dan keaslian dokumen kualifikasi kandidat.',
     format: 'Seleksi Berkas Online',
-    iconType: 'doc'
+    iconType: 'doc',
+    image: '/images/stage1.jpg'
   },
   {
     no: '02',
@@ -63,7 +64,8 @@ const RECRUITMENT_STAGES = [
     title: 'Wawancara HR & Budaya',
     desc: 'Evaluasi integritas, kepribadian, serta keselarasan dengan 4 Nilai Inti L.I.S.A.',
     format: 'Tatap Muka / Virtual',
-    iconType: 'hr'
+    iconType: 'hr',
+    image: '/images/stage2.jpg'
   },
   {
     no: '03',
@@ -74,7 +76,8 @@ const RECRUITMENT_STAGES = [
     title: 'Wawancara User Teknis',
     desc: 'Uji kompetensi teknis rekayasa beton dan studi kasus bersama Division Lead.',
     format: 'Lead & Engineering Manager',
-    iconType: 'tech'
+    iconType: 'tech',
+    image: '/images/stage3.jpg'
   },
   {
     no: '04',
@@ -85,7 +88,8 @@ const RECRUITMENT_STAGES = [
     title: 'Psikotes Terstandar',
     desc: 'Pengujian penalaran logika, analitikal numerik, dan daya tahan stres profesional.',
     format: 'Asesmen Psikologi',
-    iconType: 'psy'
+    iconType: 'psy',
+    image: '/images/stage4.jpg'
   },
   {
     no: '05',
@@ -96,7 +100,8 @@ const RECRUITMENT_STAGES = [
     title: 'Offering Letter Resmi',
     desc: 'Pemberian penawaran resmi paket kompensasi, benefit kesehatan, dan hak kerja.',
     format: 'Dokumen Resmi HRD',
-    iconType: 'offer'
+    iconType: 'offer',
+    image: '/images/stage5.jpg'
   },
   {
     no: '06',
@@ -107,7 +112,8 @@ const RECRUITMENT_STAGES = [
     title: 'Hari Pertama & Onboarding',
     desc: 'Penyambutan resmi karyawan baru, serah terima fasilitas, dan pengenalan sistem kerja.',
     format: 'Kantor Pusat / Plant',
-    iconType: 'rocket'
+    iconType: 'rocket',
+    image: '/images/stage6.jpg'
   }
 ];
 
@@ -3198,9 +3204,10 @@ Jenjang karir profesional di DUSASPUN Group"
                         {st.no}
                       </span>
                       
-                      <div className="relative z-10">
-                        <h4 className="text-white font-bold text-xs xl:text-sm mb-2 border-b border-slate-700 pb-1.5">{st.title}</h4>
-                        <p className="text-[10px] text-slate-300 leading-relaxed">
+                      <div className="relative z-10 w-full flex flex-col items-center">
+                        <img src={st.image} alt={st.title} className="w-16 h-16 object-cover rounded-full mb-3 shadow-[0_0_15px_rgba(220,38,38,0.3)] ring-2 ring-slate-800/80 group-hover:scale-110 transition-transform duration-500" />
+                        <h4 className="text-white font-bold text-xs xl:text-sm mb-2 border-b border-slate-700/50 pb-1.5 w-full">{st.title}</h4>
+                        <p className="text-[10px] text-slate-300 leading-relaxed px-1">
                           {st.desc}
                         </p>
                       </div>
@@ -3256,9 +3263,10 @@ Jenjang karir profesional di DUSASPUN Group"
                       {st.no}
                     </span>
                     
-                    <div className="relative z-10 w-full">
-                      <h4 className="text-white font-bold text-xs sm:text-sm mb-2 border-b border-slate-700/50 pb-1.5">{st.title}</h4>
-                      <p className="text-[10px] text-slate-300 leading-relaxed">
+                    <div className="relative z-10 w-full flex flex-col items-center">
+                      <img src={st.image} alt={st.title} className="w-16 h-16 object-cover rounded-full mb-3 shadow-[0_0_15px_rgba(220,38,38,0.3)] ring-2 ring-slate-800/80 peer-checked:scale-110 transition-transform duration-500 delay-150" />
+                      <h4 className="text-white font-bold text-xs sm:text-sm mb-2 border-b border-slate-700/50 pb-1.5 w-full">{st.title}</h4>
+                      <p className="text-[10px] text-slate-300 leading-relaxed px-1">
                         {st.desc}
                       </p>
                     </div>
