@@ -13,13 +13,8 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve static files (CV Uploads) securely if needed (optional, HRD can access via auth later)
+// Serve static files (CV Uploads)
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
-// Simple Route
-app.get('/', (req, res) => {
-    res.send('Job Portal API is running');
-});
 
 const jobRoutes = require('./routes/jobRoutes');
 
@@ -27,7 +22,26 @@ const jobRoutes = require('./routes/jobRoutes');
 app.use('/api/applications', applicationRoutes);
 app.use('/api/jobs', jobRoutes);
 
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+    res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
+// Serve static frontend build from 'public'
+const frontendPath = path.join(__dirname, 'public');
+app.use(express.static(frontendPath));
+
+// Catch-all fallback to serve React index.html for SPA
+app.use((req, res) => {
+    const indexPath = path.join(frontendPath, 'index.html');
+    res.sendFile(indexPath, (err) => {
+        if (err) {
+            res.status(200).send('Job Portal API is running');
+        }
+    });
+});
+
 // Start Server
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`Server is running on port ${PORT}`);
 });

@@ -159,10 +159,10 @@ function getStageIcon(type) {
   }
 }
 
-// BASE API URL (Mendukung localhost & remote backend via env)
+// BASE API URL (Mendukung localhost saat dev, dan relative path di production)
 const API_BASE_URL = (typeof window !== 'undefined' && window.__API_URL__) || 
   import.meta.env.VITE_API_BASE_URL || 
-  'http://localhost:5000';
+  (import.meta.env.DEV ? 'http://localhost:5000' : '');
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('home')
