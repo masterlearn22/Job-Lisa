@@ -2945,165 +2945,159 @@ Jenjang karir profesional di DUSASPUN Group"
             </div>
 
             <div className="lg:col-span-6">
-              <div className="relative group">
-                {/* Modern Soft Centered Ambient Glow (No awkward rotated rectangle) */}
-                <div className="absolute -inset-1.5 bg-gradient-to-r from-red-600/30 via-brand/20 to-red-500/30 rounded-[28px] blur-xl opacity-40 group-hover:opacity-70 transition duration-500"></div>
+            <div className="lg:col-span-6">
+              <div className="relative group rounded-[24px] overflow-hidden shadow-2xl">
+                {/* Solid Black Base for the Card */}
+                <div className="absolute inset-0 bg-[#050505]"></div>
+                
+                {/* Abstract Glowing Orbs (Behind the glass) */}
+                <div className="absolute -top-20 -right-20 w-80 h-80 bg-red-600/40 rounded-full blur-[70px]"></div>
+                <div className="absolute -bottom-20 -left-20 w-72 h-72 bg-blue-600/30 rounded-full blur-[70px]"></div>
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-brand/20 rounded-full blur-[80px]"></div>
 
-                {/* Main Bento Container */}
-                <div className="relative bg-gradient-to-b from-slate-900 via-slate-900 to-[#0b1120] text-white p-5 sm:p-7 lg:p-8 rounded-[24px] shadow-2xl border border-slate-800/90 hover:border-red-500/40 transition-all duration-500 overflow-hidden">
-                  {/* Subtle Architectural Lighting & Dot Pattern */}
-                  <div className="absolute top-0 right-0 w-72 h-72 bg-red-600/10 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20"></div>
-                  <div className="absolute bottom-0 left-0 w-64 h-64 bg-slate-700/15 rounded-full blur-3xl pointer-events-none -ml-16 -mb-16"></div>
-                  <div className="absolute inset-0 bg-[radial-gradient(#334155_1px,transparent_1px)] [background-size:20px_20px] opacity-20 pointer-events-none"></div>
-                  <div className="absolute top-0 inset-x-8 h-[1px] bg-gradient-to-r from-transparent via-red-400/50 to-transparent"></div>
+                {/* Noise Texture for Premium Glass Effect */}
+                <div className="absolute inset-0 opacity-[0.04] mix-blend-overlay pointer-events-none" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")' }}></div>
 
-                  {/* Header: Meta Badge & Title */}
-                  <div className="relative z-10">
-                    <div className="flex items-center justify-between gap-3 mb-3">
-                      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-bold tracking-wide">
-                        <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-                        <span>Visi &amp; Budaya Inti</span>
-                      </div>
-                      <div className="flex items-center gap-1.5 bg-slate-800/80 border border-slate-700/50 px-3 py-1 rounded-full text-xs font-mono font-bold tracking-widest text-slate-300">
-                        <span className="text-red-400">L</span>
-                        <span className="text-slate-500">&bull;</span>
-                        <span className="text-red-400">I</span>
-                        <span className="text-slate-500">&bull;</span>
-                        <span className="text-red-400">S</span>
-                        <span className="text-slate-500">&bull;</span>
-                        <span className="text-red-400">A</span>
-                      </div>
+                {/* Main Glass Panel */}
+                <div className="relative bg-white/[0.03] backdrop-blur-3xl border-t border-l border-white/10 border-r border-b border-white/5 text-white p-5 sm:p-7 lg:p-8 rounded-[24px] shadow-2xl transition-all duration-500 z-10 flex flex-col h-full">
+                  
+                  {/* Glass Header */}
+                  <div className="flex items-center justify-between gap-3 mb-5">
+                    <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/40 border border-white/10 text-white text-xs font-bold tracking-wide shadow-inner">
+                      <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse shadow-[0_0_8px_rgba(239,68,68,0.8)]"></span>
+                      <span>Visi &amp; Budaya Inti</span>
                     </div>
-
-                    <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight flex items-center gap-2">
-                      Nilai Luhur <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-red-300 to-amber-200">"L . I . S . A"</span>
-                    </h3>
-                    <p className="text-slate-400 text-xs sm:text-sm mt-1 leading-relaxed">
-                      Empat pilar keunggulan moral dan profesionalitas PT Lisa Concrete Indonesia dalam memajukan industri konstruksi nasional.
-                    </p>
+                    <div className="flex items-center gap-1.5 bg-black/40 border border-white/10 px-3 py-1.5 rounded-full text-xs font-mono font-bold tracking-widest text-slate-300 shadow-inner">
+                      <span className="text-white">L</span>
+                      <span className="text-white/30">&bull;</span>
+                      <span className="text-white">I</span>
+                      <span className="text-white/30">&bull;</span>
+                      <span className="text-white">S</span>
+                      <span className="text-white/30">&bull;</span>
+                      <span className="text-white">A</span>
+                    </div>
                   </div>
 
-                  {/* 2x2 Modern Bento Grid */}
-                  <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5 mt-5 sm:mt-6">
+                  <h3 className="text-2xl sm:text-3xl font-black text-white tracking-tight flex items-center gap-2 mb-2">
+                    Nilai Luhur <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-300">"L.I.S.A"</span>
+                  </h3>
+                  <p className="text-white/60 text-xs sm:text-sm leading-relaxed mb-6">
+                    Empat pilar keunggulan moral dan profesionalitas PT Lisa Concrete Indonesia dalam memajukan industri konstruksi nasional.
+                  </p>
+
+                  {/* Glass Bento Grid */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mt-auto">
                     {/* Item L */}
-                    <div className="relative group/item bg-slate-800/40 hover:bg-slate-800/80 border border-slate-700/60 hover:border-red-500/50 rounded-2xl p-4 sm:p-4.5 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-red-950/25 overflow-hidden flex flex-col justify-between cursor-pointer">
-                      <div className="absolute top-0 right-0 -mr-6 -mt-6 w-24 h-24 bg-red-500/10 rounded-full blur-xl opacity-0 group-hover/item:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
-                      <span className="absolute right-2 bottom-1 font-mono font-black text-5xl sm:text-6xl text-white/[0.03] group-hover/item:text-red-500/10 group-hover/item:scale-110 transition-all duration-300 select-none pointer-events-none">
-                        L
-                      </span>
+                    <div className="group/item relative bg-black/30 hover:bg-white/10 backdrop-blur-md border border-white/10 hover:border-white/20 rounded-2xl p-4 sm:p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] cursor-pointer overflow-hidden">
+                      {/* Inner light reflection */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover/item:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                      
                       <div className="relative z-10">
-                        <div className="flex items-center justify-between gap-2 mb-3">
-                          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-red-600 via-red-700 to-brand text-white font-black text-base flex items-center justify-center shadow-md shadow-red-950/40 ring-1 ring-white/15 group-hover/item:scale-105 transition-transform duration-300">
+                        <div className="flex items-center justify-between gap-2 mb-4">
+                          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-600 to-red-800 text-white font-black text-lg flex items-center justify-center shadow-lg border border-red-500/50 group-hover/item:scale-105 transition-transform duration-300">
                             L
                           </div>
-                          <div className="w-8 h-8 rounded-lg bg-slate-800/90 border border-slate-700/70 text-slate-400 group-hover/item:text-red-400 group-hover/item:border-red-500/30 flex items-center justify-center transition-colors">
+                          <div className="w-9 h-9 rounded-xl bg-white/5 border border-white/10 text-white/50 group-hover/item:text-white flex items-center justify-center transition-colors shadow-inner">
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                           </div>
                         </div>
-                        <h4 className="font-bold text-white group-hover/item:text-red-300 text-xs sm:text-[13px] leading-snug transition-colors duration-300">
+                        <h4 className="font-bold text-white text-sm leading-snug mb-2">
                           Lift the livelihood of communities &amp; care for climate
                         </h4>
-                        <p className="text-[11px] sm:text-xs text-slate-400 group-hover/item:text-slate-200 mt-2 leading-relaxed transition-colors duration-300">
+                        <p className="text-[11px] sm:text-xs text-white/50 group-hover/item:text-white/80 leading-relaxed transition-colors duration-300">
                           Meningkatkan taraf hidup komunitas sekitar dan berdedikasi menjaga kelestarian lingkungan serta iklim.
                         </p>
                       </div>
                     </div>
 
                     {/* Item I */}
-                    <div className="relative group/item bg-slate-800/40 hover:bg-slate-800/80 border border-slate-700/60 hover:border-red-500/50 rounded-2xl p-4 sm:p-4.5 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-red-950/25 overflow-hidden flex flex-col justify-between cursor-pointer">
-                      <div className="absolute top-0 right-0 -mr-6 -mt-6 w-24 h-24 bg-red-500/10 rounded-full blur-xl opacity-0 group-hover/item:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
-                      <span className="absolute right-2 bottom-1 font-mono font-black text-5xl sm:text-6xl text-white/[0.03] group-hover/item:text-red-500/10 group-hover/item:scale-110 transition-all duration-300 select-none pointer-events-none">
-                        I
-                      </span>
+                    <div className="group/item relative bg-black/30 hover:bg-white/10 backdrop-blur-md border border-white/10 hover:border-white/20 rounded-2xl p-4 sm:p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] cursor-pointer overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover/item:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
                       <div className="relative z-10">
-                        <div className="flex items-center justify-between gap-2 mb-3">
-                          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-red-600 via-red-700 to-brand text-white font-black text-base flex items-center justify-center shadow-md shadow-red-950/40 ring-1 ring-white/15 group-hover/item:scale-105 transition-transform duration-300">
+                        <div className="flex items-center justify-between gap-2 mb-4">
+                          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-600 to-red-800 text-white font-black text-lg flex items-center justify-center shadow-lg border border-red-500/50 group-hover/item:scale-105 transition-transform duration-300">
                             I
                           </div>
-                          <div className="w-8 h-8 rounded-lg bg-slate-800/90 border border-slate-700/70 text-slate-400 group-hover/item:text-red-400 group-hover/item:border-red-500/30 flex items-center justify-center transition-colors">
+                          <div className="w-9 h-9 rounded-xl bg-white/5 border border-white/10 text-white/50 group-hover/item:text-white flex items-center justify-center transition-colors shadow-inner">
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                             </svg>
                           </div>
                         </div>
-                        <h4 className="font-bold text-white group-hover/item:text-red-300 text-xs sm:text-[13px] leading-snug transition-colors duration-300">
+                        <h4 className="font-bold text-white text-sm leading-snug mb-2">
                           Inspire positive change for country &amp; children
                         </h4>
-                        <p className="text-[11px] sm:text-xs text-slate-400 group-hover/item:text-slate-200 mt-2 leading-relaxed transition-colors duration-300">
+                        <p className="text-[11px] sm:text-xs text-white/50 group-hover/item:text-white/80 leading-relaxed transition-colors duration-300">
                           Menginspirasi transformasi positif bagi kemajuan bangsa Indonesia dan generasi masa depan.
                         </p>
                       </div>
                     </div>
 
                     {/* Item S */}
-                    <div className="relative group/item bg-slate-800/40 hover:bg-slate-800/80 border border-slate-700/60 hover:border-red-500/50 rounded-2xl p-4 sm:p-4.5 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-red-950/25 overflow-hidden flex flex-col justify-between cursor-pointer">
-                      <div className="absolute top-0 right-0 -mr-6 -mt-6 w-24 h-24 bg-red-500/10 rounded-full blur-xl opacity-0 group-hover/item:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
-                      <span className="absolute right-2 bottom-1 font-mono font-black text-5xl sm:text-6xl text-white/[0.03] group-hover/item:text-red-500/10 group-hover/item:scale-110 transition-all duration-300 select-none pointer-events-none">
-                        S
-                      </span>
+                    <div className="group/item relative bg-black/30 hover:bg-white/10 backdrop-blur-md border border-white/10 hover:border-white/20 rounded-2xl p-4 sm:p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] cursor-pointer overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover/item:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
                       <div className="relative z-10">
-                        <div className="flex items-center justify-between gap-2 mb-3">
-                          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-red-600 via-red-700 to-brand text-white font-black text-base flex items-center justify-center shadow-md shadow-red-950/40 ring-1 ring-white/15 group-hover/item:scale-105 transition-transform duration-300">
+                        <div className="flex items-center justify-between gap-2 mb-4">
+                          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-600 to-red-800 text-white font-black text-lg flex items-center justify-center shadow-lg border border-red-500/50 group-hover/item:scale-105 transition-transform duration-300">
                             S
                           </div>
-                          <div className="w-8 h-8 rounded-lg bg-slate-800/90 border border-slate-700/70 text-slate-400 group-hover/item:text-red-400 group-hover/item:border-red-500/30 flex items-center justify-center transition-colors">
+                          <div className="w-9 h-9 rounded-xl bg-white/5 border border-white/10 text-white/50 group-hover/item:text-white flex items-center justify-center transition-colors shadow-inner">
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                             </svg>
                           </div>
                         </div>
-                        <h4 className="font-bold text-white group-hover/item:text-red-300 text-xs sm:text-[13px] leading-snug transition-colors duration-300">
+                        <h4 className="font-bold text-white text-sm leading-snug mb-2">
                           Strengthen partnerships with all stakeholders
                         </h4>
-                        <p className="text-[11px] sm:text-xs text-slate-400 group-hover/item:text-slate-200 mt-2 leading-relaxed transition-colors duration-300">
+                        <p className="text-[11px] sm:text-xs text-white/50 group-hover/item:text-white/80 leading-relaxed transition-colors duration-300">
                           Memperkokoh relasi kemitraan yang transparan, profesional, dan saling menguntungkan dengan seluruh pemangku kepentingan.
                         </p>
                       </div>
                     </div>
 
                     {/* Item A */}
-                    <div className="relative group/item bg-slate-800/40 hover:bg-slate-800/80 border border-slate-700/60 hover:border-red-500/50 rounded-2xl p-4 sm:p-4.5 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-red-950/25 overflow-hidden flex flex-col justify-between cursor-pointer">
-                      <div className="absolute top-0 right-0 -mr-6 -mt-6 w-24 h-24 bg-red-500/10 rounded-full blur-xl opacity-0 group-hover/item:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
-                      <span className="absolute right-2 bottom-1 font-mono font-black text-5xl sm:text-6xl text-white/[0.03] group-hover/item:text-red-500/10 group-hover/item:scale-110 transition-all duration-300 select-none pointer-events-none">
-                        A
-                      </span>
+                    <div className="group/item relative bg-black/30 hover:bg-white/10 backdrop-blur-md border border-white/10 hover:border-white/20 rounded-2xl p-4 sm:p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] cursor-pointer overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover/item:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
                       <div className="relative z-10">
-                        <div className="flex items-center justify-between gap-2 mb-3">
-                          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-red-600 via-red-700 to-brand text-white font-black text-base flex items-center justify-center shadow-md shadow-red-950/40 ring-1 ring-white/15 group-hover/item:scale-105 transition-transform duration-300">
+                        <div className="flex items-center justify-between gap-2 mb-4">
+                          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-600 to-red-800 text-white font-black text-lg flex items-center justify-center shadow-lg border border-red-500/50 group-hover/item:scale-105 transition-transform duration-300">
                             A
                           </div>
-                          <div className="w-8 h-8 rounded-lg bg-slate-800/90 border border-slate-700/70 text-slate-400 group-hover/item:text-red-400 group-hover/item:border-red-500/30 flex items-center justify-center transition-colors">
+                          <div className="w-9 h-9 rounded-xl bg-white/5 border border-white/10 text-white/50 group-hover/item:text-white flex items-center justify-center transition-colors shadow-inner">
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                             </svg>
                           </div>
                         </div>
-                        <h4 className="font-bold text-white group-hover/item:text-red-300 text-xs sm:text-[13px] leading-snug transition-colors duration-300">
+                        <h4 className="font-bold text-white text-sm leading-snug mb-2">
                           Achieve consistent growth &amp; sustainability
                         </h4>
-                        <p className="text-[11px] sm:text-xs text-slate-400 group-hover/item:text-slate-200 mt-2 leading-relaxed transition-colors duration-300">
+                        <p className="text-[11px] sm:text-xs text-white/50 group-hover/item:text-white/80 leading-relaxed transition-colors duration-300">
                           Mencapai pertumbuhan bisnis yang berkesinambungan dengan landasan inovasi teknologi beton mutakhir.
                         </p>
                       </div>
                     </div>
                   </div>
 
-                  {/* Micro Footer Bar */}
-                  <div className="relative z-10 mt-5 pt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-3 text-xs">
-                    <div className="flex items-center gap-2 text-slate-400">
-                      <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-xs shadow-emerald-400/50"></span>
-                      <span className="font-medium text-slate-300 text-[11px] sm:text-xs">Standar Mutu ISO 9001:2015</span>
+                  {/* Micro Footer Bar - Glass style */}
+                  <div className="mt-6 pt-5 border-t border-white/10 flex flex-wrap items-center justify-between gap-3 text-xs">
+                    <div className="flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]"></span>
+                      <span className="font-medium text-white/70 text-[11px] sm:text-xs">Standar Mutu ISO 9001:2015</span>
                     </div>
-                    <div className="flex items-center gap-2 text-[11px] font-mono text-slate-400">
+                    <div className="flex items-center gap-2 text-[11px] font-mono text-white/50">
                       <span>DUSASPUN Group</span>
-                      <span className="text-slate-600">&bull;</span>
+                      <span className="text-white/20">&bull;</span>
                       <span className="text-red-400 font-bold">Est. 1994</span>
                     </div>
                   </div>
+                  
                 </div>
               </div>
+            </div>
             </div>
           </div>
         </div>
