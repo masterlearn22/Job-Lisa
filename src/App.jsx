@@ -2838,11 +2838,11 @@ Jenjang karir profesional di DUSASPUN Group"
                   <a 
                     href="#karir" 
                     onClick={() => handleJumpSection('karir', 'karir')}
-                    className="w-full sm:w-auto justify-center group bg-brand hover:bg-red-600 active:scale-95 text-white px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl font-bold text-xs sm:text-sm transition-all duration-300 shadow-xl shadow-black/40 hover:shadow-red-600/40 hover:scale-105 flex items-center gap-2 whitespace-nowrap cursor-pointer"
+                    className="w-full sm:w-auto justify-center group bg-white/20 hover:bg-white/30 backdrop-blur-xl active:scale-95 text-white border border-white/40 px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl font-bold text-xs sm:text-sm transition-all duration-300 shadow-xl shadow-black/20 hover:shadow-white/20 hover:scale-105 flex items-center gap-2 whitespace-nowrap cursor-pointer"
                   >
-                    <span className="transition-colors duration-300 group-hover:text-white">Lihat Lowongan Kerja ({jobs.length} Posisi)</span>
+                    <span className="transition-colors duration-300 text-white drop-shadow-sm">Lihat Lowongan Kerja ({jobs.length} Posisi)</span>
                     <svg 
-                      className="w-4 h-4 shrink-0 text-white/80 transition-all duration-300 group-hover:text-white group-hover:translate-x-1.5" 
+                      className="w-4 h-4 shrink-0 text-white transition-all duration-300 group-hover:translate-x-1.5 drop-shadow-sm" 
                       fill="none" 
                       stroke="currentColor" 
                       viewBox="0 0 24 24"
@@ -2852,19 +2852,18 @@ Jenjang karir profesional di DUSASPUN Group"
                   </a>
                   <button 
                     onClick={() => handleOpenTracking()}
-                    className="w-full sm:w-auto justify-center group bg-slate-900/90 hover:bg-red-950/80 active:scale-95 text-slate-200 hover:text-white border border-slate-600 hover:border-red-500 px-5 sm:px-6 py-3 sm:py-3.5 rounded-xl font-bold text-xs sm:text-sm transition-all duration-300 flex items-center gap-2.5 whitespace-nowrap cursor-pointer shadow-lg shadow-black/30 hover:shadow-red-900/40 hover:scale-105 backdrop-blur-sm"
+                    className="w-full sm:w-auto justify-center group bg-white/10 hover:bg-white/20 backdrop-blur-xl active:scale-95 text-white border border-white/20 hover:border-white/40 px-5 sm:px-6 py-3 sm:py-3.5 rounded-xl font-bold text-xs sm:text-sm transition-all duration-300 flex items-center gap-2.5 whitespace-nowrap cursor-pointer shadow-lg shadow-black/20 hover:shadow-white/20 hover:scale-105"
                   >
                     <svg 
-                      className="w-4 h-4 text-slate-400 group-hover:text-white group-hover:scale-110 transition-all duration-300" 
+                      className="w-4 h-4 text-white/80 group-hover:text-white group-hover:scale-110 transition-all duration-300 drop-shadow-sm" 
                       fill="none" 
                       stroke="currentColor" 
                       viewBox="0 0 24 24"
                     >
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
-                    <span className="transition-colors duration-300 group-hover:text-white">Lacak Status Lamaran</span>
+                    <span className="transition-colors duration-300 text-white/90 group-hover:text-white drop-shadow-sm">Lacak Status Lamaran</span>
                   </button>
-
                 </div>
 
                 {/* Metrics: Micro-cards dengan Hover Glow & Red Accent - Responsive on mobile */}
@@ -2907,20 +2906,20 @@ Jenjang karir profesional di DUSASPUN Group"
 
             {/* Slide Indicator Bar & Live Project Caption - Responsive Stack */}
             <div className="relative z-20 max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 mt-6 sm:mt-8">
-              <div className="group flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 py-2.5 sm:py-3 px-3.5 sm:px-4 rounded-xl bg-slate-900/70 hover:bg-slate-900/90 backdrop-blur-md border border-slate-800/80 hover:border-red-500/50 transition-all duration-300 text-xs shadow-lg hover:shadow-red-950/30">
+              <div className="group flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 py-2.5 sm:py-3 px-3.5 sm:px-4 rounded-xl bg-white/10 hover:bg-white/20 backdrop-blur-xl border border-white/20 hover:border-white/40 transition-all duration-300 text-xs shadow-lg shadow-black/20 hover:shadow-white/10">
                 <div className="flex items-center gap-2 overflow-hidden w-full sm:w-auto">
                   <span className="relative flex h-2 w-2 shrink-0">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75 group-hover:bg-red-500 transition-colors duration-300"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500 group-hover:bg-red-500 transition-colors duration-300"></span>
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75 group-hover:bg-red-400 transition-colors duration-300"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500 group-hover:bg-red-400 transition-colors duration-300"></span>
                   </span>
-                  <span className="font-semibold text-slate-400 group-hover:text-slate-200 transition-colors duration-300 shrink-0 text-[11px] sm:text-xs">
+                  <span className="font-semibold text-white/70 group-hover:text-white transition-colors duration-300 shrink-0 text-[11px] sm:text-xs drop-shadow-sm">
                     Showcase:
                   </span>
-                  <span className="text-slate-300 font-bold truncate transition-all duration-300 hover:text-red-400 cursor-pointer text-[11px] sm:text-xs">
+                  <span className="text-white/90 font-bold truncate transition-all duration-300 hover:text-white cursor-pointer text-[11px] sm:text-xs drop-shadow-sm">
                     {HERO_SLIDES[heroSlide]?.title}
                   </span>
-                  <span className="text-slate-500 hidden md:inline">&mdash;</span>
-                  <span className="text-slate-400 hidden md:inline truncate group-hover:text-slate-300 transition-colors duration-300">
+                  <span className="text-white/50 hidden md:inline">&mdash;</span>
+                  <span className="text-white/70 hidden md:inline truncate group-hover:text-white transition-colors duration-300 drop-shadow-sm">
                     {HERO_SLIDES[heroSlide]?.subtitle}
                   </span>
                 </div>
@@ -2935,15 +2934,15 @@ Jenjang karir profesional di DUSASPUN Group"
                         aria-label={`Slide ${idx + 1}: ${slide.title}`}
                         className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
                           idx === heroSlide 
-                            ? 'w-7 sm:w-8 bg-gradient-to-r from-red-600 to-red-500 shadow-sm shadow-red-500/50' 
-                            : 'w-2 bg-slate-700 hover:bg-red-500 hover:scale-125 hover:w-4'
+                            ? 'w-7 sm:w-8 bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)]' 
+                            : 'w-2 bg-white/40 hover:bg-white/80 hover:scale-125 hover:w-4'
                         }`}
                         title={slide.title}
                       />
                     ))}
                   </div>
-                  <span className="ml-1 font-mono text-[10px] sm:text-[11px] text-slate-400 group-hover:text-white font-medium transition-colors duration-300">
-                    {String(heroSlide + 1).padStart(2, '0')}/{String(HERO_SLIDES.length).padStart(2, '0')}
+                  <span className="text-[10px] font-bold text-white/70 font-mono tracking-widest pl-2 border-l border-white/20 drop-shadow-sm">
+                    0{heroSlide + 1}/0{HERO_SLIDES.length}
                   </span>
                 </div>
               </div>
