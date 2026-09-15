@@ -3179,14 +3179,14 @@ Jenjang karir profesional di DUSASPUN Group"
                       </span>
 
                       <div className="relative z-10">
-                        <div className="flex items-center justify-end gap-2 mb-3">
+                        <div className="flex items-center justify-between gap-2 mb-3">
+                          <span className="inline-block text-[9px] font-bold px-2 py-0.5 rounded-full border text-white border-white/30 bg-white/10">
+                            {st.category}
+                          </span>
                           <span className="font-mono text-[9px] font-black text-white/90 bg-white/20 border border-white/20 shadow-sm px-2 py-0.5 rounded-md backdrop-blur-md">
                             {st.stage}
                           </span>
                         </div>
-                        <span className={`inline-block text-[9px] font-bold px-2 py-0.5 rounded-full border mb-2 text-white border-white/30 bg-white/10`}>
-                          {st.category}
-                        </span>
                         <h3 className="font-black text-white text-xs xl:text-sm leading-tight drop-shadow-sm">
                           {st.title}
                         </h3>
@@ -3235,14 +3235,14 @@ Jenjang karir profesional di DUSASPUN Group"
                     </span>
 
                     <div className="relative z-10">
-                      <div className="flex items-center justify-end gap-2 mb-3">
+                      <div className="flex items-center justify-between gap-2 mb-3">
+                        <span className="inline-block text-[9px] font-bold px-2 py-0.5 rounded-full border text-white border-white/30 bg-white/10">
+                          {st.category}
+                        </span>
                         <span className="font-mono text-[9px] font-black text-white/90 bg-white/20 border border-white/20 shadow-sm px-2 py-0.5 rounded-md backdrop-blur-md">
                           {st.stage}
                         </span>
                       </div>
-                      <span className={`inline-block text-[9px] font-bold px-2 py-0.5 rounded-full border mb-1.5 text-white border-white/30 bg-white/10`}>
-                        {st.category}
-                      </span>
                       <h3 className="font-black text-white text-sm sm:text-base leading-tight drop-shadow-sm">
                         {st.title}
                       </h3>
