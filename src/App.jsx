@@ -3227,17 +3227,22 @@ Jenjang karir profesional di DUSASPUN Group"
       </section>
 
       {/* PORTAL KARIR & REKRUTMEN PT LISA CONCRETE INDONESIA */}
-      <section id="karir" className="py-14 sm:py-24 bg-slate-900 text-white relative w-full max-w-full overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="karir" className="py-14 sm:py-24 bg-[#050505] text-white relative w-full max-w-full overflow-hidden shadow-2xl border-t border-white/5">
+        {/* Background Glowing Orbs for Glass Effect */}
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-red-600/10 rounded-full blur-[100px] pointer-events-none"></div>
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-brand/10 rounded-full blur-[100px] pointer-events-none"></div>
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-8 sm:mb-12">
             <div>
-              <span className="inline-block px-3 py-1 rounded-full bg-brand/20 hover:bg-red-600 hover:text-white border border-brand/40 text-brand-light text-xs font-bold uppercase tracking-wider mb-3 transition-all duration-300 cursor-pointer hover:scale-105">
+              <span className="inline-block px-3 py-1 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-white/80 text-xs font-bold uppercase tracking-wider mb-3 transition-all duration-300 cursor-pointer shadow-inner backdrop-blur-sm">
+                <span className="w-2 h-2 inline-block rounded-full bg-red-500 mr-2 animate-pulse shadow-[0_0_8px_rgba(239,68,68,0.8)]"></span>
                 Rekrutmen Resmi PT Lisa Concrete
               </span>
-              <h2 className="text-2xl sm:text-4xl font-black text-white hover:text-red-400 transition-colors duration-300 cursor-pointer">
+              <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
                 Tumbuh &amp; Membangun Bangsa Bersama Kami
               </h2>
-              <p className="text-slate-400 text-xs sm:text-sm mt-2 max-w-xl">
+              <p className="text-white/60 text-xs sm:text-sm mt-3 max-w-xl leading-relaxed">
                 Kami mengundang para talenta teknik sipil, manufaktur, QC, dan profesional berintegritas tinggi untuk bergabung dalam keluarga besar PT Lisa Concrete Indonesia.
               </p>
             </div>
@@ -3246,20 +3251,20 @@ Jenjang karir profesional di DUSASPUN Group"
             <div>
               <button 
                 onClick={() => handleOpenTracking()}
-                className="w-full sm:w-auto justify-center group bg-slate-800 hover:bg-slate-700 hover:border-red-500 hover:text-white text-slate-200 border border-slate-700 px-5 py-3 rounded-xl text-xs font-bold tracking-wider uppercase transition-all duration-300 flex items-center gap-2 whitespace-nowrap cursor-pointer hover:scale-105 shadow-md hover:shadow-red-950/40"
+                className="w-full sm:w-auto justify-center group bg-white/5 hover:bg-white/10 border border-white/10 px-5 py-3 rounded-xl text-xs font-bold tracking-wider uppercase transition-all duration-300 flex items-center gap-2 whitespace-nowrap cursor-pointer hover:scale-105 shadow-lg hover:border-white/20 backdrop-blur-md"
               >
-                <svg className="w-4 h-4 text-brand-light group-hover:text-white group-hover:scale-110 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 text-white/50 group-hover:text-white transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                 </svg>
-                <span>Lacak Lamaran yang Pernah Dikirim</span>
+                <span className="text-white/80 group-hover:text-white transition-colors">Lacak Lamaran yang Pernah Dikirim</span>
               </button>
             </div>
           </div>
 
-          {/* Job Search & Filter Toolbar */}
-          <div className="bg-slate-800/90 border border-slate-700 hover:border-red-500/50 p-3 sm:p-4 rounded-2xl mb-8 flex flex-col md:flex-row gap-2.5 sm:gap-3 transition-all duration-300">
-            <div className="flex-1 flex items-center px-3 sm:px-4 py-2 bg-slate-900/90 rounded-xl border border-slate-700 hover:border-red-500/50 transition-colors">
-              <svg className="w-4 h-4 text-slate-400 mr-2.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          {/* Job Search & Filter Toolbar (Glassmorphism) */}
+          <div className="bg-white/[0.03] backdrop-blur-2xl border border-white/10 p-3 sm:p-4 rounded-2xl mb-8 flex flex-col md:flex-row gap-2.5 sm:gap-3 transition-all duration-300 shadow-2xl ring-1 ring-white/5">
+            <div className="flex-1 flex items-center px-3 sm:px-4 py-2 bg-black/40 rounded-xl border border-white/5 hover:border-white/10 transition-colors shadow-inner">
+              <svg className="w-4 h-4 text-white/40 mr-2.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
               <input 
@@ -3267,32 +3272,32 @@ Jenjang karir profesional di DUSASPUN Group"
                 value={searchKeyword}
                 onChange={(e) => setSearchKeyword(e.target.value)}
                 placeholder="Cari judul posisi (misal: Civil Engineer, QC, Drafter)..."
-                className="w-full bg-transparent border-none focus:outline-none text-xs text-white placeholder-slate-400"
+                className="w-full bg-transparent border-none focus:outline-none text-xs text-white placeholder-white/40"
               />
             </div>
 
-            <div className="w-full md:w-56 flex items-center px-3 sm:px-4 py-2 bg-slate-900/90 rounded-xl border border-slate-700 hover:border-red-500/50 transition-colors">
+            <div className="w-full md:w-56 flex items-center px-3 sm:px-4 py-2 bg-black/40 rounded-xl border border-white/5 hover:border-white/10 transition-colors shadow-inner">
               <select 
                 value={selectedLocation} 
                 onChange={(e) => setSelectedLocation(e.target.value)}
-                className="w-full bg-transparent border-none focus:outline-none text-xs text-slate-300 cursor-pointer"
+                className="w-full bg-transparent border-none focus:outline-none text-xs text-white/70 cursor-pointer"
               >
-                <option value="" className="bg-slate-900">Semua Penempatan</option>
-                <option value="Surabaya" className="bg-slate-900">Surabaya (Head Office)</option>
-                <option value="Ngoro" className="bg-slate-900">Ngoro Plant (Mojokerto)</option>
-                <option value="Bali" className="bg-slate-900">Bali (Karangasem Plant)</option>
+                <option value="" className="bg-[#0a0a0a]">Semua Penempatan</option>
+                <option value="Surabaya" className="bg-[#0a0a0a]">Surabaya (Head Office)</option>
+                <option value="Ngoro" className="bg-[#0a0a0a]">Ngoro Plant (Mojokerto)</option>
+                <option value="Bali" className="bg-[#0a0a0a]">Bali (Karangasem Plant)</option>
               </select>
             </div>
 
-            <div className="w-full md:w-56 flex items-center px-3 sm:px-4 py-2 bg-slate-900/90 rounded-xl border border-slate-700 hover:border-red-500/50 transition-colors">
+            <div className="w-full md:w-56 flex items-center px-3 sm:px-4 py-2 bg-black/40 rounded-xl border border-white/5 hover:border-white/10 transition-colors shadow-inner">
               <select 
                 value={selectedDept} 
                 onChange={(e) => setSelectedDept(e.target.value)}
-                className="w-full bg-transparent border-none focus:outline-none text-xs text-slate-300 cursor-pointer"
+                className="w-full bg-transparent border-none focus:outline-none text-xs text-white/70 cursor-pointer"
               >
-                <option value="" className="bg-slate-900">Semua Divisi</option>
+                <option value="" className="bg-[#0a0a0a]">Semua Divisi</option>
                 {availableDepartments.map((d) => (
-                  <option key={d.dept} value={d.dept} className="bg-slate-900">
+                  <option key={d.dept} value={d.dept} className="bg-[#0a0a0a]">
                     {d.dept} ({d.count})
                   </option>
                 ))}
@@ -3303,28 +3308,28 @@ Jenjang karir profesional di DUSASPUN Group"
           {/* Job Listings Cards */}
           <div className="space-y-4">
             {jobsLoading ? (
-              <div className="text-center py-16 bg-slate-800/40 rounded-2xl border border-slate-700 p-8">
-                <div className="w-8 h-8 border-3 border-brand border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
-                <p className="text-slate-300 font-bold text-sm">Menghubungkan ke Database MySQL...</p>
-                <p className="text-slate-500 text-xs mt-1">Mengambil formasi lowongan kerja resmi</p>
+              <div className="text-center py-16 bg-white/[0.02] backdrop-blur-md rounded-2xl border border-white/10 p-8 shadow-xl">
+                <div className="w-8 h-8 border-3 border-red-500 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
+                <p className="text-white/80 font-bold text-sm">Menghubungkan ke Database MySQL...</p>
+                <p className="text-white/50 text-xs mt-1">Mengambil formasi lowongan kerja resmi</p>
               </div>
             ) : jobsError ? (
-              <div className="text-center py-12 bg-rose-950/30 rounded-2xl border border-rose-800/50 p-8">
+              <div className="text-center py-12 bg-red-950/20 backdrop-blur-md rounded-2xl border border-red-500/20 p-8 shadow-[0_8px_30px_rgb(220,38,38,0.1)]">
                 <p className="text-3xl mb-2">⚠️</p>
-                <p className="text-rose-400 font-bold text-sm mb-1">{jobsError}</p>
-                <p className="text-slate-400 text-xs max-w-md mx-auto mb-4 leading-relaxed">
+                <p className="text-red-400 font-bold text-sm mb-1">{jobsError}</p>
+                <p className="text-white/60 text-xs max-w-md mx-auto mb-5 leading-relaxed">
                   Pastikan server backend Node.js aktif di <code>http://localhost:5000</code>. Jika membuka melalui GitHub Pages (HTTPS), browser memblokir request HTTP lokal (Mixed Content). Anda dapat membuka web secara lokal di <code>http://localhost:5173</code> atau mengizinkan Insecure Content di setelan browser.
                 </p>
                 <button
                   onClick={fetchJobs}
-                  className="px-4 py-2 bg-brand hover:bg-red-600 text-white text-xs font-bold rounded-xl cursor-pointer shadow-md transition-all duration-300 hover:scale-105"
+                  className="px-5 py-2.5 bg-red-600/80 hover:bg-red-600 border border-red-500/50 text-white text-xs font-bold rounded-xl cursor-pointer shadow-lg shadow-red-900/50 transition-all duration-300 hover:scale-105"
                 >
                   Coba Hubungkan Ulang 🔄
                 </button>
               </div>
             ) : filteredJobs.length === 0 ? (
-              <div className="text-center py-14 bg-slate-800/40 rounded-2xl border border-slate-700 p-8">
-                <p className="text-slate-400 text-sm mb-4">
+              <div className="text-center py-14 bg-white/[0.02] backdrop-blur-md rounded-2xl border border-white/10 p-8 shadow-xl">
+                <p className="text-white/60 text-sm mb-4">
                   {jobs.length === 0
                     ? 'Belum ada lowongan pekerjaan aktif di database saat ini.'
                     : 'Tidak ada lowongan yang sesuai kriteria pencarian.'}
@@ -3332,7 +3337,7 @@ Jenjang karir profesional di DUSASPUN Group"
                 {jobs.length > 0 && (
                   <button 
                     onClick={() => { setSearchKeyword(''); setSelectedLocation(''); setSelectedDept(''); }}
-                    className="px-4 py-2 bg-brand hover:bg-red-600 text-white text-xs font-bold rounded-xl cursor-pointer transition-all duration-300 hover:scale-105"
+                    className="px-5 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 text-white/80 hover:text-white text-xs font-bold rounded-xl cursor-pointer transition-all duration-300 hover:scale-105"
                   >
                     Reset Filter
                   </button>
@@ -3342,15 +3347,15 @@ Jenjang karir profesional di DUSASPUN Group"
               filteredJobs.map((job) => (
                 <div 
                   key={job.id} 
-                  className="bg-slate-800/80 border border-slate-700/80 hover:border-red-500 hover:bg-slate-800 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-red-950/40 rounded-2xl p-5 sm:p-6 transition-all duration-300 flex flex-col md:flex-row md:items-center justify-between gap-4 sm:gap-6 group cursor-pointer"
+                  className="bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/20 hover:bg-white/10 hover:-translate-y-1.5 hover:shadow-[0_8px_30px_rgb(0,0,0,0.5)] rounded-2xl p-5 sm:p-6 transition-all duration-300 flex flex-col md:flex-row md:items-center justify-between gap-4 sm:gap-6 group cursor-pointer"
                 >
                   <div className="flex-1 min-w-0">
                     <div className="flex flex-wrap items-center gap-2 mb-2">
-                      <span className="px-2.5 sm:px-3 py-1 bg-brand/20 group-hover:bg-red-600 group-hover:text-white text-brand-light text-[11px] font-bold rounded-lg border border-brand/30 group-hover:border-red-500 transition-all duration-300">
+                      <span className="px-2.5 sm:px-3 py-1 bg-white/10 group-hover:bg-red-600/80 group-hover:text-white text-white/80 text-[11px] font-bold rounded-lg border border-white/20 group-hover:border-red-500/50 transition-all duration-300 backdrop-blur-sm">
                         {job.department}
                       </span>
-                      <span className="text-[11px] text-slate-400 group-hover:text-slate-300 transition-colors">
-                        Batas Lamaran: <strong>{job.deadline}</strong>
+                      <span className="text-[11px] text-white/50 group-hover:text-white/70 transition-colors">
+                        Batas Lamaran: <strong className="text-white/80">{job.deadline}</strong>
                       </span>
                     </div>
 
@@ -3358,11 +3363,11 @@ Jenjang karir profesional di DUSASPUN Group"
                       {job.title}
                     </h3>
 
-                    <p className="text-xs text-slate-300 group-hover:text-slate-200 line-clamp-2 mb-4 leading-relaxed transition-colors">
+                    <p className="text-xs text-white/60 group-hover:text-white/80 line-clamp-2 mb-4 leading-relaxed transition-colors">
                       {job.description}
                     </p>
 
-                    <div className="flex flex-wrap gap-3 sm:gap-4 text-xs text-slate-400 group-hover:text-slate-300 transition-colors">
+                    <div className="flex flex-wrap gap-3 sm:gap-4 text-xs text-white/50 group-hover:text-white/70 transition-colors">
                       <span className="flex items-center gap-1.5 hover:text-white transition-colors">
                         📍 {job.location}
                       </span>
@@ -3381,13 +3386,13 @@ Jenjang karir profesional di DUSASPUN Group"
                   <div className="flex flex-col sm:flex-row md:flex-col gap-2 shrink-0 w-full sm:w-auto">
                     <button 
                       onClick={() => setSelectedJob(job)}
-                      className="w-full sm:w-auto px-5 py-2.5 bg-slate-700 hover:bg-slate-600 hover:text-white hover:scale-105 text-slate-200 text-xs font-bold rounded-xl transition-all duration-300 text-center cursor-pointer shadow-xs"
+                      className="w-full sm:w-auto px-5 py-2.5 bg-black/40 hover:bg-white/10 border border-white/10 hover:text-white text-white/70 text-xs font-bold rounded-xl transition-all duration-300 text-center cursor-pointer shadow-inner hover:shadow-md"
                     >
                       Detail Kualifikasi
                     </button>
                     <button 
                       onClick={() => setApplyModalJob(job)}
-                      className="w-full sm:w-auto px-6 py-2.5 bg-brand hover:bg-red-600 hover:scale-105 active:scale-95 text-white text-xs font-bold rounded-xl transition-all duration-300 shadow-md shadow-brand/20 hover:shadow-red-600/40 text-center cursor-pointer"
+                      className="w-full sm:w-auto px-6 py-2.5 bg-red-600/80 hover:bg-red-600 border border-red-500/50 text-white text-xs font-bold rounded-xl transition-all duration-300 text-center cursor-pointer shadow-lg shadow-red-900/40 hover:shadow-red-600/60 hover:-translate-y-0.5"
                     >
                       Lamar Sekarang
                     </button>
