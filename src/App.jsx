@@ -3113,9 +3113,16 @@ Jenjang karir profesional di DUSASPUN Group"
       </section>
 
       {/* TAHAPAN REKRUTMEN RESMI - ULTRA MODERN CONNECTED ROADMAP (NO EMOJIS, HIGH-END CORPORATE BENTO CARDS) */}
-      <section id="tahapan" className="py-16 sm:py-24 bg-gradient-to-b from-slate-50 via-white to-slate-50 border-y border-slate-200/80 w-full max-w-full overflow-hidden relative">
+      <section id="tahapan" className="py-16 sm:py-24 bg-slate-50 border-y border-slate-200/80 w-full max-w-full overflow-hidden relative">
         {/* Subtle Architectural Blueprint Dot Matrix */}
-        <div className="absolute inset-0 bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] [background-size:24px_24px] opacity-35 pointer-events-none"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] [background-size:24px_24px] opacity-35 pointer-events-none z-0"></div>
+
+        {/* Liquid Background Blobs */}
+        <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+          <div className="absolute top-[-10%] left-[-5%] w-[40vw] h-[40vw] bg-rose-400/20 rounded-full mix-blend-multiply blur-[100px] animate-pulse"></div>
+          <div className="absolute top-[30%] right-[-10%] w-[35vw] h-[35vw] bg-blue-400/20 rounded-full mix-blend-multiply blur-[100px] animate-pulse" style={{ animationDelay: '2s' }}></div>
+          <div className="absolute bottom-[-10%] left-[20%] w-[50vw] h-[50vw] bg-amber-300/20 rounded-full mix-blend-multiply blur-[100px] animate-pulse" style={{ animationDelay: '4s' }}></div>
+        </div>
 
         <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           {/* Section Header */}
@@ -3165,37 +3172,37 @@ Jenjang karir profesional di DUSASPUN Group"
                   <div className="w-full h-full relative transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
                     
                     {/* --- Sisi Depan (Front) --- */}
-                    <div className="absolute inset-0 [backface-visibility:hidden] bg-white rounded-2xl border border-slate-200/90 shadow-xs p-4 flex flex-col justify-between overflow-hidden">
+                    <div className="absolute inset-0 [backface-visibility:hidden] bg-white/50 backdrop-blur-3xl rounded-2xl border border-white/60 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] ring-1 ring-white/50 p-4 flex flex-col justify-between overflow-hidden">
                       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-600 via-red-500 to-red-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                      <span className="absolute -bottom-3 -right-1 font-mono font-black text-6xl text-slate-100 select-none pointer-events-none">
+                      <span className="absolute -bottom-3 -right-1 font-mono font-black text-6xl text-slate-400/10 select-none pointer-events-none">
                         {st.no}
                       </span>
 
                       <div className="relative z-10">
                         <div className="flex items-center justify-between gap-2 mb-3">
-                          <div className="w-9 h-9 rounded-xl bg-slate-50 border border-slate-200/80 text-slate-700 flex items-center justify-center shrink-0">
+                          <div className="w-9 h-9 rounded-xl bg-white/80 border border-white/90 shadow-sm text-slate-700 flex items-center justify-center shrink-0">
                             {getStageIcon(st.iconType)}
                           </div>
-                          <span className="font-mono text-[9px] font-black text-slate-400 bg-slate-100 border border-slate-200/60 px-2 py-0.5 rounded-md">
+                          <span className="font-mono text-[9px] font-black text-slate-500 bg-white/60 border border-white/50 shadow-sm px-2 py-0.5 rounded-md backdrop-blur-md">
                             {st.stage}
                           </span>
                         </div>
-                        <span className={`inline-block text-[9px] font-bold px-2 py-0.5 rounded-full border mb-2 ${st.categoryColor}`}>
+                        <span className={`inline-block text-[9px] font-bold px-2 py-0.5 rounded-full border mb-2 ${st.categoryColor.replace('bg-', 'bg-').replace('border-', 'border-').replace('text-', 'text-')}`}>
                           {st.category}
                         </span>
-                        <h3 className="font-black text-slate-900 text-xs xl:text-sm leading-tight">
+                        <h3 className="font-black text-slate-900 text-xs xl:text-sm leading-tight drop-shadow-sm">
                           {st.title}
                         </h3>
                       </div>
 
-                      <div className="relative z-10 mt-2 pt-2 border-t border-slate-100 flex items-center justify-between text-[9px] text-slate-400">
-                        <span className="font-medium text-slate-500 truncate">{st.format}</span>
-                        <span className="font-bold text-slate-300 ml-1">&rarr;</span>
+                      <div className="relative z-10 mt-2 pt-2 border-t border-slate-300/30 flex items-center justify-between text-[9px] text-slate-500">
+                        <span className="font-medium truncate">{st.format}</span>
+                        <span className="font-bold text-slate-400 ml-1">&rarr;</span>
                       </div>
                     </div>
 
                     {/* --- Sisi Belakang (Back) --- */}
-                    <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] bg-slate-900 rounded-2xl border border-red-500/50 shadow-xl p-4 flex flex-col justify-center items-center text-center overflow-hidden">
+                    <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] bg-slate-900/85 backdrop-blur-3xl rounded-2xl border border-slate-700/50 shadow-[0_8px_32px_0_rgba(31,38,135,0.15)] ring-1 ring-slate-800/50 p-4 flex flex-col justify-center items-center text-center overflow-hidden">
                       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-600 via-red-500 to-red-700"></div>
                       <span className="absolute -bottom-3 -right-1 font-mono font-black text-6xl text-slate-800/50 select-none pointer-events-none">
                         {st.no}
@@ -3228,30 +3235,30 @@ Jenjang karir profesional di DUSASPUN Group"
                 <div className="w-full h-full relative transition-transform duration-700 [transform-style:preserve-3d] peer-checked:[transform:rotateY(180deg)]">
                   
                   {/* --- Sisi Depan (Front) --- */}
-                  <div className="absolute inset-0 [backface-visibility:hidden] bg-white rounded-2xl border border-slate-200/90 shadow-sm p-4 flex flex-col justify-between overflow-hidden">
-                    <span className="absolute -bottom-3 -right-1 font-mono font-black text-6xl text-slate-100 select-none pointer-events-none">
+                  <div className="absolute inset-0 [backface-visibility:hidden] bg-white/50 backdrop-blur-3xl rounded-2xl border border-white/60 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] ring-1 ring-white/50 p-4 flex flex-col justify-between overflow-hidden">
+                    <span className="absolute -bottom-3 -right-1 font-mono font-black text-6xl text-slate-400/10 select-none pointer-events-none">
                       {st.no}
                     </span>
 
                     <div className="relative z-10">
                       <div className="flex items-center justify-between gap-2 mb-3">
-                        <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-200/80 text-slate-700 flex items-center justify-center shrink-0 shadow-xs">
+                        <div className="w-10 h-10 rounded-xl bg-white/80 border border-white/90 shadow-sm text-slate-700 flex items-center justify-center shrink-0 shadow-xs">
                           {getStageIcon(st.iconType)}
                         </div>
-                        <span className="font-mono text-[9px] font-black text-slate-500 bg-slate-100 border border-slate-200/60 px-2 py-0.5 rounded-md">
+                        <span className="font-mono text-[9px] font-black text-slate-500 bg-white/60 border border-white/50 shadow-sm px-2 py-0.5 rounded-md backdrop-blur-md">
                           {st.stage}
                         </span>
                       </div>
-                      <span className={`inline-block text-[9px] font-bold px-2 py-0.5 rounded-full border mb-1.5 ${st.categoryColor}`}>
+                      <span className={`inline-block text-[9px] font-bold px-2 py-0.5 rounded-full border mb-1.5 ${st.categoryColor.replace('bg-', 'bg-').replace('border-', 'border-').replace('text-', 'text-')}`}>
                         {st.category}
                       </span>
-                      <h3 className="font-black text-slate-900 text-sm sm:text-base leading-tight">
+                      <h3 className="font-black text-slate-900 text-sm sm:text-base leading-tight drop-shadow-sm">
                         {st.title}
                       </h3>
                     </div>
 
-                    <div className="relative z-10 mt-1 pt-2 border-t border-slate-100 flex items-center justify-between text-[9px] text-slate-400">
-                      <span className="font-medium text-slate-500 truncate">{st.format}</span>
+                    <div className="relative z-10 mt-1 pt-2 border-t border-slate-300/30 flex items-center justify-between text-[9px] text-slate-500">
+                      <span className="font-medium truncate">{st.format}</span>
                       <span className="font-bold text-slate-400 flex items-center gap-1 animate-pulse">
                         Tap detail <span className="text-brand">&rarr;</span>
                       </span>
@@ -3259,17 +3266,17 @@ Jenjang karir profesional di DUSASPUN Group"
                   </div>
 
                   {/* --- Sisi Belakang (Back) --- */}
-                  <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] bg-slate-900 rounded-2xl border border-red-500/50 shadow-xl p-5 flex flex-col justify-center items-center text-center overflow-hidden">
+                  <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] bg-slate-900/85 backdrop-blur-3xl rounded-2xl border border-slate-700/50 shadow-[0_8px_32px_0_rgba(31,38,135,0.15)] ring-1 ring-slate-800/50 p-5 flex flex-col justify-center items-center text-center overflow-hidden">
                     <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-600 via-red-500 to-red-700"></div>
                     <span className="absolute -bottom-3 -right-1 font-mono font-black text-6xl text-slate-800/50 select-none pointer-events-none">
                       {st.no}
                     </span>
                     
                     <div className="relative z-10 w-full">
-                      <div className="w-10 h-10 mx-auto rounded-xl bg-brand border border-red-500 text-white flex items-center justify-center mb-2 shadow-md shadow-brand/20">
+                      <div className="w-10 h-10 mx-auto rounded-xl bg-brand/90 backdrop-blur-md border border-red-500/50 text-white flex items-center justify-center mb-2 shadow-md shadow-brand/20">
                           {getStageIcon(st.iconType)}
                       </div>
-                      <h4 className="text-white font-bold text-xs sm:text-sm mb-2 border-b border-slate-700 pb-1.5">{st.title}</h4>
+                      <h4 className="text-white font-bold text-xs sm:text-sm mb-2 border-b border-slate-700/50 pb-1.5">{st.title}</h4>
                       <p className="text-[10px] text-slate-300 leading-relaxed">
                         {st.desc}
                       </p>
