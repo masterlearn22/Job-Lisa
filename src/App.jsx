@@ -1855,44 +1855,48 @@ export default function App() {
       ) : activeTab === 'admin' ? (
         !adminUser ? (
           /* LOGIN SCREEN FOR HRD ADMIN */
-          <main className="min-h-screen bg-slate-900 py-16 px-4 flex items-center justify-center flex-1">
-            <div className="max-w-md w-full bg-slate-950/90 border border-slate-800 rounded-3xl p-8 shadow-2xl backdrop-blur-sm text-white">
+          <main className="relative min-h-screen bg-[#050505] py-16 px-4 flex items-center justify-center flex-1 overflow-hidden">
+            {/* Liquid Background Orbs */}
+            <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-red-900/30 rounded-full blur-[120px] pointer-events-none"></div>
+            <div className="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] bg-brand/20 rounded-full blur-[120px] pointer-events-none"></div>
+            
+            <div className="relative z-10 max-w-md w-full bg-white/5 border border-white/10 rounded-3xl p-8 shadow-2xl shadow-black/50 backdrop-blur-3xl text-white ring-1 ring-white/10">
               <div className="text-center mb-6">
-                <div className="w-14 h-14 bg-brand rounded-2xl flex items-center justify-center text-white font-black text-2xl mx-auto mb-3 shadow-lg shadow-brand/30">
+                <div className="w-14 h-14 bg-red-600/80 backdrop-blur-md border border-red-500/50 rounded-2xl flex items-center justify-center text-white font-black text-2xl mx-auto mb-3 shadow-lg shadow-red-900/30 ring-1 ring-white/20">
                   L
                 </div>
-                <h2 className="text-xl font-black tracking-tight">Portal HRD &amp; Personalia</h2>
-                <p className="text-xs text-slate-400 mt-1">Masuk untuk mengelola berkas pelamar &amp; unduh CV</p>
+                <h2 className="text-xl font-black tracking-tight text-white drop-shadow-sm">Portal HRD &amp; Personalia</h2>
+                <p className="text-xs text-white/60 mt-1">Masuk untuk mengelola berkas pelamar &amp; unduh CV</p>
               </div>
 
               {adminLoginError && (
-                <div className="mb-4 p-3 rounded-xl bg-red-950/80 border border-red-800/80 text-red-300 text-xs text-center font-medium">
+                <div className="mb-4 p-3 rounded-xl bg-red-500/20 border border-red-500/40 backdrop-blur-md text-red-200 text-xs text-center font-medium shadow-inner shadow-red-900/20">
                   {adminLoginError}
                 </div>
               )}
 
               <form onSubmit={handleAdminLogin} className="space-y-4 text-xs">
                 <div>
-                  <label className="block text-slate-300 font-bold mb-1">Email Administrator HRD</label>
+                  <label className="block text-white/80 font-bold mb-1">Email Administrator HRD</label>
                   <input 
                     type="email" 
                     value={adminLoginEmail}
                     onChange={(e) => setAdminLoginEmail(e.target.value)}
                     required
                     placeholder="admin@perusahaan.com" 
-                    className="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-white focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand text-xs"
+                    className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white focus:outline-none focus:border-red-500/50 focus:ring-1 focus:ring-red-500/50 text-xs backdrop-blur-sm transition-all"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-slate-300 font-bold mb-1">Password</label>
+                  <label className="block text-white/80 font-bold mb-1">Password</label>
                   <input 
                     type="password" 
                     value={adminLoginPassword}
                     onChange={(e) => setAdminLoginPassword(e.target.value)}
                     required
                     placeholder="••••••••" 
-                    className="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-white focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand text-xs"
+                    className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white focus:outline-none focus:border-red-500/50 focus:ring-1 focus:ring-red-500/50 text-xs backdrop-blur-sm transition-all"
                   />
                 </div>
 
@@ -1925,19 +1929,24 @@ export default function App() {
           </main>
         ) : (
           /* MAIN ADMIN DASHBOARD VIEW */
-          <main className="min-h-screen bg-slate-100 py-8 px-4 sm:px-6 lg:px-8 flex-1">
-            <div className="max-w-[1600px] mx-auto space-y-6">
+          <main className="relative min-h-screen bg-[#050505] py-8 px-4 sm:px-6 lg:px-8 flex-1 overflow-hidden">
+            {/* Liquid Background Orbs for Dashboard */}
+            <div className="absolute top-[-10%] left-[-5%] w-[40vw] h-[40vw] bg-red-900/20 rounded-full blur-[100px] pointer-events-none"></div>
+            <div className="absolute bottom-[20%] right-[-10%] w-[30vw] h-[30vw] bg-brand/10 rounded-full blur-[100px] pointer-events-none"></div>
+            <div className="absolute top-[40%] left-[30%] w-[20vw] h-[20vw] bg-red-800/10 rounded-full blur-[80px] pointer-events-none"></div>
+
+            <div className="relative z-10 max-w-[1600px] mx-auto space-y-6">
               {/* TOP BAR DASHBOARD */}
-              <div className="bg-white rounded-2xl shadow-xs border border-slate-200 p-5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+              <div className="bg-white/5 backdrop-blur-2xl rounded-2xl shadow-xl shadow-black/20 border border-white/10 ring-1 ring-white/5 p-5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
-                  <div className="flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse"></span>
-                    <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Sistem Rekrutmen Terpadu</span>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse shadow-[0_0_10px_rgba(239,68,68,0.8)]"></span>
+                    <span className="text-[10px] font-bold text-white/60 uppercase tracking-widest bg-white/5 px-2 py-0.5 rounded-full border border-white/10">Sistem Rekrutmen Terpadu</span>
                   </div>
-                  <h1 className="text-xl sm:text-2xl font-black text-slate-900">
+                  <h1 className="text-xl sm:text-2xl font-black text-white drop-shadow-md">
                     {adminActiveTab === 'applications' ? 'Dashboard Manajemen Pelamar' : 'Kelola Lowongan Pekerjaan'}
                   </h1>
-                  <p className="text-xs text-slate-500">
+                  <p className="text-xs text-white/50 mt-1">
                     {adminActiveTab === 'applications'
                       ? 'Kelola berkas masuk, sortir per divisi, dan perbarui tahapan seleksi'
                       : 'Tambah lowongan baru, kelola persyaratan kerja, dan atur status penerimaan pelamar'}
@@ -1951,7 +1960,7 @@ export default function App() {
                       fetchAdminJobs();
                     }}
                     disabled={adminLoading || adminJobsLoading}
-                    className="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer"
+                    className="px-3.5 py-2 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer backdrop-blur-sm shadow-sm"
                   >
                     <span className={adminLoading || adminJobsLoading ? 'animate-spin' : ''}>🔄</span>
                     <span>Refresh Data</span>
@@ -1959,19 +1968,19 @@ export default function App() {
 
                   <button 
                     onClick={handleToHome}
-                    className="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition-all cursor-pointer"
+                    className="px-3.5 py-2 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-xl text-xs font-bold transition-all cursor-pointer backdrop-blur-sm shadow-sm"
                   >
                     🌐 Lihat Web Publik
                   </button>
 
-                  <div className="flex items-center gap-2 pl-2 border-l border-slate-200">
+                  <div className="flex items-center gap-2 pl-2 sm:pl-3 border-l border-white/10">
                     <div className="text-right hidden sm:block">
-                      <p className="text-xs font-bold text-slate-800">{adminUser.name}</p>
-                      <p className="text-[10px] text-brand font-semibold">{adminUser.role || 'HRD'}</p>
+                      <p className="text-xs font-bold text-white drop-shadow-sm">{adminUser.name}</p>
+                      <p className="text-[10px] text-red-400 font-semibold">{adminUser.role || 'HRD'}</p>
                     </div>
                     <button 
                       onClick={handleAdminLogout}
-                      className="px-3 py-2 bg-red-50 hover:bg-red-100 text-brand rounded-xl text-xs font-bold transition-colors cursor-pointer"
+                      className="px-3 py-2 bg-red-500/20 hover:bg-red-500/40 text-red-100 border border-red-500/30 rounded-xl text-xs font-bold transition-colors cursor-pointer backdrop-blur-sm shadow-sm shadow-red-900/20"
                       title="Keluar"
                     >
                       Logout 🚪
@@ -1981,13 +1990,13 @@ export default function App() {
               </div>
 
               {/* TAB SWITCHER: MANAJEMEN PELAMAR vs KELOLA LOWONGAN */}
-              <div className="flex flex-wrap items-center gap-2 border-b border-slate-200/80 pb-1">
+              <div className="flex flex-wrap items-center gap-2 border-b border-white/10 pb-4">
                 <button
                   onClick={() => setAdminActiveTab('applications')}
-                  className={`px-5 py-2.5 rounded-2xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all cursor-pointer ${
+                  className={`px-5 py-2.5 rounded-2xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all cursor-pointer backdrop-blur-xl ${
                     adminActiveTab === 'applications'
-                      ? 'bg-brand text-white shadow-md shadow-brand/20'
-                      : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-200'
+                      ? 'bg-red-600/80 text-white shadow-lg shadow-red-900/30 border border-red-500/50 ring-1 ring-white/20'
+                      : 'bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/10'
                   }`}
                 >
                   <span>📁</span>
@@ -1999,10 +2008,10 @@ export default function App() {
                     setAdminActiveTab('jobs');
                     fetchAdminJobs();
                   }}
-                  className={`px-5 py-2.5 rounded-2xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all cursor-pointer ${
+                  className={`px-5 py-2.5 rounded-2xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all cursor-pointer backdrop-blur-xl ${
                     adminActiveTab === 'jobs'
-                      ? 'bg-brand text-white shadow-md shadow-brand/20'
-                      : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-200'
+                      ? 'bg-red-600/80 text-white shadow-lg shadow-red-900/30 border border-red-500/50 ring-1 ring-white/20'
+                      : 'bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/10'
                   }`}
                 >
                   <span>💼</span>
@@ -2014,89 +2023,89 @@ export default function App() {
                 <>
                   {/* METRICS STATS CARDS (6 TAHAPAN RESMI REKRUTMEN + TOTAL & DITOLAK) */}
                   <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2.5 sm:gap-3">
-                <div className="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-xs">
-                  <span className="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Total Pelamar</span>
-                  <p className="text-xl sm:text-2xl font-black text-slate-900 mt-1">{adminStats.total}</p>
-                  <span className="text-[10px] text-slate-500">Semua berkas</span>
+                <div className="bg-white/5 backdrop-blur-xl p-3.5 rounded-2xl border border-white/10 shadow-lg shadow-black/20 ring-1 ring-white/5">
+                  <span className="text-[10px] font-bold uppercase text-white/50 tracking-wider">Total Pelamar</span>
+                  <p className="text-xl sm:text-2xl font-black text-white mt-1 drop-shadow-sm">{adminStats.total}</p>
+                  <span className="text-[10px] text-white/40">Semua berkas</span>
                 </div>
 
-                <div className="bg-slate-50/70 p-3.5 rounded-2xl border border-slate-200 shadow-xs">
-                  <span className="text-[10px] font-bold uppercase text-slate-700 tracking-wider">01. Administrasi</span>
-                  <p className="text-xl sm:text-2xl font-black text-slate-700 mt-1">{adminStats.administrasi}</p>
-                  <span className="text-[10px] text-slate-600">Verifikasi CV</span>
+                <div className="bg-white/5 backdrop-blur-xl p-3.5 rounded-2xl border border-white/10 shadow-lg shadow-black/20 ring-1 ring-white/5">
+                  <span className="text-[10px] font-bold uppercase text-white/70 tracking-wider">01. Administrasi</span>
+                  <p className="text-xl sm:text-2xl font-black text-white/90 mt-1 drop-shadow-sm">{adminStats.administrasi}</p>
+                  <span className="text-[10px] text-white/50">Verifikasi CV</span>
                 </div>
 
-                <div className="bg-blue-50/70 p-3.5 rounded-2xl border border-blue-200 shadow-xs">
-                  <span className="text-[10px] font-bold uppercase text-blue-700 tracking-wider">02. Wawancara HR</span>
-                  <p className="text-xl sm:text-2xl font-black text-blue-700 mt-1">{adminStats.wawancaraHR}</p>
-                  <span className="text-[10px] text-blue-600">Interview HR</span>
+                <div className="bg-blue-900/20 backdrop-blur-xl p-3.5 rounded-2xl border border-blue-500/30 shadow-lg shadow-blue-900/10 ring-1 ring-white/5">
+                  <span className="text-[10px] font-bold uppercase text-blue-300 tracking-wider">02. Wawancara HR</span>
+                  <p className="text-xl sm:text-2xl font-black text-blue-100 mt-1 drop-shadow-sm">{adminStats.wawancaraHR}</p>
+                  <span className="text-[10px] text-blue-300/70">Interview HR</span>
                 </div>
 
-                <div className="bg-indigo-50/70 p-3.5 rounded-2xl border border-indigo-200 shadow-xs">
-                  <span className="text-[10px] font-bold uppercase text-indigo-700 tracking-wider">03. Wawancara User</span>
-                  <p className="text-xl sm:text-2xl font-black text-indigo-700 mt-1">{adminStats.wawancaraUser}</p>
-                  <span className="text-[10px] text-indigo-600">Tes Teknis</span>
+                <div className="bg-indigo-900/20 backdrop-blur-xl p-3.5 rounded-2xl border border-indigo-500/30 shadow-lg shadow-indigo-900/10 ring-1 ring-white/5">
+                  <span className="text-[10px] font-bold uppercase text-indigo-300 tracking-wider">03. Wawancara User</span>
+                  <p className="text-xl sm:text-2xl font-black text-indigo-100 mt-1 drop-shadow-sm">{adminStats.wawancaraUser}</p>
+                  <span className="text-[10px] text-indigo-300/70">Tes Teknis</span>
                 </div>
 
-                <div className="bg-slate-50/70 p-3.5 rounded-2xl border border-slate-200 shadow-xs">
-                  <span className="text-[10px] font-bold uppercase text-slate-700 tracking-wider">04. Psikotes</span>
-                  <p className="text-xl sm:text-2xl font-black text-slate-700 mt-1">{adminStats.psikotes}</p>
-                  <span className="text-[10px] text-slate-600">Uji Psikologis</span>
+                <div className="bg-white/5 backdrop-blur-xl p-3.5 rounded-2xl border border-white/10 shadow-lg shadow-black/20 ring-1 ring-white/5">
+                  <span className="text-[10px] font-bold uppercase text-white/70 tracking-wider">04. Psikotes</span>
+                  <p className="text-xl sm:text-2xl font-black text-white/90 mt-1 drop-shadow-sm">{adminStats.psikotes}</p>
+                  <span className="text-[10px] text-white/50">Uji Psikologis</span>
                 </div>
 
-                <div className="bg-cyan-50/70 p-3.5 rounded-2xl border border-cyan-200 shadow-xs">
-                  <span className="text-[10px] font-bold uppercase text-cyan-700 tracking-wider">05. Offering</span>
-                  <p className="text-xl sm:text-2xl font-black text-cyan-700 mt-1">{adminStats.offering}</p>
-                  <span className="text-[10px] text-cyan-600">Penawaran Kerja</span>
+                <div className="bg-cyan-900/20 backdrop-blur-xl p-3.5 rounded-2xl border border-cyan-500/30 shadow-lg shadow-cyan-900/10 ring-1 ring-white/5">
+                  <span className="text-[10px] font-bold uppercase text-cyan-300 tracking-wider">05. Offering</span>
+                  <p className="text-xl sm:text-2xl font-black text-cyan-100 mt-1 drop-shadow-sm">{adminStats.offering}</p>
+                  <span className="text-[10px] text-cyan-300/70">Penawaran Kerja</span>
                 </div>
 
-                <div className="bg-red-50/70 p-3.5 rounded-2xl border border-red-200 shadow-xs">
-                  <span className="text-[10px] font-bold uppercase text-red-700 tracking-wider">06. Onboarding</span>
-                  <p className="text-xl sm:text-2xl font-black text-red-700 mt-1">{adminStats.onboarding}</p>
-                  <span className="text-[10px] text-red-600">Karyawan Baru</span>
+                <div className="bg-red-600/30 backdrop-blur-xl p-3.5 rounded-2xl border border-red-500/50 shadow-lg shadow-red-900/20 ring-1 ring-white/20">
+                  <span className="text-[10px] font-bold uppercase text-red-200 tracking-wider">06. Onboarding</span>
+                  <p className="text-xl sm:text-2xl font-black text-white mt-1 drop-shadow-sm">{adminStats.onboarding}</p>
+                  <span className="text-[10px] text-red-200/80">Karyawan Baru</span>
                 </div>
 
-                <div className="bg-rose-50/70 p-3.5 rounded-2xl border border-rose-200 shadow-xs">
-                  <span className="text-[10px] font-bold uppercase text-rose-700 tracking-wider">Tidak Lolos</span>
-                  <p className="text-xl sm:text-2xl font-black text-rose-700 mt-1">{adminStats.ditolak}</p>
-                  <span className="text-[10px] text-rose-600">Belum sesuai</span>
+                <div className="bg-rose-900/20 backdrop-blur-xl p-3.5 rounded-2xl border border-rose-500/30 shadow-lg shadow-rose-900/10 ring-1 ring-white/5">
+                  <span className="text-[10px] font-bold uppercase text-rose-300 tracking-wider">Tidak Lolos</span>
+                  <p className="text-xl sm:text-2xl font-black text-rose-100 mt-1 drop-shadow-sm">{adminStats.ditolak}</p>
+                  <span className="text-[10px] text-rose-300/70">Ditolak</span>
                 </div>
               </div>
 
-              {/* FILTER & SEARCH BAR */}
-              <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-col md:flex-row gap-3 items-center justify-between">
-                <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
+              {/* FILTERING AND SEARCH CONTROLS */}
+              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white/5 backdrop-blur-xl p-4 rounded-2xl border border-white/10 ring-1 ring-white/5 shadow-lg shadow-black/20">
+                <div className="flex flex-wrap items-center gap-4 w-full md:w-auto">
                   {/* Filter Divisi */}
                   <div className="flex items-center gap-2">
-                    <span className="text-xs font-bold text-slate-500 whitespace-nowrap">Divisi:</span>
+                    <span className="text-xs font-bold text-white/60 whitespace-nowrap">Divisi:</span>
                     <select 
                       value={adminFilterDiv}
                       onChange={(e) => setAdminFilterDiv(e.target.value)}
-                      className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 focus:outline-none focus:border-brand cursor-pointer"
+                      className="px-3 py-2 bg-black/40 border border-white/10 rounded-xl text-xs font-semibold text-white focus:outline-none focus:border-red-500/50 cursor-pointer backdrop-blur-md"
                     >
-                      <option value="all">Semua Divisi ({adminStats.divisions?.length || 0})</option>
+                      <option value="all" className="bg-slate-900 text-white">Semua Divisi ({adminStats.divisions?.length || 0})</option>
                       {adminStats.divisions?.map(d => (
-                        <option key={d.id} value={d.name}>{d.name}</option>
+                        <option key={d.id} value={d.name} className="bg-slate-900 text-white">{d.name}</option>
                       ))}
                     </select>
                   </div>
 
                   {/* Filter Status */}
                   <div className="flex items-center gap-2">
-                    <span className="text-xs font-bold text-slate-500 whitespace-nowrap">Tahapan:</span>
+                    <span className="text-xs font-bold text-white/60 whitespace-nowrap">Tahapan:</span>
                     <select 
                       value={adminFilterStatus}
                       onChange={(e) => setAdminFilterStatus(e.target.value)}
-                      className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 focus:outline-none focus:border-brand cursor-pointer"
+                      className="px-3 py-2 bg-black/40 border border-white/10 rounded-xl text-xs font-semibold text-white focus:outline-none focus:border-red-500/50 cursor-pointer backdrop-blur-md"
                     >
-                      <option value="all">Semua Tahapan Status</option>
-                      <option value="Administrasi & Verifikasi Dokumen">01. Administrasi &amp; Verifikasi Dokumen</option>
-                      <option value="Wawancara HR">02. Wawancara HR</option>
-                      <option value="Wawancara User">03. Wawancara User</option>
-                      <option value="Psikotes">04. Psikotes</option>
-                      <option value="Offering Letter">05. Offering Letter</option>
-                      <option value="Onboarding">06. Onboarding</option>
-                      <option value="Tidak Lolos">Tidak Lolos / Ditolak</option>
+                      <option value="all" className="bg-slate-900 text-white">Semua Tahapan Status</option>
+                      <option value="Administrasi & Verifikasi Dokumen" className="bg-slate-900 text-white">01. Administrasi &amp; Verifikasi Dokumen</option>
+                      <option value="Wawancara HR" className="bg-slate-900 text-white">02. Wawancara HR</option>
+                      <option value="Wawancara User" className="bg-slate-900 text-white">03. Wawancara User</option>
+                      <option value="Psikotes" className="bg-slate-900 text-white">04. Psikotes</option>
+                      <option value="Offering Letter" className="bg-slate-900 text-white">05. Offering Letter</option>
+                      <option value="Onboarding" className="bg-slate-900 text-white">06. Onboarding</option>
+                      <option value="Tidak Lolos" className="bg-slate-900 text-white">Tidak Lolos / Ditolak</option>
                     </select>
                   </div>
                 </div>
@@ -2109,36 +2118,36 @@ export default function App() {
                     onChange={(e) => setAdminSearch(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && fetchAdminData()}
                     placeholder="Cari nama, ID lacak, email..."
-                    className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:border-brand"
+                    className="w-full pl-9 pr-4 py-2 bg-black/40 border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-red-500/50 backdrop-blur-md placeholder-white/30"
                   />
-                  <span className="absolute left-3 top-2.5 text-slate-400 text-xs">🔍</span>
+                  <span className="absolute left-3 top-2.5 text-white/40 text-xs">🔍</span>
                 </div>
               </div>
 
               {/* TABEL DATA PELAMAR */}
-              <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
-                <div className="p-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
-                  <h3 className="font-bold text-slate-800 text-xs sm:text-sm">
+              <div className="bg-white/5 backdrop-blur-2xl rounded-2xl border border-white/10 shadow-xl shadow-black/30 overflow-hidden ring-1 ring-white/5">
+                <div className="p-4 border-b border-white/10 flex justify-between items-center bg-black/20">
+                  <h3 className="font-bold text-white text-xs sm:text-sm drop-shadow-sm">
                     Daftar Berkas Masuk ({adminApplications.length} Pelamar)
                   </h3>
-                  <span className="text-[11px] text-slate-500">Klik "Kelola Status" untuk update atau jadwalkan interview</span>
+                  <span className="text-[11px] text-white/50">Klik "Kelola Status" untuk update atau jadwalkan interview</span>
                 </div>
 
                 {adminLoading ? (
-                  <div className="p-12 text-center text-slate-400 text-xs">
-                    <div className="w-8 h-8 border-3 border-brand border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
+                  <div className="p-12 text-center text-white/50 text-xs">
+                    <div className="w-8 h-8 border-3 border-red-500 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
                     <span>Memuat data pelamar dari database...</span>
                   </div>
                 ) : adminApplications.length === 0 ? (
-                  <div className="p-12 text-center text-slate-400 text-xs">
+                  <div className="p-12 text-center text-white/50 text-xs">
                     <p className="text-3xl mb-2">📁</p>
-                    <p className="font-bold text-slate-600">Belum ada pelamar yang sesuai dengan kriteria filter.</p>
-                    <p className="text-[11px] mt-1 text-slate-400">Silakan ubah filter atau tunggu pendaftaran baru masuk.</p>
+                    <p className="font-bold text-white/70">Belum ada pelamar yang sesuai dengan kriteria filter.</p>
+                    <p className="text-[11px] mt-1 text-white/40">Silakan ubah filter atau tunggu pendaftaran baru masuk.</p>
                   </div>
                 ) : (
                   <div className="overflow-x-auto">
-                    <table className="w-full text-left text-xs text-slate-700">
-                      <thead className="bg-slate-50 text-[11px] uppercase font-bold text-slate-400 tracking-wider border-b border-slate-200">
+                    <table className="w-full text-left text-xs text-slate-300">
+                      <thead className="bg-black/40 text-[11px] uppercase font-bold text-white/60 tracking-wider border-b border-white/10">
                         <tr>
                           <th className="py-3 px-4">ID Registrasi</th>
                           <th className="py-3 px-4">Pelamar &amp; Kontak</th>
@@ -2150,44 +2159,44 @@ export default function App() {
                           <th className="py-3 px-4 text-center">Aksi</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-slate-100 font-medium">
+                      <tbody className="divide-y divide-white/10 font-medium">
                         {adminApplications.map((app) => {
                           const statusColors = {
-                            'Administrasi & Verifikasi Dokumen': 'bg-slate-50 text-slate-700 border-slate-200',
-                            'Wawancara HR': 'bg-blue-50 text-blue-700 border-blue-200',
-                            'Wawancara User': 'bg-indigo-50 text-indigo-700 border-indigo-200',
-                            'Psikotes': 'bg-purple-50 text-slate-700 border-slate-200',
-                            'Offering Letter': 'bg-cyan-50 text-cyan-700 border-cyan-200',
-                            'Onboarding': 'bg-red-50 text-red-700 border-red-200',
-                            'Tidak Lolos': 'bg-rose-50 text-rose-700 border-rose-200',
-                            'Ditolak': 'bg-rose-50 text-rose-700 border-rose-200',
+                            'Administrasi & Verifikasi Dokumen': 'bg-white/10 text-white/80 border-white/20',
+                            'Wawancara HR': 'bg-blue-500/20 text-blue-300 border-blue-500/30',
+                            'Wawancara User': 'bg-indigo-500/20 text-indigo-300 border-indigo-500/30',
+                            'Psikotes': 'bg-purple-500/20 text-purple-300 border-purple-500/30',
+                            'Offering Letter': 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30',
+                            'Onboarding': 'bg-red-500/20 text-red-300 border-red-500/30',
+                            'Tidak Lolos': 'bg-rose-500/20 text-rose-300 border-rose-500/30',
+                            'Ditolak': 'bg-rose-500/20 text-rose-300 border-rose-500/30',
                             // Legacy mapping
-                            'Menunggu Review': 'bg-slate-50 text-slate-700 border-slate-200',
-                            'Tahap Seleksi': 'bg-blue-50 text-blue-700 border-blue-200',
-                            'Interview': 'bg-indigo-50 text-indigo-700 border-indigo-200',
-                            'Diterima': 'bg-red-50 text-red-700 border-red-200'
+                            'Menunggu Review': 'bg-white/10 text-white/80 border-white/20',
+                            'Tahap Seleksi': 'bg-blue-500/20 text-blue-300 border-blue-500/30',
+                            'Interview': 'bg-indigo-500/20 text-indigo-300 border-indigo-500/30',
+                            'Diterima': 'bg-red-500/20 text-red-300 border-red-500/30'
                           };
-                          const badgeStyle = statusColors[app.status] || 'bg-slate-50 text-slate-700 border-slate-200';
+                          const badgeStyle = statusColors[app.status] || 'bg-white/10 text-white/80 border-white/20';
 
                           return (
-                            <tr key={app.id} className="hover:bg-slate-50/80 transition-colors">
-                              <td className="py-3.5 px-4 font-mono font-bold text-slate-900 whitespace-nowrap">
+                            <tr key={app.id} className="hover:bg-white/5 transition-colors">
+                              <td className="py-3.5 px-4 font-mono font-bold text-white whitespace-nowrap">
                                 {app.tracking_id}
                               </td>
                               <td className="py-3.5 px-4">
-                                <p className="font-bold text-slate-900">{app.applicant_name}</p>
-                                <p className="text-[11px] text-slate-500">{app.applicant_email}</p>
-                                <p className="text-[11px] text-slate-400">WA: {app.applicant_phone || '-'}</p>
+                                <p className="font-bold text-white drop-shadow-sm">{app.applicant_name}</p>
+                                <p className="text-[11px] text-white/50">{app.applicant_email}</p>
+                                <p className="text-[11px] text-white/40">WA: {app.applicant_phone || '-'}</p>
                               </td>
-                              <td className="py-3.5 px-4 font-semibold text-slate-800">
+                              <td className="py-3.5 px-4 font-semibold text-white/90">
                                 {app.job_title}
                               </td>
                               <td className="py-3.5 px-4">
-                                <span className="px-2.5 py-1 bg-slate-100 rounded-lg text-[11px] font-semibold text-slate-600 inline-block">
+                                <span className="px-2.5 py-1 bg-white/10 rounded-lg text-[11px] font-semibold text-white/60 inline-block border border-white/10">
                                   📁 {app.division_name || 'Umum'}
                                 </span>
                               </td>
-                              <td className="py-3.5 px-4 text-slate-500 text-[11px] whitespace-nowrap">
+                              <td className="py-3.5 px-4 text-white/50 text-[11px] whitespace-nowrap">
                                 {new Date(app.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
                               </td>
                               <td className="py-3.5 px-4 whitespace-nowrap">
@@ -2195,14 +2204,14 @@ export default function App() {
                                   href={`${API_BASE_URL}${app.cv_path}`}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-red-50 hover:bg-red-100 text-brand rounded-xl font-bold text-[11px] border border-red-200 transition-colors"
+                                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-red-600/20 hover:bg-red-600/40 text-red-200 rounded-xl font-bold text-[11px] border border-red-500/30 transition-colors backdrop-blur-md"
                                 >
                                   <span>📄</span>
                                   <span>Buka CV</span>
                                 </a>
                               </td>
                               <td className="py-3.5 px-4 whitespace-nowrap">
-                                <span className={`px-2.5 py-1 rounded-full text-[11px] font-bold border inline-block ${badgeStyle}`}>
+                                <span className={`px-2.5 py-1 rounded-full text-[11px] font-bold border inline-block backdrop-blur-md ${badgeStyle}`}>
                                   {app.status}
                                 </span>
                               </td>
@@ -2214,14 +2223,14 @@ export default function App() {
                                       setAdminTargetStatus(app.status);
                                       setAdminTargetNotes('');
                                     }}
-                                    className="px-3 py-1.5 bg-brand hover:bg-brand-dark text-white font-bold rounded-xl text-xs transition-colors shadow-xs cursor-pointer"
+                                    className="px-3 py-1.5 bg-red-600/80 hover:bg-red-600 border border-red-500/50 text-white font-bold rounded-xl text-xs transition-colors shadow-lg shadow-red-900/20 cursor-pointer"
                                   >
                                     Kelola Status
                                   </button>
                                   <button
                                     onClick={() => handleAdminDeleteApp(app.id, app.applicant_name)}
-                                    className="p-1.5 text-slate-400 hover:text-rose-600 rounded-lg hover:bg-rose-50 transition-colors cursor-pointer"
-                                    title="Hapus Lamaran"
+                                    className="p-1.5 bg-rose-500/20 hover:bg-rose-500/40 text-rose-200 border border-rose-500/30 rounded-xl transition-colors cursor-pointer"
+                                    title="Hapus Data Pelamar"
                                   >
                                     🗑️
                                   </button>
@@ -2241,43 +2250,43 @@ export default function App() {
             <>
               {/* METRICS STATS CARDS UNTUK LOWONGAN */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
-                  <span className="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Total Lowongan</span>
-                  <p className="text-2xl font-black text-slate-900 mt-1">{adminJobs.length}</p>
-                  <span className="text-[11px] text-slate-500">Semua formasi jabatan</span>
+                <div className="bg-white/5 backdrop-blur-xl p-4 rounded-2xl border border-white/10 shadow-lg shadow-black/20 ring-1 ring-white/5">
+                  <span className="text-[10px] font-bold uppercase text-white/50 tracking-wider">Total Lowongan</span>
+                  <p className="text-2xl font-black text-white mt-1 drop-shadow-sm">{adminJobs.length}</p>
+                  <span className="text-[11px] text-white/40">Semua formasi jabatan</span>
                 </div>
 
-                <div className="bg-red-50/80 p-4 rounded-2xl border border-red-200 shadow-xs">
-                  <span className="text-[10px] font-bold uppercase text-red-700 tracking-wider">Lowongan Aktif</span>
-                  <p className="text-2xl font-black text-red-700 mt-1">
+                <div className="bg-red-600/30 backdrop-blur-xl p-4 rounded-2xl border border-red-500/50 shadow-lg shadow-red-900/20 ring-1 ring-white/20">
+                  <span className="text-[10px] font-bold uppercase text-red-200 tracking-wider">Lowongan Aktif</span>
+                  <p className="text-2xl font-black text-white mt-1 drop-shadow-sm">
                     {adminJobs.filter(j => j.status === 'OPEN').length}
                   </p>
-                  <span className="text-[11px] text-red-600">Terbuka untuk pelamar (OPEN)</span>
+                  <span className="text-[11px] text-red-200/80">Terbuka untuk pelamar (OPEN)</span>
                 </div>
 
-                <div className="bg-slate-100/90 p-4 rounded-2xl border border-slate-200 shadow-xs">
-                  <span className="text-[10px] font-bold uppercase text-slate-600 tracking-wider">Lowongan Ditutup</span>
-                  <p className="text-2xl font-black text-slate-800 mt-1">
+                <div className="bg-white/5 backdrop-blur-xl p-4 rounded-2xl border border-white/10 shadow-lg shadow-black/20 ring-1 ring-white/5">
+                  <span className="text-[10px] font-bold uppercase text-white/60 tracking-wider">Lowongan Ditutup</span>
+                  <p className="text-2xl font-black text-white/90 mt-1 drop-shadow-sm">
                     {adminJobs.filter(j => j.status === 'CLOSED').length}
                   </p>
-                  <span className="text-[11px] text-slate-500">Pendaftaran ditutup (CLOSED)</span>
+                  <span className="text-[11px] text-white/40">Pendaftaran ditutup (CLOSED)</span>
                 </div>
 
-                <div className="bg-blue-50/80 p-4 rounded-2xl border border-blue-200 shadow-xs">
-                  <span className="text-[10px] font-bold uppercase text-blue-700 tracking-wider">Total Berkas Terdaftar</span>
-                  <p className="text-2xl font-black text-blue-700 mt-1">
+                <div className="bg-blue-900/20 backdrop-blur-xl p-4 rounded-2xl border border-blue-500/30 shadow-lg shadow-blue-900/10 ring-1 ring-white/5">
+                  <span className="text-[10px] font-bold uppercase text-blue-300 tracking-wider">Total Berkas Terdaftar</span>
+                  <p className="text-2xl font-black text-blue-100 mt-1 drop-shadow-sm">
                     {adminJobs.reduce((acc, curr) => acc + (parseInt(curr.applicant_count) || 0), 0)}
                   </p>
-                  <span className="text-[11px] text-blue-600">Pelamar di seluruh lowongan</span>
+                  <span className="text-[11px] text-blue-300/70">Pelamar di seluruh lowongan</span>
                 </div>
               </div>
 
               {/* FILTER & ACTION BAR */}
-              <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-col md:flex-row gap-3 items-center justify-between">
-                <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
+              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white/5 backdrop-blur-xl p-4 rounded-2xl border border-white/10 ring-1 ring-white/5 shadow-lg shadow-black/20">
+                <div className="flex flex-wrap items-center gap-4 w-full md:w-auto">
                   <button
                     onClick={handleOpenAddJobModal}
-                    className="px-4 py-2.5 bg-brand hover:bg-brand-dark text-white rounded-xl text-xs font-bold transition-all shadow-md shadow-brand/20 flex items-center gap-2 cursor-pointer"
+                    className="px-4 py-2.5 bg-red-600/80 hover:bg-red-600 text-white rounded-xl text-xs font-bold transition-all shadow-lg shadow-red-900/30 border border-red-500/50 flex items-center gap-2 cursor-pointer backdrop-blur-sm"
                   >
                     <span>➕</span>
                     <span>Tambah Lowongan Baru</span>
@@ -2285,88 +2294,88 @@ export default function App() {
 
                   {/* Filter Divisi */}
                   <div className="flex items-center gap-2">
-                    <span className="text-xs font-bold text-slate-500 whitespace-nowrap">Divisi:</span>
+                    <span className="text-xs font-bold text-white/60 whitespace-nowrap">Divisi:</span>
                     <select
                       value={adminJobFilterDiv}
                       onChange={(e) => setAdminJobFilterDiv(e.target.value)}
-                      className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 focus:outline-none focus:border-brand cursor-pointer"
+                      className="px-3 py-2 bg-black/40 border border-white/10 rounded-xl text-xs font-semibold text-white focus:outline-none focus:border-red-500/50 cursor-pointer backdrop-blur-md"
                     >
-                      <option value="all">Semua Divisi</option>
+                      <option value="all" className="bg-slate-900 text-white">Semua Divisi ({adminStats.divisions?.length || 0})</option>
                       {(adminStats.divisions && adminStats.divisions.length > 0 ? adminStats.divisions : [
-                        { id: 1, name: 'Teknik Sipil & Proyek' },
-                        { id: 2, name: 'Produksi Beton & Operasional Pabrik' },
-                        { id: 3, name: 'Quality Assurance & Quality Control' },
-                        { id: 4, name: 'Kesehatan & Keselamatan Kerja (K3)' },
-                        { id: 5, name: 'Engineering & Estimator' },
+                        { id: 1, name: 'Teknik Sipil & Rancang Bangun' },
+                        { id: 2, name: 'Produksi & Operasional Pabrik' },
+                        { id: 3, name: 'Quality Control (QC) & Laboratorium' },
+                        { id: 4, name: 'Logistik & Manajemen Supply Chain' },
+                        { id: 5, name: 'Kesehatan & Keselamatan Kerja (HSE)' },
                         { id: 6, name: 'Pemasaran & Administrasi Proyek' }
                       ]).map(d => (
-                        <option key={d.id} value={d.name}>{d.name}</option>
+                        <option key={d.id} value={d.id.toString()} className="bg-slate-900 text-white">{d.name}</option>
                       ))}
                     </select>
                   </div>
 
                   {/* Filter Status */}
                   <div className="flex items-center gap-2">
-                    <span className="text-xs font-bold text-slate-500 whitespace-nowrap">Status:</span>
+                    <span className="text-xs font-bold text-white/60 whitespace-nowrap">Status:</span>
                     <select
                       value={adminJobFilterStatus}
                       onChange={(e) => setAdminJobFilterStatus(e.target.value)}
-                      className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 focus:outline-none focus:border-brand cursor-pointer"
+                      className="px-3 py-2 bg-black/40 border border-white/10 rounded-xl text-xs font-semibold text-white focus:outline-none focus:border-red-500/50 cursor-pointer backdrop-blur-md"
                     >
-                      <option value="all">Semua Status</option>
-                      <option value="OPEN">🟢 Terbuka (OPEN)</option>
-                      <option value="CLOSED">🔴 Ditutup (CLOSED)</option>
+                      <option value="all" className="bg-slate-900 text-white">Semua Status</option>
+                      <option value="OPEN" className="bg-slate-900 text-white">Pendaftaran Terbuka (OPEN)</option>
+                      <option value="CLOSED" className="bg-slate-900 text-white">Pendaftaran Ditutup (CLOSED)</option>
                     </select>
                   </div>
                 </div>
 
                 {/* Search Box */}
-                <div className="w-full md:w-72 relative">
+                <div className="w-full md:w-80 relative">
                   <input
                     type="text"
                     value={adminJobSearch}
                     onChange={(e) => setAdminJobSearch(e.target.value)}
-                    placeholder="Cari nama lowongan, divisi, lokasi..."
-                    className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:border-brand"
+                    placeholder="Cari posisi pekerjaan..."
+                    className="w-full pl-9 pr-4 py-2 bg-black/40 border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-red-500/50 backdrop-blur-md placeholder-white/30"
                   />
-                  <span className="absolute left-3 top-2.5 text-slate-400 text-xs">🔍</span>
+                  <span className="absolute left-3 top-2.5 text-white/40 text-xs">🔍</span>
                 </div>
               </div>
 
               {/* TABEL DATA LOWONGAN */}
-              <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
-                <div className="p-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+              <div className="bg-white/5 backdrop-blur-2xl rounded-2xl border border-white/10 shadow-xl shadow-black/30 overflow-hidden ring-1 ring-white/5">
+                <div className="p-4 border-b border-white/10 flex justify-between items-center bg-black/20">
                   <div>
-                    <h3 className="font-bold text-slate-800 text-xs sm:text-sm">
+                    <h3 className="font-bold text-white text-xs sm:text-sm drop-shadow-sm">
                       Daftar Formasi Lowongan Pekerjaan ({filteredAdminJobs.length} Posisi)
                     </h3>
-                    <p className="text-[11px] text-slate-500 mt-0.5">
+                    <p className="text-[11px] text-white/50 mt-0.5">
                       Kelola lowongan aktif untuk tayang di halaman karir publik secara otomatis.
                     </p>
                   </div>
                   <button
                     onClick={handleOpenAddJobModal}
-                    className="px-3 py-1.5 bg-brand/10 hover:bg-brand/20 text-brand rounded-xl font-bold text-xs transition-colors cursor-pointer hidden sm:flex items-center gap-1.5"
+                    className="px-3 py-1.5 bg-red-600/20 hover:bg-red-600/40 text-red-200 border border-red-500/30 rounded-xl font-bold text-xs transition-colors cursor-pointer hidden sm:flex items-center gap-1.5 backdrop-blur-md"
                   >
                     <span>➕ Buat Lowongan Baru</span>
                   </button>
                 </div>
 
                 {adminJobsLoading ? (
-                  <div className="p-12 text-center text-slate-400 text-xs">
-                    <div className="w-8 h-8 border-3 border-brand border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
+                  <div className="p-12 text-center text-white/50 text-xs">
+                    <div className="w-8 h-8 border-3 border-red-500 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
                     <span>Memuat daftar lowongan pekerjaan...</span>
                   </div>
                 ) : filteredAdminJobs.length === 0 ? (
-                  <div className="p-12 text-center text-slate-400 text-xs">
+                  <div className="p-12 text-center text-white/50 text-xs">
                     <p className="text-3xl mb-2">💼</p>
-                    <p className="font-bold text-slate-600">Tidak ada data lowongan pekerjaan.</p>
-                    <p className="text-[11px] mt-1 text-slate-400">Klik tombol "Tambah Lowongan Baru" di atas untuk menambahkan formasi posisi kerja.</p>
+                    <p className="font-bold text-white/70">Tidak ada data lowongan pekerjaan.</p>
+                    <p className="text-[11px] mt-1 text-white/40">Klik tombol "Tambah Lowongan Baru" di atas untuk menambahkan formasi posisi kerja.</p>
                   </div>
                 ) : (
                   <div className="overflow-x-auto">
-                    <table className="w-full text-left text-xs text-slate-700">
-                      <thead className="bg-slate-50 text-[11px] uppercase font-bold text-slate-400 tracking-wider border-b border-slate-200">
+                    <table className="w-full text-left text-xs text-slate-300">
+                      <thead className="bg-black/40 text-[11px] uppercase font-bold text-white/60 tracking-wider border-b border-white/10">
                         <tr>
                           <th className="py-3 px-4">Posisi &amp; Kualifikasi</th>
                           <th className="py-3 px-4">Divisi</th>
@@ -2377,53 +2386,53 @@ export default function App() {
                           <th className="py-3 px-4 text-center">Aksi HR</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-slate-100 font-medium">
+                      <tbody className="divide-y divide-white/10 font-medium">
                         {filteredAdminJobs.map((job) => (
-                          <tr key={job.id} className="hover:bg-slate-50/80 transition-colors">
+                          <tr key={job.id} className="hover:bg-white/5 transition-colors">
                             <td className="py-3.5 px-4">
-                              <div className="font-bold text-slate-900 text-sm">{job.title}</div>
-                              <div className="text-[11px] text-slate-500 mt-0.5 flex flex-wrap items-center gap-1.5">
+                              <div className="font-bold text-white text-sm drop-shadow-sm">{job.title}</div>
+                              <div className="text-[11px] text-white/50 mt-0.5 flex flex-wrap items-center gap-1.5">
                                 <span>🎓 {job.education || 'S1 / D4'}</span>
-                                <span>•</span>
+                                <span className="text-white/20">•</span>
                                 <span>⏳ {job.experience || 'Min. 1-2 Tahun'}</span>
                               </div>
                             </td>
                             <td className="py-3.5 px-4 whitespace-nowrap">
-                              <span className="px-2.5 py-1 bg-slate-100 text-slate-700 rounded-lg text-[11px] font-bold border border-slate-200 inline-block">
+                              <span className="px-2.5 py-1 bg-white/10 text-white/80 rounded-lg text-[11px] font-bold border border-white/20 inline-block">
                                 🏢 {job.division || job.department}
                               </span>
                             </td>
                             <td className="py-3.5 px-4 whitespace-nowrap">
-                              <div className="font-semibold text-slate-800">📍 {job.location}</div>
-                              <div className="text-[11px] text-slate-400">{job.type}</div>
+                              <div className="font-semibold text-white/90">📍 {job.location}</div>
+                              <div className="text-[11px] text-white/40">{job.type}</div>
                             </td>
-                            <td className="py-3.5 px-4 whitespace-nowrap text-slate-600 font-medium">
+                            <td className="py-3.5 px-4 whitespace-nowrap text-white/60 font-medium">
                               📅 {job.deadline || 'Terbuka'}
                             </td>
                             <td className="py-3.5 px-4 text-center whitespace-nowrap">
-                              <span className="px-2.5 py-1 bg-blue-50 text-blue-700 font-bold rounded-full text-[11px] border border-blue-200">
+                              <span className="px-3 py-1 bg-blue-500/20 text-blue-300 font-bold text-xs rounded-xl border border-blue-500/30 backdrop-blur-md">
                                 {job.applicant_count || 0} Berkas
                               </span>
                             </td>
                             <td className="py-3.5 px-4 text-center whitespace-nowrap">
                               <button
                                 onClick={() => handleToggleJobStatus(job)}
-                                className={`px-3 py-1.5 rounded-full text-xs font-bold border transition-all cursor-pointer inline-flex items-center gap-1.5 ${
+                                className={`px-3 py-1.5 rounded-full text-[11px] font-bold border transition-all cursor-pointer inline-flex items-center gap-1.5 backdrop-blur-md shadow-sm ${
                                   job.status === 'OPEN'
-                                    ? 'bg-red-50 text-red-700 border-red-300 hover:bg-red-100'
-                                    : 'bg-slate-100 text-slate-500 border-slate-300 hover:bg-slate-200'
+                                    ? 'bg-red-600/20 text-red-200 border-red-500/30 hover:bg-red-600/40 shadow-red-900/20'
+                                    : 'bg-white/10 text-white/60 border-white/20 hover:bg-white/20'
                                 }`}
                                 title="Klik untuk Buka/Tutup Lowongan Langsung"
                               >
-                                <span className={`w-2 h-2 rounded-full ${job.status === 'OPEN' ? 'bg-red-500 animate-pulse' : 'bg-slate-400'}`}></span>
-                                <span>{job.status === 'OPEN' ? '🟢 DIBUKA' : '🔴 DITUTUP'}</span>
+                                <span className={`w-2 h-2 rounded-full ${job.status === 'OPEN' ? 'bg-red-400 animate-pulse shadow-[0_0_8px_rgba(239,68,68,0.8)]' : 'bg-slate-500'}`}></span>
+                                <span>{job.status === 'OPEN' ? 'DIBUKA' : 'DITUTUP'}</span>
                               </button>
                             </td>
                             <td className="py-3.5 px-4 text-center whitespace-nowrap">
                               <div className="inline-flex items-center gap-1.5">
                                 <button
                                   onClick={() => handleOpenEditJobModal(job)}
-                                  className="px-3 py-1.5 bg-brand hover:bg-brand-dark text-white font-bold rounded-xl text-xs transition-colors shadow-xs cursor-pointer inline-flex items-center gap-1"
+                                  className="px-3 py-1.5 bg-red-600/80 hover:bg-red-600 text-white font-bold rounded-xl text-xs transition-colors shadow-lg shadow-red-900/20 border border-red-500/50 cursor-pointer inline-flex items-center gap-1"
                                   title="Edit Lowongan"
                                 >
                                   <span>✏️</span>
@@ -2431,7 +2440,7 @@ export default function App() {
                                 </button>
                                 <button
                                   onClick={() => handleDeleteJob(job)}
-                                  className="p-1.5 text-slate-400 hover:text-rose-600 rounded-lg hover:bg-rose-50 transition-colors cursor-pointer"
+                                  className="p-1.5 bg-rose-500/20 hover:bg-rose-500/40 text-rose-200 border border-rose-500/30 rounded-xl transition-colors cursor-pointer"
                                   title="Hapus Lowongan Permanen"
                                 >
                                   🗑️
