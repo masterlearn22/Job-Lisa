@@ -2838,7 +2838,7 @@ Jenjang karir profesional di DUSASPUN Group"
                   <a 
                     href="#karir" 
                     onClick={() => handleJumpSection('karir', 'karir')}
-                    className="w-full sm:w-auto justify-center group bg-red-600/30 hover:bg-red-600/50 backdrop-blur-xl active:scale-95 border border-red-500/40 px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl font-bold text-xs sm:text-sm transition-all duration-300 shadow-xl shadow-black/20 hover:shadow-red-500/20 hover:scale-105 flex items-center gap-2 whitespace-nowrap cursor-pointer"
+                    className="w-full sm:w-auto justify-center group bg-[#952e2f]/40 hover:bg-[#952e2f]/60 backdrop-blur-xl active:scale-95 border border-[#952e2f]/50 px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl font-bold text-xs sm:text-sm transition-all duration-300 shadow-xl shadow-black/20 hover:shadow-[#952e2f]/20 hover:scale-105 flex items-center gap-2 whitespace-nowrap cursor-pointer"
                   >
                     <span className="transition-colors duration-300 text-white font-black drop-shadow-sm">Lihat Lowongan Kerja ({jobs.length} Posisi)</span>
                     <svg 
@@ -2852,7 +2852,7 @@ Jenjang karir profesional di DUSASPUN Group"
                   </a>
                   <button 
                     onClick={() => handleOpenTracking()}
-                    className="w-full sm:w-auto justify-center group bg-red-600/10 hover:bg-red-600/30 backdrop-blur-xl active:scale-95 border border-red-500/30 hover:border-red-500/50 px-5 sm:px-6 py-3 sm:py-3.5 rounded-xl font-bold text-xs sm:text-sm transition-all duration-300 flex items-center gap-2.5 whitespace-nowrap cursor-pointer shadow-lg shadow-black/20 hover:shadow-red-500/20 hover:scale-105"
+                    className="w-full sm:w-auto justify-center group bg-[#952e2f]/20 hover:bg-[#952e2f]/40 backdrop-blur-xl active:scale-95 border border-[#952e2f]/40 hover:border-[#952e2f]/60 px-5 sm:px-6 py-3 sm:py-3.5 rounded-xl font-bold text-xs sm:text-sm transition-all duration-300 flex items-center gap-2.5 whitespace-nowrap cursor-pointer shadow-lg shadow-black/20 hover:shadow-[#952e2f]/20 hover:scale-105"
                   >
                     <svg 
                       className="w-4 h-4 text-white/90 group-hover:text-white group-hover:scale-110 transition-all duration-300 drop-shadow-sm" 
@@ -2906,7 +2906,7 @@ Jenjang karir profesional di DUSASPUN Group"
 
             {/* Slide Indicator Bar & Live Project Caption - Responsive Stack */}
             <div className="relative z-20 max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 mt-6 sm:mt-8">
-              <div className="group flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 py-2.5 sm:py-3 px-3.5 sm:px-4 rounded-xl bg-red-600/20 hover:bg-red-600/30 backdrop-blur-xl border border-red-500/30 hover:border-red-500/50 transition-all duration-300 text-xs shadow-lg shadow-black/20 hover:shadow-red-500/20">
+              <div className="group flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 py-2.5 sm:py-3 px-3.5 sm:px-4 rounded-xl bg-[#952e2f]/20 hover:bg-[#952e2f]/40 backdrop-blur-xl border border-[#952e2f]/40 hover:border-[#952e2f]/60 transition-all duration-300 text-xs shadow-lg shadow-black/20 hover:shadow-[#952e2f]/20">
                 <div className="flex items-center gap-2 overflow-hidden w-full sm:w-auto">
                   <span className="relative flex h-2 w-2 shrink-0">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75 group-hover:bg-white transition-colors duration-300"></span>
@@ -3127,7 +3127,7 @@ Jenjang karir profesional di DUSASPUN Group"
         <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           {/* Section Header */}
           <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-600/80 backdrop-blur-md border border-red-500/50 text-white text-xs font-bold uppercase tracking-widest mb-3.5 shadow-lg shadow-red-900/10 hover:bg-red-600 hover:scale-105 transition-all duration-300 cursor-pointer">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#952e2f]/80 backdrop-blur-md border border-[#952e2f]/50 text-white text-xs font-bold uppercase tracking-widest mb-3.5 shadow-lg shadow-[#952e2f]/10 hover:bg-[#952e2f] hover:scale-105 transition-all duration-300 cursor-pointer">
               <span className="w-2 h-2 rounded-full bg-white animate-pulse"></span>
               <span>Roadmap Seleksi Resmi</span>
             </div>
@@ -3172,7 +3172,7 @@ Jenjang karir profesional di DUSASPUN Group"
                   <div className="w-full h-full relative transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
                     
                     {/* --- Sisi Depan (Front) --- */}
-                    <div className="absolute inset-0 [backface-visibility:hidden] bg-red-900/80 backdrop-blur-3xl rounded-2xl border border-red-500/50 shadow-xl shadow-red-950/20 ring-1 ring-red-500/40 p-4 flex flex-col justify-between overflow-hidden group-hover:bg-red-900/90 transition-colors duration-300">
+                    <div className="absolute inset-0 [backface-visibility:hidden] bg-[#952e2f]/80 backdrop-blur-3xl rounded-2xl border border-[#952e2f]/50 shadow-xl shadow-[#952e2f]/20 ring-1 ring-[#952e2f]/40 p-4 flex flex-col justify-between overflow-hidden group-hover:bg-[#952e2f]/90 transition-colors duration-300">
                       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-400 via-white/50 to-red-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                       <span className="absolute -bottom-3 -right-1 font-mono font-black text-6xl text-white/10 select-none pointer-events-none">
                         {st.no}
@@ -3229,7 +3229,7 @@ Jenjang karir profesional di DUSASPUN Group"
                 <div className="w-full h-full relative transition-transform duration-700 [transform-style:preserve-3d] peer-checked:[transform:rotateY(180deg)]">
                   
                   {/* --- Sisi Depan (Front) --- */}
-                  <div className="absolute inset-0 [backface-visibility:hidden] bg-red-900/80 backdrop-blur-3xl rounded-2xl border border-red-500/50 shadow-xl shadow-red-950/20 ring-1 ring-red-500/40 p-4 flex flex-col justify-between overflow-hidden peer-checked:bg-red-900/90 transition-colors duration-300">
+                  <div className="absolute inset-0 [backface-visibility:hidden] bg-[#952e2f]/80 backdrop-blur-3xl rounded-2xl border border-[#952e2f]/50 shadow-xl shadow-[#952e2f]/20 ring-1 ring-[#952e2f]/40 p-4 flex flex-col justify-between overflow-hidden peer-checked:bg-[#952e2f]/90 transition-colors duration-300">
                     <span className="absolute -bottom-3 -right-1 font-mono font-black text-6xl text-white/10 select-none pointer-events-none">
                       {st.no}
                     </span>
