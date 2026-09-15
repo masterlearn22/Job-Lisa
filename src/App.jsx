@@ -1410,10 +1410,10 @@ export default function App() {
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             {/* Top Breadcrumb & Navigation */}
             <div className="flex flex-wrap items-center justify-between gap-3 mb-6 sm:mb-8">
-              <div className="flex items-center gap-2 text-xs font-semibold text-slate-500">
+              <div className="flex items-center gap-2 text-xs font-bold text-slate-700">
                 <button 
                   onClick={handleToHome}
-                  className="hover:text-slate-900 flex items-center gap-1 cursor-pointer transition-colors"
+                  className="hover:text-black flex items-center gap-1 cursor-pointer transition-colors"
                 >
                   <span>🏠</span>
                   <span>Beranda</span>
@@ -1421,17 +1421,17 @@ export default function App() {
                 <span>/</span>
                 <button 
                   onClick={handleToKarir}
-                  className="hover:text-slate-900 cursor-pointer transition-colors"
+                  className="hover:text-black cursor-pointer transition-colors"
                 >
                   Karir &amp; Rekrutmen
                 </button>
                 <span>/</span>
-                <span className="text-slate-900 font-bold drop-shadow-sm">Lacak Status Lamaran</span>
+                <span className="text-black font-black drop-shadow-sm">Lacak Status Lamaran</span>
               </div>
 
               <button 
                 onClick={handleToKarir}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-white/40 border border-white/60 text-xs font-bold text-slate-700 hover:text-slate-900 hover:bg-white/60 transition-all shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] backdrop-blur-2xl ring-1 ring-white/50 cursor-pointer"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-white/50 border border-white/80 text-xs font-black text-slate-800 hover:text-black hover:bg-white/80 transition-all shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] backdrop-blur-2xl ring-1 ring-white/50 cursor-pointer"
               >
                 <span>&larr;</span>
                 <span>Kembali ke Lowongan Kerja</span>
@@ -1439,31 +1439,31 @@ export default function App() {
             </div>
 
             {/* Hero Header Box - Liquid Glass */}
-            <div className="relative bg-white/40 border border-white/60 backdrop-blur-3xl rounded-[2rem] p-6 sm:p-10 text-slate-900 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] ring-1 ring-white/50 overflow-hidden mb-8">
+            <div className="relative bg-white/50 border border-white/80 backdrop-blur-3xl rounded-[2rem] p-6 sm:p-10 text-black shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] ring-1 ring-white/50 overflow-hidden mb-8">
               <div className="absolute -right-20 -top-20 w-80 h-80 bg-gradient-to-br from-rose-400/20 to-orange-300/20 rounded-full blur-[80px] pointer-events-none"></div>
               <div className="relative max-w-2xl">
-                <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/60 border border-white/80 shadow-sm text-brand font-bold uppercase tracking-wider mb-4 backdrop-blur-md text-[11px]">
-                  <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse shadow-[0_0_8px_rgba(239,68,68,0.8)]"></span>
+                <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/80 border border-white shadow-sm text-red-700 font-black uppercase tracking-wider mb-4 backdrop-blur-md text-[11px]">
+                  <span className="w-2 h-2 rounded-full bg-red-600 animate-pulse shadow-[0_0_8px_rgba(239,68,68,0.8)]"></span>
                   Sistem Informasi Rekrutmen Resmi
                 </span>
-                <h1 className="text-2xl sm:text-4xl font-black tracking-tight mb-3 drop-shadow-sm">
+                <h1 className="text-2xl sm:text-4xl font-black tracking-tight mb-3 drop-shadow-sm text-black">
                   Lacak Status Rekrutmen Pelamar
                 </h1>
-                <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
+                <p className="text-slate-800 font-medium text-xs sm:text-sm leading-relaxed">
                   Pantau seluruh perkembangan tahapan seleksi berkas hingga penawaran kerja secara transparan dan berkala. Masukkan nomor registrasi lamaran atau alamat email Anda di bawah ini.
                 </p>
               </div>
             </div>
 
             {/* Search Bar Card - Liquid Glass */}
-            <div className="bg-white/40 backdrop-blur-3xl rounded-3xl shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] border border-white/60 p-5 sm:p-7 mb-8 ring-1 ring-white/50">
+            <div className="bg-white/50 backdrop-blur-3xl rounded-3xl shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] border border-white/80 p-5 sm:p-7 mb-8 ring-1 ring-white/50">
               <form onSubmit={handleTrackApplication} className="space-y-3">
-                <label className="block text-xs sm:text-sm font-bold text-slate-900 drop-shadow-sm">
+                <label className="block text-xs sm:text-sm font-black text-black drop-shadow-sm">
                   Cari Berkas Lamaran Anda
                 </label>
                 <div className="flex flex-col sm:flex-row gap-3">
                   <div className="relative flex-1">
-                    <span className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+                    <span className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-500">
                       🔍
                     </span>
                     <input 
@@ -1471,24 +1471,24 @@ export default function App() {
                       value={trackingCode}
                       onChange={(e) => setTrackingCode(e.target.value)}
                       placeholder="Masukkan Nomor Registrasi (misal: LISA-2026-0891) atau Email Anda" 
-                      className="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-white/60 border border-white/80 focus:border-red-500/50 focus:ring-2 focus:ring-red-500/20 focus:outline-none text-slate-900 placeholder-slate-500 text-xs sm:text-sm transition-all shadow-inner backdrop-blur-md"
+                      className="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-white/80 border border-white focus:border-red-500/50 focus:ring-2 focus:ring-red-500/20 focus:outline-none text-black font-semibold placeholder-slate-600 text-xs sm:text-sm transition-all shadow-inner backdrop-blur-md"
                       required
                     />
                   </div>
                   <button 
                     type="submit"
-                    className="px-7 py-3.5 bg-brand hover:bg-red-700 text-white rounded-xl text-xs sm:text-sm font-bold transition-all shadow-md shadow-red-900/20 flex items-center justify-center gap-2 cursor-pointer shrink-0 hover:scale-[1.02] active:scale-95"
+                    className="px-7 py-3.5 bg-brand hover:bg-red-800 text-white rounded-xl text-xs sm:text-sm font-black transition-all shadow-md shadow-red-900/20 flex items-center justify-center gap-2 cursor-pointer shrink-0 hover:scale-[1.02] active:scale-95"
                   >
                     <span>Cek Status</span>
                     <span>&rarr;</span>
                   </button>
                 </div>
-                <div className="flex flex-wrap items-center justify-between gap-2 pt-2 text-[11px] text-slate-500">
-                  <span>Format nomor registrasi: <code className="bg-slate-100 text-slate-700 border border-slate-200 px-1.5 py-0.5 rounded font-mono font-semibold">LISA-2026-0891</code></span>
+                <div className="flex flex-wrap items-center justify-between gap-2 pt-2 text-[11px] text-slate-700 font-medium">
+                  <span>Format nomor registrasi: <code className="bg-white text-black border border-slate-200 px-1.5 py-0.5 rounded font-mono font-black">LISA-2026-0891</code></span>
                   <button
                     type="button"
                     onClick={() => handleOpenTracking(true)}
-                    className="text-brand font-bold hover:text-red-700 hover:underline cursor-pointer flex items-center gap-1 transition-colors"
+                    className="text-red-700 font-black hover:text-red-900 hover:underline cursor-pointer flex items-center gap-1 transition-colors"
                   >
                     <span>⚡ Coba Contoh Data Pelamar (Simulasi)</span>
                   </button>
@@ -1722,36 +1722,36 @@ export default function App() {
                   {/* Card 1 */}
                   <div className="relative h-48 group cursor-pointer [perspective:1000px]">
                     <div className="w-full h-full relative transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
-                      <div className="absolute inset-0 [backface-visibility:hidden] bg-white/40 backdrop-blur-3xl p-6 rounded-[2rem] border border-white/60 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] flex flex-col justify-center items-center text-center ring-1 ring-white/50">
-                        <span className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-br from-rose-500 to-red-400 mb-2 drop-shadow-sm">01</span>
-                        <h3 className="font-black text-slate-900 text-sm drop-shadow-sm">Transparan &amp; Real-Time</h3>
+                      <div className="absolute inset-0 [backface-visibility:hidden] bg-white/50 backdrop-blur-3xl p-6 rounded-[2rem] border border-white/80 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] flex flex-col justify-center items-center text-center ring-1 ring-white/50">
+                        <span className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-br from-rose-600 to-red-500 mb-2 drop-shadow-sm">01</span>
+                        <h3 className="font-black text-black text-sm drop-shadow-sm">Transparan &amp; Real-Time</h3>
                       </div>
                       <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] bg-slate-900/90 backdrop-blur-3xl p-6 rounded-[2rem] border border-white/20 shadow-xl flex items-center text-center">
-                        <p className="text-xs text-slate-300 leading-relaxed">Setiap pembaruan status seleksi berkas hingga jadwal wawancara diinput langsung oleh tim HR personalia secara berkala.</p>
+                        <p className="text-xs text-white font-medium leading-relaxed">Setiap pembaruan status seleksi berkas hingga jadwal wawancara diinput langsung oleh tim HR personalia secara berkala.</p>
                       </div>
                     </div>
                   </div>
                   {/* Card 2 */}
                   <div className="relative h-48 group cursor-pointer [perspective:1000px]">
                     <div className="w-full h-full relative transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
-                      <div className="absolute inset-0 [backface-visibility:hidden] bg-white/40 backdrop-blur-3xl p-6 rounded-[2rem] border border-white/60 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] flex flex-col justify-center items-center text-center ring-1 ring-white/50">
-                        <span className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-br from-blue-500 to-cyan-400 mb-2 drop-shadow-sm">02</span>
-                        <h3 className="font-black text-slate-900 text-sm drop-shadow-sm">6 Tahap Seleksi Resmi</h3>
+                      <div className="absolute inset-0 [backface-visibility:hidden] bg-white/50 backdrop-blur-3xl p-6 rounded-[2rem] border border-white/80 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] flex flex-col justify-center items-center text-center ring-1 ring-white/50">
+                        <span className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-br from-blue-600 to-cyan-500 mb-2 drop-shadow-sm">02</span>
+                        <h3 className="font-black text-black text-sm drop-shadow-sm">6 Tahap Seleksi Resmi</h3>
                       </div>
                       <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] bg-slate-900/90 backdrop-blur-3xl p-6 rounded-[2rem] border border-white/20 shadow-xl flex items-center text-center">
-                        <p className="text-xs text-slate-300 leading-relaxed">Alur seleksi jelas dan terukur: Berkas &rarr; Wawancara HR &rarr; Wawancara User &rarr; Psikotes &rarr; Offering &rarr; Onboarding.</p>
+                        <p className="text-xs text-white font-medium leading-relaxed">Alur seleksi jelas dan terukur: Berkas &rarr; Wawancara HR &rarr; Wawancara User &rarr; Psikotes &rarr; Offering &rarr; Onboarding.</p>
                       </div>
                     </div>
                   </div>
                   {/* Card 3 */}
                   <div className="relative h-48 group cursor-pointer [perspective:1000px]">
                     <div className="w-full h-full relative transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
-                      <div className="absolute inset-0 [backface-visibility:hidden] bg-white/40 backdrop-blur-3xl p-6 rounded-[2rem] border border-white/60 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] flex flex-col justify-center items-center text-center ring-1 ring-white/50">
-                        <span className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-br from-amber-500 to-orange-400 mb-2 drop-shadow-sm">03</span>
-                        <h3 className="font-black text-slate-900 text-sm drop-shadow-sm">100% Bebas Biaya</h3>
+                      <div className="absolute inset-0 [backface-visibility:hidden] bg-white/50 backdrop-blur-3xl p-6 rounded-[2rem] border border-white/80 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] flex flex-col justify-center items-center text-center ring-1 ring-white/50">
+                        <span className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-br from-amber-500 to-orange-500 mb-2 drop-shadow-sm">03</span>
+                        <h3 className="font-black text-black text-sm drop-shadow-sm">100% Bebas Biaya</h3>
                       </div>
                       <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] bg-slate-900/90 backdrop-blur-3xl p-6 rounded-[2rem] border border-white/20 shadow-xl flex items-center text-center">
-                        <p className="text-xs text-slate-300 leading-relaxed">PT Lisa Concrete Indonesia tidak pernah memungut biaya apapun dari pelamar dalam bentuk akomodasi, tiket, maupun registrasi.</p>
+                        <p className="text-xs text-white font-medium leading-relaxed">PT Lisa Concrete Indonesia tidak pernah memungut biaya apapun dari pelamar dalam bentuk akomodasi, tiket, maupun registrasi.</p>
                       </div>
                     </div>
                   </div>
@@ -1763,13 +1763,13 @@ export default function App() {
                   <label className="relative shrink-0 w-[75vw] h-48 snap-center cursor-pointer [perspective:1000px] block">
                     <input type="checkbox" className="peer hidden" />
                     <div className="w-full h-full relative transition-transform duration-700 [transform-style:preserve-3d] peer-checked:[transform:rotateY(180deg)]">
-                      <div className="absolute inset-0 [backface-visibility:hidden] bg-white/40 backdrop-blur-3xl p-6 rounded-[2rem] border border-white/60 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] flex flex-col justify-center items-center text-center ring-1 ring-white/50">
-                        <span className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-br from-rose-500 to-red-400 mb-2 drop-shadow-sm">01</span>
-                        <h3 className="font-black text-slate-900 text-sm drop-shadow-sm">Transparan &amp; Real-Time</h3>
-                        <p className="text-[10px] text-slate-500 mt-3 animate-pulse">Tap detail &rarr;</p>
+                      <div className="absolute inset-0 [backface-visibility:hidden] bg-white/50 backdrop-blur-3xl p-6 rounded-[2rem] border border-white/80 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] flex flex-col justify-center items-center text-center ring-1 ring-white/50">
+                        <span className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-br from-rose-600 to-red-500 mb-2 drop-shadow-sm">01</span>
+                        <h3 className="font-black text-black text-sm drop-shadow-sm">Transparan &amp; Real-Time</h3>
+                        <p className="text-[10px] text-slate-700 font-bold mt-3 animate-pulse">Tap detail &rarr;</p>
                       </div>
                       <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] bg-slate-900/90 backdrop-blur-3xl p-6 rounded-[2rem] border border-white/20 shadow-xl flex items-center text-center">
-                        <p className="text-xs text-slate-300 leading-relaxed">Setiap pembaruan status seleksi berkas hingga jadwal wawancara diinput langsung oleh tim HR personalia secara berkala.</p>
+                        <p className="text-xs text-white font-medium leading-relaxed">Setiap pembaruan status seleksi berkas hingga jadwal wawancara diinput langsung oleh tim HR personalia secara berkala.</p>
                       </div>
                     </div>
                   </label>
@@ -1777,13 +1777,13 @@ export default function App() {
                   <label className="relative shrink-0 w-[75vw] h-48 snap-center cursor-pointer [perspective:1000px] block">
                     <input type="checkbox" className="peer hidden" />
                     <div className="w-full h-full relative transition-transform duration-700 [transform-style:preserve-3d] peer-checked:[transform:rotateY(180deg)]">
-                      <div className="absolute inset-0 [backface-visibility:hidden] bg-white/40 backdrop-blur-3xl p-6 rounded-[2rem] border border-white/60 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] flex flex-col justify-center items-center text-center ring-1 ring-white/50">
-                        <span className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-br from-blue-500 to-cyan-400 mb-2 drop-shadow-sm">02</span>
-                        <h3 className="font-black text-slate-900 text-sm drop-shadow-sm">6 Tahap Seleksi Resmi</h3>
-                        <p className="text-[10px] text-slate-500 mt-3 animate-pulse">Tap detail &rarr;</p>
+                      <div className="absolute inset-0 [backface-visibility:hidden] bg-white/50 backdrop-blur-3xl p-6 rounded-[2rem] border border-white/80 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] flex flex-col justify-center items-center text-center ring-1 ring-white/50">
+                        <span className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-br from-blue-600 to-cyan-500 mb-2 drop-shadow-sm">02</span>
+                        <h3 className="font-black text-black text-sm drop-shadow-sm">6 Tahap Seleksi Resmi</h3>
+                        <p className="text-[10px] text-slate-700 font-bold mt-3 animate-pulse">Tap detail &rarr;</p>
                       </div>
                       <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] bg-slate-900/90 backdrop-blur-3xl p-6 rounded-[2rem] border border-white/20 shadow-xl flex items-center text-center">
-                        <p className="text-xs text-slate-300 leading-relaxed">Alur seleksi jelas dan terukur: Berkas &rarr; Wawancara HR &rarr; Wawancara User &rarr; Psikotes &rarr; Offering &rarr; Onboarding.</p>
+                        <p className="text-xs text-white font-medium leading-relaxed">Alur seleksi jelas dan terukur: Berkas &rarr; Wawancara HR &rarr; Wawancara User &rarr; Psikotes &rarr; Offering &rarr; Onboarding.</p>
                       </div>
                     </div>
                   </label>
@@ -1791,52 +1791,52 @@ export default function App() {
                   <label className="relative shrink-0 w-[75vw] h-48 snap-center cursor-pointer [perspective:1000px] block">
                     <input type="checkbox" className="peer hidden" />
                     <div className="w-full h-full relative transition-transform duration-700 [transform-style:preserve-3d] peer-checked:[transform:rotateY(180deg)]">
-                      <div className="absolute inset-0 [backface-visibility:hidden] bg-white/40 backdrop-blur-3xl p-6 rounded-[2rem] border border-white/60 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] flex flex-col justify-center items-center text-center ring-1 ring-white/50">
-                        <span className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-br from-amber-500 to-orange-400 mb-2 drop-shadow-sm">03</span>
-                        <h3 className="font-black text-slate-900 text-sm drop-shadow-sm">100% Bebas Biaya</h3>
-                        <p className="text-[10px] text-slate-500 mt-3 animate-pulse">Tap detail &rarr;</p>
+                      <div className="absolute inset-0 [backface-visibility:hidden] bg-white/50 backdrop-blur-3xl p-6 rounded-[2rem] border border-white/80 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] flex flex-col justify-center items-center text-center ring-1 ring-white/50">
+                        <span className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-br from-amber-500 to-orange-500 mb-2 drop-shadow-sm">03</span>
+                        <h3 className="font-black text-black text-sm drop-shadow-sm">100% Bebas Biaya</h3>
+                        <p className="text-[10px] text-slate-700 font-bold mt-3 animate-pulse">Tap detail &rarr;</p>
                       </div>
                       <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] bg-slate-900/90 backdrop-blur-3xl p-6 rounded-[2rem] border border-white/20 shadow-xl flex items-center text-center">
-                        <p className="text-xs text-slate-300 leading-relaxed">PT Lisa Concrete Indonesia tidak pernah memungut biaya apapun dari pelamar dalam bentuk akomodasi, tiket, maupun registrasi.</p>
+                        <p className="text-xs text-white font-medium leading-relaxed">PT Lisa Concrete Indonesia tidak pernah memungut biaya apapun dari pelamar dalam bentuk akomodasi, tiket, maupun registrasi.</p>
                       </div>
                     </div>
                   </label>
                 </div>
 
-                <div className="bg-white/40 backdrop-blur-3xl rounded-[2rem] border border-white/60 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] ring-1 ring-white/50 p-6 sm:p-8">
-                  <h3 className="font-black text-base text-slate-900 mb-4 drop-shadow-sm">
+                <div className="bg-white/50 backdrop-blur-3xl rounded-[2rem] border border-white/80 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] ring-1 ring-white/50 p-6 sm:p-8">
+                  <h3 className="font-black text-base text-black mb-4 drop-shadow-sm">
                     Panduan Cara Melacak Status Lamaran
                   </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs text-slate-600">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs text-slate-800 font-medium">
                     <div className="flex gap-3 items-start">
-                      <span className="w-6 h-6 rounded-full bg-gradient-to-br from-slate-900 to-slate-700 text-white font-bold text-[11px] flex items-center justify-center shrink-0 shadow-sm">1</span>
+                      <span className="w-6 h-6 rounded-full bg-black text-white font-bold text-[11px] flex items-center justify-center shrink-0 shadow-md">1</span>
                       <div>
-                        <p className="font-bold text-slate-900 mb-1">Cek Konfirmasi Lamaran</p>
+                        <p className="font-black text-black mb-1">Cek Konfirmasi Lamaran</p>
                         <p className="leading-relaxed">Periksa email masuk atau WhatsApp konfirmasi setelah Anda mengirimkan lamaran kerja.</p>
                       </div>
                     </div>
                     <div className="flex gap-3 items-start">
-                      <span className="w-6 h-6 rounded-full bg-gradient-to-br from-slate-900 to-slate-700 text-white font-bold text-[11px] flex items-center justify-center shrink-0 shadow-sm">2</span>
+                      <span className="w-6 h-6 rounded-full bg-black text-white font-bold text-[11px] flex items-center justify-center shrink-0 shadow-md">2</span>
                       <div>
-                        <p className="font-bold text-slate-900 mb-1">Ketik Nomor Registrasi / Email</p>
+                        <p className="font-black text-black mb-1">Ketik Nomor Registrasi / Email</p>
                         <p className="leading-relaxed">Salin Nomor Registrasi (LISA-XXXXXX) atau cukup gunakan alamat email aktif Anda.</p>
                       </div>
                     </div>
                     <div className="flex gap-3 items-start">
-                      <span className="w-6 h-6 rounded-full bg-gradient-to-br from-slate-900 to-slate-700 text-white font-bold text-[11px] flex items-center justify-center shrink-0 shadow-sm">3</span>
+                      <span className="w-6 h-6 rounded-full bg-black text-white font-bold text-[11px] flex items-center justify-center shrink-0 shadow-md">3</span>
                       <div>
-                        <p className="font-bold text-slate-900 mb-1">Tekan "Cek Status"</p>
+                        <p className="font-black text-black mb-1">Tekan "Cek Status"</p>
                         <p className="leading-relaxed">Sistem akan menampilkan secara lengkap tahapan seleksi beserta jadwal wawancara.</p>
                       </div>
                     </div>
                   </div>
 
-                  <div className="mt-6 pt-6 border-t border-white/50 flex flex-wrap items-center justify-between gap-4">
-                    <p className="text-xs text-slate-500 font-medium">Ingin melihat contoh format status pelamar?</p>
+                  <div className="mt-6 pt-6 border-t border-white flex flex-wrap items-center justify-between gap-4">
+                    <p className="text-xs text-slate-800 font-bold">Ingin melihat contoh format status pelamar?</p>
                     <button
                       type="button"
                       onClick={() => handleOpenTracking(true)}
-                      className="px-5 py-2.5 bg-white/60 hover:bg-white/90 text-slate-900 border border-white/80 rounded-2xl text-xs font-bold transition-all cursor-pointer shadow-sm hover:shadow-md backdrop-blur-md"
+                      className="px-5 py-2.5 bg-white hover:bg-slate-50 text-black border border-white rounded-2xl text-xs font-black transition-all cursor-pointer shadow-md hover:shadow-lg backdrop-blur-md"
                     >
                       Lihat Simulasi Contoh Pelamar &rarr;
                     </button>
