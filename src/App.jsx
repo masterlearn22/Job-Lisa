@@ -3117,13 +3117,6 @@ Jenjang karir profesional di DUSASPUN Group"
         {/* Subtle Architectural Blueprint Dot Matrix */}
         <div className="absolute inset-0 bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] [background-size:24px_24px] opacity-35 pointer-events-none z-0"></div>
 
-        {/* Liquid Background Blobs */}
-        <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
-          <div className="absolute top-[-10%] left-[-5%] w-[40vw] h-[40vw] bg-rose-400/20 rounded-full mix-blend-multiply blur-[100px] animate-pulse"></div>
-          <div className="absolute top-[30%] right-[-10%] w-[35vw] h-[35vw] bg-blue-400/20 rounded-full mix-blend-multiply blur-[100px] animate-pulse" style={{ animationDelay: '2s' }}></div>
-          <div className="absolute bottom-[-10%] left-[20%] w-[50vw] h-[50vw] bg-amber-300/20 rounded-full mix-blend-multiply blur-[100px] animate-pulse" style={{ animationDelay: '4s' }}></div>
-        </div>
-
         <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           {/* Section Header */}
           <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
