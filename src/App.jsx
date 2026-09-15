@@ -3220,34 +3220,7 @@ Jenjang karir profesional di DUSASPUN Group"
             ))}
           </div>
 
-          {/* Banner Menuju Web Utama www.lisaconcrete.com */}
-          <div className="mt-12 sm:mt-16 relative overflow-hidden bg-slate-900 text-white rounded-2xl sm:rounded-3xl p-6 sm:p-10 border border-slate-800 shadow-2xl transition-all duration-300 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-6 group">
-            {/* Ambient gradient glow in corner */}
-            <div className="absolute -right-20 -top-20 w-64 h-64 bg-brand/20 rounded-full blur-3xl pointer-events-none group-hover:bg-brand/30 transition-all duration-500"></div>
 
-            <div className="relative z-10 max-w-xl text-center md:text-left">
-              <span className="text-slate-300 text-xs font-bold uppercase tracking-wider block mb-1">
-                Website Resmi Perusahaan
-              </span>
-              <h3 className="text-xl sm:text-2xl font-black text-white group-hover:text-red-400 transition-colors duration-300 cursor-pointer">
-                Mencari Katalog Produk &amp; Portofolio Proyek?
-              </h3>
-              <p className="text-slate-300 text-xs mt-2 leading-relaxed">
-                Website ini difokuskan sebagai Portal Karir &amp; Rekrutmen. Informasi lengkap mengenai katalog produk beton pracetak dan portofolio proyek nasional dapat diakses langsung pada situs korporat utama kami.
-              </p>
-            </div>
-            <a 
-              href="https://www.lisaconcrete.com" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="relative z-10 w-full md:w-auto justify-center bg-brand hover:bg-red-600 active:scale-95 text-white px-6 py-3.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all duration-300 shadow-lg shadow-brand/30 hover:shadow-red-600/40 hover:scale-105 flex items-center gap-2 whitespace-nowrap shrink-0 group/btn"
-            >
-              <span>Kunjungi www.lisaconcrete.com</span>
-              <svg className="w-4 h-4 transition-transform duration-300 group-hover/btn:translate-x-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-              </svg>
-            </a>
-          </div>
         </div>
       </section>
 
