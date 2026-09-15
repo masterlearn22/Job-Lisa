@@ -3127,8 +3127,8 @@ Jenjang karir profesional di DUSASPUN Group"
         <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           {/* Section Header */}
           <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-red-50/90 border border-red-200/70 text-brand text-xs font-bold uppercase tracking-widest mb-3.5 shadow-2xs hover:bg-brand hover:text-white transition-all duration-300 cursor-pointer hover:scale-105">
-              <span className="w-2 h-2 rounded-full bg-brand animate-pulse"></span>
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-600/80 backdrop-blur-md border border-red-500/50 text-white text-xs font-bold uppercase tracking-widest mb-3.5 shadow-lg shadow-red-900/10 hover:bg-red-600 hover:scale-105 transition-all duration-300 cursor-pointer">
+              <span className="w-2 h-2 rounded-full bg-white animate-pulse"></span>
               <span>Roadmap Seleksi Resmi</span>
             </div>
             <h2 className="text-2xl sm:text-4xl font-black text-slate-900 hover:text-red-600 tracking-tight transition-colors duration-300 cursor-pointer">
@@ -3172,37 +3172,37 @@ Jenjang karir profesional di DUSASPUN Group"
                   <div className="w-full h-full relative transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
                     
                     {/* --- Sisi Depan (Front) --- */}
-                    <div className="absolute inset-0 [backface-visibility:hidden] bg-white/50 backdrop-blur-3xl rounded-2xl border border-white/60 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] ring-1 ring-white/50 p-4 flex flex-col justify-between overflow-hidden">
-                      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-600 via-red-500 to-red-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                      <span className="absolute -bottom-3 -right-1 font-mono font-black text-6xl text-slate-400/10 select-none pointer-events-none">
+                    <div className="absolute inset-0 [backface-visibility:hidden] bg-red-600/80 backdrop-blur-3xl rounded-2xl border border-red-500/50 shadow-xl shadow-red-900/10 ring-1 ring-red-500/40 p-4 flex flex-col justify-between overflow-hidden">
+                      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-400 via-white/50 to-red-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      <span className="absolute -bottom-3 -right-1 font-mono font-black text-6xl text-white/10 select-none pointer-events-none">
                         {st.no}
                       </span>
 
                       <div className="relative z-10">
                         <div className="flex items-center justify-between gap-2 mb-3">
-                          <div className="w-9 h-9 rounded-xl bg-white/80 border border-white/90 shadow-sm text-slate-700 flex items-center justify-center shrink-0">
+                          <div className="w-9 h-9 rounded-xl bg-white/20 border border-white/30 shadow-sm text-white flex items-center justify-center shrink-0 backdrop-blur-md">
                             {getStageIcon(st.iconType)}
                           </div>
-                          <span className="font-mono text-[9px] font-black text-slate-500 bg-white/60 border border-white/50 shadow-sm px-2 py-0.5 rounded-md backdrop-blur-md">
+                          <span className="font-mono text-[9px] font-black text-white/90 bg-white/20 border border-white/20 shadow-sm px-2 py-0.5 rounded-md backdrop-blur-md">
                             {st.stage}
                           </span>
                         </div>
-                        <span className={`inline-block text-[9px] font-bold px-2 py-0.5 rounded-full border mb-2 ${st.categoryColor.replace('bg-', 'bg-').replace('border-', 'border-').replace('text-', 'text-')}`}>
+                        <span className={`inline-block text-[9px] font-bold px-2 py-0.5 rounded-full border mb-2 text-white border-white/30 bg-white/10`}>
                           {st.category}
                         </span>
-                        <h3 className="font-black text-slate-900 text-xs xl:text-sm leading-tight drop-shadow-sm">
+                        <h3 className="font-black text-white text-xs xl:text-sm leading-tight drop-shadow-sm">
                           {st.title}
                         </h3>
                       </div>
 
-                      <div className="relative z-10 mt-2 pt-2 border-t border-slate-300/30 flex items-center justify-between text-[9px] text-slate-500">
+                      <div className="relative z-10 mt-2 pt-2 border-t border-white/20 flex items-center justify-between text-[9px] text-white/80">
                         <span className="font-medium truncate">{st.format}</span>
-                        <span className="font-bold text-slate-400 ml-1">&rarr;</span>
+                        <span className="font-bold text-white ml-1">&rarr;</span>
                       </div>
                     </div>
 
                     {/* --- Sisi Belakang (Back) --- */}
-                    <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] bg-slate-900/85 backdrop-blur-3xl rounded-2xl border border-slate-700/50 shadow-[0_8px_32px_0_rgba(31,38,135,0.15)] ring-1 ring-slate-800/50 p-4 flex flex-col justify-center items-center text-center overflow-hidden">
+                    <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] bg-slate-900/90 backdrop-blur-3xl rounded-2xl border border-red-500/50 shadow-[0_8px_32px_0_rgba(31,38,135,0.15)] ring-1 ring-red-500/30 p-4 flex flex-col justify-center items-center text-center overflow-hidden">
                       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-600 via-red-500 to-red-700"></div>
                       <span className="absolute -bottom-3 -right-1 font-mono font-black text-6xl text-slate-800/50 select-none pointer-events-none">
                         {st.no}
@@ -3235,38 +3235,38 @@ Jenjang karir profesional di DUSASPUN Group"
                 <div className="w-full h-full relative transition-transform duration-700 [transform-style:preserve-3d] peer-checked:[transform:rotateY(180deg)]">
                   
                   {/* --- Sisi Depan (Front) --- */}
-                  <div className="absolute inset-0 [backface-visibility:hidden] bg-white/50 backdrop-blur-3xl rounded-2xl border border-white/60 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] ring-1 ring-white/50 p-4 flex flex-col justify-between overflow-hidden">
-                    <span className="absolute -bottom-3 -right-1 font-mono font-black text-6xl text-slate-400/10 select-none pointer-events-none">
+                  <div className="absolute inset-0 [backface-visibility:hidden] bg-red-600/80 backdrop-blur-3xl rounded-2xl border border-red-500/50 shadow-xl shadow-red-900/10 ring-1 ring-red-500/40 p-4 flex flex-col justify-between overflow-hidden">
+                    <span className="absolute -bottom-3 -right-1 font-mono font-black text-6xl text-white/10 select-none pointer-events-none">
                       {st.no}
                     </span>
 
                     <div className="relative z-10">
                       <div className="flex items-center justify-between gap-2 mb-3">
-                        <div className="w-10 h-10 rounded-xl bg-white/80 border border-white/90 shadow-sm text-slate-700 flex items-center justify-center shrink-0 shadow-xs">
+                        <div className="w-10 h-10 rounded-xl bg-white/20 border border-white/30 shadow-sm text-white flex items-center justify-center shrink-0 backdrop-blur-md">
                           {getStageIcon(st.iconType)}
                         </div>
-                        <span className="font-mono text-[9px] font-black text-slate-500 bg-white/60 border border-white/50 shadow-sm px-2 py-0.5 rounded-md backdrop-blur-md">
+                        <span className="font-mono text-[9px] font-black text-white/90 bg-white/20 border border-white/20 shadow-sm px-2 py-0.5 rounded-md backdrop-blur-md">
                           {st.stage}
                         </span>
                       </div>
-                      <span className={`inline-block text-[9px] font-bold px-2 py-0.5 rounded-full border mb-1.5 ${st.categoryColor.replace('bg-', 'bg-').replace('border-', 'border-').replace('text-', 'text-')}`}>
+                      <span className={`inline-block text-[9px] font-bold px-2 py-0.5 rounded-full border mb-1.5 text-white border-white/30 bg-white/10`}>
                         {st.category}
                       </span>
-                      <h3 className="font-black text-slate-900 text-sm sm:text-base leading-tight drop-shadow-sm">
+                      <h3 className="font-black text-white text-sm sm:text-base leading-tight drop-shadow-sm">
                         {st.title}
                       </h3>
                     </div>
 
-                    <div className="relative z-10 mt-1 pt-2 border-t border-slate-300/30 flex items-center justify-between text-[9px] text-slate-500">
+                    <div className="relative z-10 mt-1 pt-2 border-t border-white/20 flex items-center justify-between text-[9px] text-white/80">
                       <span className="font-medium truncate">{st.format}</span>
-                      <span className="font-bold text-slate-400 flex items-center gap-1 animate-pulse">
-                        Tap detail <span className="text-brand">&rarr;</span>
+                      <span className="font-bold text-white flex items-center gap-1 animate-pulse">
+                        Tap detail <span className="text-white">&rarr;</span>
                       </span>
                     </div>
                   </div>
 
                   {/* --- Sisi Belakang (Back) --- */}
-                  <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] bg-slate-900/85 backdrop-blur-3xl rounded-2xl border border-slate-700/50 shadow-[0_8px_32px_0_rgba(31,38,135,0.15)] ring-1 ring-slate-800/50 p-5 flex flex-col justify-center items-center text-center overflow-hidden">
+                  <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] bg-slate-900/90 backdrop-blur-3xl rounded-2xl border border-red-500/50 shadow-[0_8px_32px_0_rgba(31,38,135,0.15)] ring-1 ring-red-500/30 p-5 flex flex-col justify-center items-center text-center overflow-hidden">
                     <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-600 via-red-500 to-red-700"></div>
                     <span className="absolute -bottom-3 -right-1 font-mono font-black text-6xl text-slate-800/50 select-none pointer-events-none">
                       {st.no}
