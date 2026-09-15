@@ -1398,14 +1398,18 @@ export default function App() {
 
       {/* CONDITIONAL CONTENT: DEDICATED LACAK LAMARAN PAGE vs HOME/KARIR PORTAL */}
       {activeTab === 'lacak' ? (
-        <main className="min-h-screen bg-slate-50 py-8 sm:py-12 animate-fade-in flex-1">
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <main className="min-h-screen bg-[#050505] relative py-8 sm:py-12 animate-fade-in flex-1">
+          {/* Ambient Background Glow */}
+          <div className="absolute top-40 left-10 w-96 h-96 bg-red-600/10 rounded-full blur-[100px] pointer-events-none"></div>
+          <div className="absolute bottom-40 right-10 w-96 h-96 bg-brand/10 rounded-full blur-[100px] pointer-events-none"></div>
+
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             {/* Top Breadcrumb & Navigation */}
             <div className="flex flex-wrap items-center justify-between gap-3 mb-6 sm:mb-8">
-              <div className="flex items-center gap-2 text-xs font-semibold text-slate-500">
+              <div className="flex items-center gap-2 text-xs font-semibold text-white/50">
                 <button 
                   onClick={handleToHome}
-                  className="hover:text-brand flex items-center gap-1 cursor-pointer transition-colors"
+                  className="hover:text-white flex items-center gap-1 cursor-pointer transition-colors"
                 >
                   <span>🏠</span>
                   <span>Beranda</span>
@@ -1413,17 +1417,17 @@ export default function App() {
                 <span>/</span>
                 <button 
                   onClick={handleToKarir}
-                  className="hover:text-brand cursor-pointer transition-colors"
+                  className="hover:text-white cursor-pointer transition-colors"
                 >
                   Karir &amp; Rekrutmen
                 </button>
                 <span>/</span>
-                <span className="text-slate-900 font-bold">Lacak Status Lamaran</span>
+                <span className="text-white/90 font-bold">Lacak Status Lamaran</span>
               </div>
 
               <button 
                 onClick={handleToKarir}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-700 hover:text-brand hover:border-brand transition-all shadow-xs cursor-pointer"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-xs font-bold text-white/70 hover:text-white hover:bg-white/10 transition-all shadow-lg backdrop-blur-md cursor-pointer"
               >
                 <span>&larr;</span>
                 <span>Kembali ke Lowongan Kerja</span>
@@ -1431,31 +1435,31 @@ export default function App() {
             </div>
 
             {/* Hero Header Box */}
-            <div className="relative bg-gradient-to-br from-slate-950 via-slate-900 to-[#0b1b36] rounded-3xl p-6 sm:p-10 text-white shadow-xl overflow-hidden mb-8">
-              <div className="absolute -right-20 -top-20 w-80 h-80 bg-brand/20 rounded-full blur-3xl pointer-events-none"></div>
+            <div className="relative bg-white/5 border border-white/10 backdrop-blur-2xl rounded-3xl p-6 sm:p-10 text-white shadow-[0_8px_30px_rgb(0,0,0,0.5)] overflow-hidden mb-8">
+              <div className="absolute -right-20 -top-20 w-80 h-80 bg-brand/20 rounded-full blur-[80px] pointer-events-none"></div>
               <div className="relative max-w-2xl">
-                <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-950/80 border border-brand/40 text-brand-light text-[11px] font-bold uppercase tracking-wider mb-4">
-                  <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/40 border border-white/10 shadow-inner text-white/80 text-[11px] font-bold uppercase tracking-wider mb-4 backdrop-blur-md">
+                  <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse shadow-[0_0_8px_rgba(239,68,68,0.8)]"></span>
                   Sistem Informasi Rekrutmen Resmi
                 </span>
-                <h1 className="text-2xl sm:text-4xl font-black tracking-tight mb-3">
+                <h1 className="text-2xl sm:text-4xl font-black tracking-tight mb-3 drop-shadow-md">
                   Lacak Status Rekrutmen Pelamar
                 </h1>
-                <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
+                <p className="text-white/60 text-xs sm:text-sm leading-relaxed">
                   Pantau seluruh perkembangan tahapan seleksi berkas hingga penawaran kerja secara transparan dan berkala. Masukkan nomor registrasi lamaran atau alamat email Anda di bawah ini.
                 </p>
               </div>
             </div>
 
             {/* Search Bar Card */}
-            <div className="bg-white rounded-2xl shadow-lg border border-slate-200/80 p-5 sm:p-7 mb-8">
+            <div className="bg-white/[0.03] backdrop-blur-xl rounded-2xl shadow-2xl border border-white/10 p-5 sm:p-7 mb-8 ring-1 ring-white/5">
               <form onSubmit={handleTrackApplication} className="space-y-3">
-                <label className="block text-xs sm:text-sm font-bold text-slate-900">
+                <label className="block text-xs sm:text-sm font-bold text-white/90">
                   Cari Berkas Lamaran Anda
                 </label>
                 <div className="flex flex-col sm:flex-row gap-3">
                   <div className="relative flex-1">
-                    <span className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+                    <span className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-white/40">
                       🔍
                     </span>
                     <input 
@@ -1463,24 +1467,24 @@ export default function App() {
                       value={trackingCode}
                       onChange={(e) => setTrackingCode(e.target.value)}
                       placeholder="Masukkan Nomor Registrasi (misal: LISA-2026-0891) atau Email Anda" 
-                      className="w-full pl-11 pr-4 py-3.5 rounded-xl border border-slate-300 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none text-xs sm:text-sm transition-all"
+                      className="w-full pl-11 pr-4 py-3.5 rounded-xl bg-black/40 border border-white/10 focus:border-red-500/50 focus:ring-2 focus:ring-red-500/20 focus:outline-none text-white placeholder-white/30 text-xs sm:text-sm transition-all shadow-inner"
                       required
                     />
                   </div>
                   <button 
                     type="submit"
-                    className="px-7 py-3.5 bg-brand hover:bg-brand-dark text-white rounded-xl text-xs sm:text-sm font-bold transition-all shadow-md shadow-brand/20 flex items-center justify-center gap-2 cursor-pointer shrink-0"
+                    className="px-7 py-3.5 bg-red-600/90 hover:bg-red-600 border border-red-500/50 text-white rounded-xl text-xs sm:text-sm font-bold transition-all shadow-lg shadow-red-900/40 hover:shadow-red-600/50 flex items-center justify-center gap-2 cursor-pointer shrink-0 hover:scale-[1.02] active:scale-95"
                   >
                     <span>Cek Status</span>
                     <span>&rarr;</span>
                   </button>
                 </div>
-                <div className="flex flex-wrap items-center justify-between gap-2 pt-2 text-[11px] text-slate-500">
-                  <span>Format nomor registrasi: <code className="bg-slate-100 text-slate-700 px-1.5 py-0.5 rounded font-mono font-semibold">LISA-2026-0891</code></span>
+                <div className="flex flex-wrap items-center justify-between gap-2 pt-2 text-[11px] text-white/50">
+                  <span>Format nomor registrasi: <code className="bg-black/50 text-white/70 border border-white/10 px-1.5 py-0.5 rounded font-mono font-semibold">LISA-2026-0891</code></span>
                   <button
                     type="button"
                     onClick={() => handleOpenTracking(true)}
-                    className="text-brand font-bold hover:underline cursor-pointer flex items-center gap-1"
+                    className="text-red-400 font-bold hover:text-red-300 hover:underline cursor-pointer flex items-center gap-1 transition-colors"
                   >
                     <span>⚡ Coba Contoh Data Pelamar (Simulasi)</span>
                   </button>
@@ -1709,72 +1713,126 @@ export default function App() {
             ) : (
               /* Initial Info & Help Guide (before tracking) */
               <div className="space-y-8 animate-fade-in">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs">
-                    <div className="w-10 h-10 rounded-xl bg-red-50 text-red-600 font-black flex items-center justify-center text-lg mb-4">
-                      ⚡
+                {/* Desktop Flip Cards */}
+                <div className="hidden md:grid grid-cols-3 gap-6">
+                  {/* Card 1 */}
+                  <div className="relative h-48 group cursor-pointer [perspective:1000px]">
+                    <div className="w-full h-full relative transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
+                      <div className="absolute inset-0 [backface-visibility:hidden] bg-white/[0.03] backdrop-blur-xl p-6 rounded-2xl border border-white/10 shadow-lg flex flex-col justify-center items-center text-center ring-1 ring-white/5">
+                        <div className="w-12 h-12 rounded-xl bg-red-500/20 text-red-500 font-black flex items-center justify-center text-2xl mb-4 shadow-[0_0_15px_rgba(239,68,68,0.3)]">⚡</div>
+                        <h3 className="font-black text-white text-sm">Transparan &amp; Real-Time</h3>
+                      </div>
+                      <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] bg-black/80 backdrop-blur-xl p-6 rounded-2xl border border-red-500/50 shadow-lg flex items-center text-center">
+                        <p className="text-xs text-slate-300 leading-relaxed">Setiap pembaruan status seleksi berkas hingga jadwal wawancara diinput langsung oleh tim HR personalia secara berkala.</p>
+                      </div>
                     </div>
-                    <h3 className="font-black text-slate-900 text-sm mb-2">Transparan &amp; Real-Time</h3>
-                    <p className="text-xs text-slate-500 leading-relaxed">
-                      Setiap pembaruan status seleksi berkas hingga jadwal wawancara diinput langsung oleh tim HR personalia secara berkala.
-                    </p>
                   </div>
-
-                  <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs">
-                    <div className="w-10 h-10 rounded-xl bg-red-50 text-brand font-black flex items-center justify-center text-lg mb-4">
-                      🛡️
+                  {/* Card 2 */}
+                  <div className="relative h-48 group cursor-pointer [perspective:1000px]">
+                    <div className="w-full h-full relative transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
+                      <div className="absolute inset-0 [backface-visibility:hidden] bg-white/[0.03] backdrop-blur-xl p-6 rounded-2xl border border-white/10 shadow-lg flex flex-col justify-center items-center text-center ring-1 ring-white/5">
+                        <div className="w-12 h-12 rounded-xl bg-brand/20 text-red-400 font-black flex items-center justify-center text-2xl mb-4 shadow-[0_0_15px_rgba(220,38,38,0.3)]">🛡️</div>
+                        <h3 className="font-black text-white text-sm">6 Tahap Seleksi Resmi</h3>
+                      </div>
+                      <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] bg-black/80 backdrop-blur-xl p-6 rounded-2xl border border-red-500/50 shadow-lg flex items-center text-center">
+                        <p className="text-xs text-slate-300 leading-relaxed">Alur seleksi jelas dan terukur: Berkas &rarr; Wawancara HR &rarr; Wawancara User &rarr; Psikotes &rarr; Offering &rarr; Onboarding.</p>
+                      </div>
                     </div>
-                    <h3 className="font-black text-slate-900 text-sm mb-2">6 Tahap Seleksi Resmi</h3>
-                    <p className="text-xs text-slate-500 leading-relaxed">
-                      Alur seleksi jelas dan terukur: Berkas &rarr; Wawancara HR &rarr; Wawancara User &rarr; Psikotes &rarr; Offering &rarr; Onboarding.
-                    </p>
                   </div>
-
-                  <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs">
-                    <div className="w-10 h-10 rounded-xl bg-slate-50 text-slate-600 font-black flex items-center justify-center text-lg mb-4">
-                      ⭐
+                  {/* Card 3 */}
+                  <div className="relative h-48 group cursor-pointer [perspective:1000px]">
+                    <div className="w-full h-full relative transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
+                      <div className="absolute inset-0 [backface-visibility:hidden] bg-white/[0.03] backdrop-blur-xl p-6 rounded-2xl border border-white/10 shadow-lg flex flex-col justify-center items-center text-center ring-1 ring-white/5">
+                        <div className="w-12 h-12 rounded-xl bg-white/10 text-white/80 font-black flex items-center justify-center text-2xl mb-4 shadow-[0_0_15px_rgba(255,255,255,0.1)]">⭐</div>
+                        <h3 className="font-black text-white text-sm">100% Bebas Biaya</h3>
+                      </div>
+                      <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] bg-black/80 backdrop-blur-xl p-6 rounded-2xl border border-red-500/50 shadow-lg flex items-center text-center">
+                        <p className="text-xs text-slate-300 leading-relaxed">PT Lisa Concrete Indonesia tidak pernah memungut biaya apapun dari pelamar dalam bentuk akomodasi, tiket, maupun registrasi.</p>
+                      </div>
                     </div>
-                    <h3 className="font-black text-slate-900 text-sm mb-2">100% Bebas Biaya</h3>
-                    <p className="text-xs text-slate-500 leading-relaxed">
-                      PT Lisa Concrete Indonesia tidak pernah memungut biaya apapun dari pelamar dalam bentuk akomodasi, tiket, maupun registrasi.
-                    </p>
                   </div>
                 </div>
 
-                <div className="bg-white rounded-3xl border border-slate-200/80 shadow-xs p-6 sm:p-8">
-                  <h3 className="font-black text-base text-slate-900 mb-4">
+                {/* Mobile Swipe + Tap to Flip Cards */}
+                <div className="md:hidden flex overflow-x-auto gap-4 pb-4 px-1 snap-x snap-mandatory [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                  {/* Card 1 Mobile */}
+                  <label className="relative shrink-0 w-[75vw] h-48 snap-center cursor-pointer [perspective:1000px] block">
+                    <input type="checkbox" className="peer hidden" />
+                    <div className="w-full h-full relative transition-transform duration-700 [transform-style:preserve-3d] peer-checked:[transform:rotateY(180deg)]">
+                      <div className="absolute inset-0 [backface-visibility:hidden] bg-white/[0.03] backdrop-blur-xl p-6 rounded-2xl border border-white/10 shadow-lg flex flex-col justify-center items-center text-center ring-1 ring-white/5">
+                        <div className="w-12 h-12 rounded-xl bg-red-500/20 text-red-500 font-black flex items-center justify-center text-2xl mb-4">⚡</div>
+                        <h3 className="font-black text-white text-sm">Transparan &amp; Real-Time</h3>
+                        <p className="text-[10px] text-white/40 mt-3 animate-pulse">Tap detail &rarr;</p>
+                      </div>
+                      <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] bg-black/80 backdrop-blur-xl p-6 rounded-2xl border border-red-500/50 shadow-lg flex items-center text-center">
+                        <p className="text-xs text-slate-300 leading-relaxed">Setiap pembaruan status seleksi berkas hingga jadwal wawancara diinput langsung oleh tim HR personalia secara berkala.</p>
+                      </div>
+                    </div>
+                  </label>
+                  {/* Card 2 Mobile */}
+                  <label className="relative shrink-0 w-[75vw] h-48 snap-center cursor-pointer [perspective:1000px] block">
+                    <input type="checkbox" className="peer hidden" />
+                    <div className="w-full h-full relative transition-transform duration-700 [transform-style:preserve-3d] peer-checked:[transform:rotateY(180deg)]">
+                      <div className="absolute inset-0 [backface-visibility:hidden] bg-white/[0.03] backdrop-blur-xl p-6 rounded-2xl border border-white/10 shadow-lg flex flex-col justify-center items-center text-center ring-1 ring-white/5">
+                        <div className="w-12 h-12 rounded-xl bg-brand/20 text-red-400 font-black flex items-center justify-center text-2xl mb-4">🛡️</div>
+                        <h3 className="font-black text-white text-sm">6 Tahap Seleksi Resmi</h3>
+                        <p className="text-[10px] text-white/40 mt-3 animate-pulse">Tap detail &rarr;</p>
+                      </div>
+                      <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] bg-black/80 backdrop-blur-xl p-6 rounded-2xl border border-red-500/50 shadow-lg flex items-center text-center">
+                        <p className="text-xs text-slate-300 leading-relaxed">Alur seleksi jelas dan terukur: Berkas &rarr; Wawancara HR &rarr; Wawancara User &rarr; Psikotes &rarr; Offering &rarr; Onboarding.</p>
+                      </div>
+                    </div>
+                  </label>
+                  {/* Card 3 Mobile */}
+                  <label className="relative shrink-0 w-[75vw] h-48 snap-center cursor-pointer [perspective:1000px] block">
+                    <input type="checkbox" className="peer hidden" />
+                    <div className="w-full h-full relative transition-transform duration-700 [transform-style:preserve-3d] peer-checked:[transform:rotateY(180deg)]">
+                      <div className="absolute inset-0 [backface-visibility:hidden] bg-white/[0.03] backdrop-blur-xl p-6 rounded-2xl border border-white/10 shadow-lg flex flex-col justify-center items-center text-center ring-1 ring-white/5">
+                        <div className="w-12 h-12 rounded-xl bg-white/10 text-white/80 font-black flex items-center justify-center text-2xl mb-4">⭐</div>
+                        <h3 className="font-black text-white text-sm">100% Bebas Biaya</h3>
+                        <p className="text-[10px] text-white/40 mt-3 animate-pulse">Tap detail &rarr;</p>
+                      </div>
+                      <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] bg-black/80 backdrop-blur-xl p-6 rounded-2xl border border-red-500/50 shadow-lg flex items-center text-center">
+                        <p className="text-xs text-slate-300 leading-relaxed">PT Lisa Concrete Indonesia tidak pernah memungut biaya apapun dari pelamar dalam bentuk akomodasi, tiket, maupun registrasi.</p>
+                      </div>
+                    </div>
+                  </label>
+                </div>
+
+                <div className="bg-white/[0.03] backdrop-blur-xl rounded-3xl border border-white/10 shadow-lg p-6 sm:p-8">
+                  <h3 className="font-black text-base text-white mb-4">
                     Panduan Cara Melacak Status Lamaran
                   </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs text-slate-600">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs text-slate-400">
                     <div className="flex gap-3 items-start">
-                      <span className="w-6 h-6 rounded-full bg-slate-900 text-white font-bold text-[11px] flex items-center justify-center shrink-0">1</span>
+                      <span className="w-6 h-6 rounded-full bg-white/10 text-white font-bold text-[11px] flex items-center justify-center shrink-0 border border-white/20">1</span>
                       <div>
-                        <p className="font-bold text-slate-900 mb-1">Cek Konfirmasi Lamaran</p>
-                        <p className="text-slate-500 leading-relaxed">Periksa email masuk atau WhatsApp konfirmasi setelah Anda mengirimkan lamaran kerja.</p>
+                        <p className="font-bold text-white mb-1">Cek Konfirmasi Lamaran</p>
+                        <p className="leading-relaxed">Periksa email masuk atau WhatsApp konfirmasi setelah Anda mengirimkan lamaran kerja.</p>
                       </div>
                     </div>
                     <div className="flex gap-3 items-start">
-                      <span className="w-6 h-6 rounded-full bg-slate-900 text-white font-bold text-[11px] flex items-center justify-center shrink-0">2</span>
+                      <span className="w-6 h-6 rounded-full bg-white/10 text-white font-bold text-[11px] flex items-center justify-center shrink-0 border border-white/20">2</span>
                       <div>
-                        <p className="font-bold text-slate-900 mb-1">Ketik Nomor Registrasi / Email</p>
-                        <p className="text-slate-500 leading-relaxed">Salin Nomor Registrasi (LISA-XXXXXX) atau cukup gunakan alamat email aktif Anda.</p>
+                        <p className="font-bold text-white mb-1">Ketik Nomor Registrasi / Email</p>
+                        <p className="leading-relaxed">Salin Nomor Registrasi (LISA-XXXXXX) atau cukup gunakan alamat email aktif Anda.</p>
                       </div>
                     </div>
                     <div className="flex gap-3 items-start">
-                      <span className="w-6 h-6 rounded-full bg-slate-900 text-white font-bold text-[11px] flex items-center justify-center shrink-0">3</span>
+                      <span className="w-6 h-6 rounded-full bg-white/10 text-white font-bold text-[11px] flex items-center justify-center shrink-0 border border-white/20">3</span>
                       <div>
-                        <p className="font-bold text-slate-900 mb-1">Tekan "Cek Status"</p>
-                        <p className="text-slate-500 leading-relaxed">Sistem akan menampilkan secara lengkap tahapan seleksi beserta jadwal wawancara.</p>
+                        <p className="font-bold text-white mb-1">Tekan "Cek Status"</p>
+                        <p className="leading-relaxed">Sistem akan menampilkan secara lengkap tahapan seleksi beserta jadwal wawancara.</p>
                       </div>
                     </div>
                   </div>
 
-                  <div className="mt-6 pt-6 border-t border-slate-100 flex flex-wrap items-center justify-between gap-4">
-                    <p className="text-xs text-slate-500">Ingin melihat contoh format status pelamar?</p>
+                  <div className="mt-6 pt-6 border-t border-white/10 flex flex-wrap items-center justify-between gap-4">
+                    <p className="text-xs text-white/50">Ingin melihat contoh format status pelamar?</p>
                     <button
                       type="button"
                       onClick={() => handleOpenTracking(true)}
-                      className="px-5 py-2.5 bg-brand/10 hover:bg-brand text-brand hover:text-white rounded-xl text-xs font-bold transition-all cursor-pointer"
+                      className="px-5 py-2.5 bg-red-600/20 hover:bg-red-600 text-red-400 hover:text-white border border-red-500/30 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-lg hover:shadow-red-600/50"
                     >
                       Lihat Simulasi Contoh Pelamar &rarr;
                     </button>
