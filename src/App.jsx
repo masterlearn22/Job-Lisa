@@ -3465,25 +3465,6 @@ Jenjang karir profesional di DUSASPUN Group"
                 <li><a href="#tentang" className="hover:text-red-400 hover:translate-x-1.5 transition-all duration-200 inline-block">Tentang Perusahaan</a></li>
                 <li><a href="#karir" className="hover:text-red-400 hover:translate-x-1.5 transition-all duration-200 inline-block">Portal Karir &amp; Lowongan</a></li>
                 <li><button onClick={() => handleOpenTracking()} className="hover:text-red-400 hover:translate-x-1.5 transition-all duration-200 text-left cursor-pointer inline-block">Lacak Status Pelamar</button></li>
-                <li>
-                  <button 
-                    onClick={() => { setActiveTab('admin'); window.location.hash = '#admin'; window.scrollTo({ top: 0, behavior: 'smooth' }); }} 
-                    className="hover:text-red-400 text-slate-300 font-bold transition-all duration-200 text-left cursor-pointer flex items-center gap-1 hover:translate-x-1.5"
-                  >
-                    <span>🔐 Portal Masuk HRD / Admin</span>
-                  </button>
-                </li>
-                <li>
-                  <a 
-                    href="https://www.lisaconcrete.com" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="hover:text-red-400 text-slate-300 transition-all duration-200 flex items-center gap-1 font-semibold hover:translate-x-1.5"
-                  >
-                    <span>Website Utama: www.lisaconcrete.com</span>
-                    <span>&rarr;</span>
-                  </a>
-                </li>
               </ul>
             </div>
 
