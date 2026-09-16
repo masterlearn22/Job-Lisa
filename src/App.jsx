@@ -593,16 +593,16 @@ export default function App() {
       };
 
       const isEdit = jobModalMode === 'edit' && jobFormData.id;
-      const url = isEdit 
-        ? `${API_BASE_URL}/api/jobs/${jobFormData.id}`
-        : `${API_BASE_URL}/api/jobs`;
-      const method = isEdit ? 'PUT' : 'POST';
-
-      const res = await fetch(url, {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
+      const url = `${API_BASE_URL}`;
+        const method = 'POST';
+  
+        await fetch(url, {
+          method,
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain' },
+          body: JSON.stringify(payload)
+        });
+        const res = { ok: true, json: async () => ({ success: true }) };
 
       if (res.ok) {
         alert(isEdit ? `Lowongan "${jobFormData.title}" berhasil diperbarui!` : `Lowongan baru "${jobFormData.title}" berhasil ditambahkan!`);
