@@ -6,22 +6,26 @@ Portal web resmi dan karir rekrutmen untuk **PT Lisa Concrete Indonesia** (Membe
 
 - **Hero & Profil Perusahaan**: Profil PT Lisa Concrete Indonesia (Member of DUSASPUN Group), visi misi **L.I.S.A**, sertifikasi mutu ISO 9001:2015, dan fasilitas pabrik.
 - **Katalog Produk Pracetak Interaktif**: Menampilkan 9 kategori produk beton pracetak unggulan (Box Culvert, U-Ditch, CCSP Sheet Pile, Mini Pile, I-Girder, Pipa Beton, Tetrapod, Road Barrier, Pagar Panel) dengan filter kategori 1 baris yang responsif.
-- **Portofolio Proyek Otomatis (*Marquee*)**: Kartu proyek terkemuka (Pakuwon, Hotel Agogo, Gudang Garam Magetan, Batulicin, Bali) yang meluncur secara horizontal otomatis dengan jeda saat kursor diarahkan (*pause on hover*).
-- **Portal Karir & Rekrutmen Lengkap**:
-  - Filter lowongan kerja berdasarkan Divisi dan Lokasi Penempatan (Surabaya Head Office, Ngoro Plant, Bali Plant).
-  - Modal detail kualifikasi dan tanggung jawab pekerjaan.
-  - Formulir lamaran kerja interaktif dengan unggah berkas CV/Resume.
-  - Fitur **Lacak Lamaran** dengan tahapan seleksi real-time (Administrasi, Tes Teknis, Interview HR, Interview User, MCU, Offering).
-- **Informasi Kontak & Lokasi Fasilitas**: Alamat lengkap Head Office Surabaya, Pabrik Ngoro (Mojokerto), dan Kantor Cabang/Pabrik Bali.
+- **Portofolio Proyek Otomatis (*Marquee*)**: Kartu proyek terkemuka yang meluncur secara horizontal otomatis.
+- **Portal Karir & Rekrutmen Serverless (Google Apps Script)**:
+  - Database menggunakan **Google Sheets** dan penyimpanan CV/Resume menggunakan **Google Drive**.
+  - Filter lowongan kerja berdasarkan Divisi dan Lokasi Penempatan.
+  - Formulir lamaran kerja interaktif dengan unggah berkas CV langsung ke Google Drive.
+  - Fitur **Lacak Lamaran** dengan tahapan seleksi real-time.
+- **Admin Dashboard**:
+  - Halaman khusus HRD (`/#admin`) untuk mengelola lowongan kerja (Tambah/Edit/Hapus).
+  - Statistik jumlah pelamar di tiap tahapan seleksi.
+  - Tabel interaktif untuk menyaring pelamar, melihat CV, dan mengubah status tahapan seleksi pelamar.
 
 ## 🛠️ Tech Stack
 
-- **Framework**: React 19 + Vite
-- **Styling**: Tailwind CSS v4 (Modern `@import "tailwindcss"` + `@theme`)
-- **Icons & Visuals**: SVG Icons + Asset Gambar AI Precast Resolusi Tinggi
-- **Deployment**: GitHub Pages & GitHub Actions Workflow
+- **Frontend**: React 19 + Vite
+- **Styling**: Tailwind CSS v4
+- **Backend / API**: Google Apps Script (GAS)
+- **Database / Storage**: Google Sheets & Google Drive
+- **Deployment**: GitHub Pages
 
-## 📦 Menjalankan Proyek Secara Lokal
+## 💻 Menjalankan Proyek Secara Lokal
 
 ```bash
 # 1. Install dependencies
@@ -32,9 +36,6 @@ npm run dev
 
 # 3. Build untuk produksi
 npm run build
-
-# 4. Deploy ke GitHub Pages
-npm run deploy
 ```
 
 ---
