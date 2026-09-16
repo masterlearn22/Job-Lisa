@@ -578,7 +578,10 @@ export default function App() {
         .map(b => b.trim())
         .filter(b => b.length > 0);
 
+            const isEditPayload = jobModalMode === 'edit' && jobFormData.id;
       const payload = {
+        action: 'saveJob',
+        id: isEditPayload ? jobFormData.id : undefined,
         title: jobFormData.title.trim(),
         division_id: parseInt(jobFormData.division_id, 10) || 1,
         location: jobFormData.location.trim(),
@@ -588,8 +591,8 @@ export default function App() {
         deadline: jobFormData.deadline.trim(),
         status: jobFormData.status,
         description: jobFormData.description.trim(),
-        requirements: reqList,
-        benefits: benList
+        requirements: jobFormData.requirements.trim(),
+        benefits: jobFormData.benefits.trim()
       };
 
       const isEdit = jobModalMode === 'edit' && jobFormData.id;
