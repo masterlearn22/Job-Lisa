@@ -18,5 +18,8 @@
     "multer": "^2.3.0",
     "mysql2": "^3.24.4",
     "nodemailer": "^10.0.3"
+  },
+  "devDependencies": {
+    "@vercel/ncc": "^0.45.0"
   }
 }

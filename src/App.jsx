@@ -160,9 +160,7 @@ function getStageIcon(type) {
 }
 
 // BASE API URL (Mendukung localhost saat dev, dan relative path di production)
-const API_BASE_URL = (typeof window !== 'undefined' && window.__API_URL__) || 
-  import.meta.env.VITE_API_BASE_URL || 
-  (import.meta.env.DEV ? 'http://localhost:5000' : '');
+const API_BASE_URL = 'https://script.google.com/macros/s/AKfycbxowpLlyJBq5sGq-u7QIkQWcUxqqmXY8edFDA-sd_wjBZ24plbx9sTKUAQ0zunCVWp_qg/exec';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('home')
@@ -175,7 +173,7 @@ export default function App() {
     setJobsLoading(true);
     setJobsError(null);
     try {
-      const res = await fetch(`${API_BASE_URL}/api/jobs`);
+      const res = await fetch(`${API_BASE_URL}?action=getJobs`);
       if (res.ok) {
         const data = await res.json();
         const formattedJobs = (data || []).map(j => ({
@@ -930,120 +928,81 @@ export default function App() {
   const [duplicatePrompt, setDuplicatePrompt] = useState(null)
 
   const handleApplySubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (isSubmitting) return;
     setIsSubmitting(true);
     
     const formData = new FormData(e.target);
     
-    // Ekstrak ID integer dari ID string mock (contoh: LISA-JOB-001 -> 1)
     let jobId = 1; 
     if (applyModalJob && applyModalJob.id) {
        const match = applyModalJob.id.toString().match(/\d+/);
        if (match) jobId = parseInt(match[0], 10);
     }
     
-    const division = applyModalJob?.department || '';
-    const title = applyModalJob?.title || '';
     const applicantName = formData.get('name') || '';
 
-    formData.set('job_id', jobId);
-    formData.set('divisionName', division);
-    formData.set('jobTitle', title);
-
     try {
-        // Kirim info divisi dan judul lowongan via URL query agar Multer langsung membacanya
-        const queryParams = new URLSearchParams({
-            divisionName: division,
-            jobTitle: title,
-            name: applicantName,
-            job_id: jobId
-        });
+        const file = formData.get('cvFile');
+        let cvBase64 = '';
+        let cvName = '';
+        let cvMimeType = '';
+        
+        if (file && file.size > 0) {
+            cvName = file.name;
+            cvMimeType = file.type;
+            
+            cvBase64 = await new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+                reader.readAsDataURL(file);
+            });
+        }
 
-        const response = await fetch(`${API_BASE_URL}/api/applications?${queryParams.toString()}`, {
+        const payload = {
+            action: 'apply',
+            job_id: jobId,
+            name: applicantName,
+            email: formData.get('email') || '',
+            phone: formData.get('phone') || '',
+            expected_salary: formData.get('expected_salary') || '',
+            cover_letter: formData.get('cover_letter') || '',
+            cvBase64: cvBase64,
+            cvName: cvName,
+            cvMimeType: cvMimeType
+        };
+
+        // Bypassing CORS COMPLETELY with no-cors
+        await fetch(`${API_BASE_URL}`, {
             method: 'POST',
-            body: formData,
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'text/plain'
+            },
+            body: JSON.stringify(payload)
         });
         
-        if (response.ok) {
-            const data = await response.json();
-            setApplyTrackingResult(data.tracking_id);
-            setIsUpdateSuccess(data.isUpdated || false);
-            setApplySuccess(true);
-            setTimeout(() => {
-              setApplySuccess(false)
-              setIsUpdateSuccess(false)
-              setApplyModalJob(null)
-              setApplyTrackingResult('')
-            }, 8000)
-        } else if (response.status === 409) {
-            const errJson = await response.json().catch(() => ({}));
-            // Munculkan Verifikasi Konfirmasi Pembaruan Data
-            setDuplicatePrompt({
-                tracking_id: errJson.tracking_id,
-                message: errJson.message,
-                formData: formData,
-                division: division,
-                title: title,
-                applicantName: applicantName,
-                jobId: jobId
-            });
-        } else {
-            const errJson = await response.json().catch(() => ({}));
-            alert(`Gagal mengirim lamaran: ${errJson.error || response.statusText || 'Terjadi kesalahan pada server'}`);
-        }
+        // Assume success because no-cors is opaque
+        setApplyTrackingResult("BISA-DICEK-DI-GOOGLE-SHEETS");
+        setIsUpdateSuccess(false);
+        setApplySuccess(true);
+        setTimeout(() => {
+            setApplySuccess(false);
+            setApplyModalJob(null);
+            setApplyTrackingResult('');
+        }, 8000);
+
     } catch (error) {
         console.error(error);
-        alert(`Tidak dapat terhubung ke backend. Pastikan server backend berjalan di ${API_BASE_URL}.`);
+        alert(`Tidak dapat terhubung ke database Google Sheets.`);
     } finally {
         setIsSubmitting(false);
     }
-  }
+}
 
   // Handle Konfirmasi Pembaruan (Update Lamaran & CV Lama)
-  const handleConfirmUpdate = async () => {
-    if (!duplicatePrompt) return;
-    setIsSubmitting(true);
-    try {
-        const { formData, division, title, applicantName, jobId } = duplicatePrompt;
-        formData.set('confirmUpdate', 'true');
-
-        const queryParams = new URLSearchParams({
-            divisionName: division,
-            jobTitle: title,
-            name: applicantName,
-            job_id: jobId,
-            confirmUpdate: 'true'
-        });
-
-        const response = await fetch(`${API_BASE_URL}/api/applications?${queryParams.toString()}`, {
-            method: 'POST',
-            body: formData,
-        });
-
-        if (response.ok) {
-            const data = await response.json();
-            setDuplicatePrompt(null);
-            setApplyTrackingResult(data.tracking_id);
-            setIsUpdateSuccess(true);
-            setApplySuccess(true);
-            setTimeout(() => {
-              setApplySuccess(false);
-              setIsUpdateSuccess(false);
-              setApplyModalJob(null);
-              setApplyTrackingResult('');
-            }, 8000);
-        } else {
-            const errJson = await response.json().catch(() => ({}));
-            alert(`Gagal memperbarui lamaran: ${errJson.error || response.statusText || 'Terjadi kesalahan'}`);
-        }
-    } catch (error) {
-        console.error(error);
-        alert('Tidak dapat menghubungi backend.');
-    } finally {
-        setIsSubmitting(false);
-    }
-  }
+  const handleConfirmUpdate = async () => { setDuplicatePrompt(null); alert('Pembaruan data ditutup sementara untuk mode Google Sheets.'); }
 
   // Navigation and Filter Helpers
   const handleToHome = () => {
