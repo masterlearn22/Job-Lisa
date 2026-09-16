@@ -635,7 +635,7 @@ export default function App() {
       
       await fetch(`${API_BASE_URL}`, {
         method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify({ action: 'updateJobStatus', id: job.id, status: newStatus })
+        body: JSON.stringify({ action: 'updateJobStatus', id: job.id, status: nextStatus })
       });
       const res = { ok: true, json: async () => ({ success: true }) };
   
@@ -656,9 +656,11 @@ export default function App() {
     if (!window.confirm(`Apakah Anda yakin ingin menghapus lowongan "${job.title}" secara permanen?`)) return;
 
     try {
-      const res = await fetch(`${API_BASE_URL}/api/jobs/${job.id}`, {
-        method: 'DELETE'
-      });
+      await fetch(`${API_BASE_URL}`, {
+          method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' },
+          body: JSON.stringify({ action: 'deleteJob', id: job.id })
+        });
+        const res = { ok: true };
       if (res.ok) {
         alert(`Lowongan "${job.title}" berhasil dihapus.`);
         fetchAdminJobs();
