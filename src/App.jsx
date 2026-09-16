@@ -176,7 +176,7 @@ export default function App() {
       const res = await fetch(`${API_BASE_URL}?action=getJobs`);
       if (res.ok) {
         const data = await res.json();
-        const formattedJobs = (data || []).map(j => ({
+        const formattedJobs = (data.data || data || []).map(j => ({
           id: j.id.toString(), // ID asli dari database MySQL
           title: j.title,
           department: j.department || 'Umum', // Dari relasi divisions di database
