@@ -368,8 +368,7 @@ export default function App() {
       // 1. Fetch Stats
       const statsRes = await fetch(`${API_BASE_URL}?action=adminStats`);
       if (statsRes.ok) {
-        const statsData = await statsRes.json();
-        setAdminStats(statsData);
+        const statsData = await statsRes.json(); setAdminStats(statsData.data || statsData);
       }
 
       // 2. Fetch Applications
@@ -380,8 +379,7 @@ export default function App() {
 
       const listRes = await fetch(`${API_BASE_URL}?action=adminList&${params.toString()}`);
       if (listRes.ok) {
-        const listData = await listRes.json();
-        setAdminApplications(listData);
+        const listData = await listRes.json(); setAdminApplications(listData.data || listData);
       }
     } catch (err) {
       console.log('Gagal mengambil data admin dari server:', err.message);
@@ -394,10 +392,7 @@ export default function App() {
   const fetchAdminJobs = async () => {
     setAdminJobsLoading(true);
     try {
-      const res = await fetch(`${API_BASE_URL}?action=adminJobs`);
-      if (res.ok) {
-        const data = await res.json();
-        setAdminJobs(data);
+      const res = await fetch(`${API_BASE_URL}?action=adminJobs`); if (res.ok) { const data = await res.json(); setAdminJobs(data.data || data);
       }
     } catch (err) {
       console.warn('Gagal memuat lowongan admin:', err);
