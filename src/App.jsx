@@ -392,18 +392,21 @@ export default function App() {
       if (adminFilterStatus !== 'all') params.append('status', adminFilterStatus);
       if (adminSearch.trim()) params.append('search', adminSearch.trim());
 
-      // Fetch Stats and Applications in parallel to save time
-      const [statsRes, listRes] = await Promise.all([
-        fetch(`${API_BASE_URL}?action=adminStats&t=${Date.now()}`),
-        fetch(`${API_BASE_URL}?action=adminList&${params.toString()}&t=${Date.now()}`)
-      ]);
-
+      // Fetch Stats and Applications sequentially to prevent Google Apps Script concurrent execution issues
+      const statsRes = await fetch(`${API_BASE_URL}?action=adminStats&t=${Date.now()}`);
       if (statsRes.ok) {
-        const statsData = await statsRes.json(); setAdminStats(statsData.data || statsData);
+        try {
+          const statsData = await statsRes.json();
+          setAdminStats(statsData.data || statsData);
+        } catch(e) { console.warn('Failed to parse stats:', e); }
       }
 
+      const listRes = await fetch(`${API_BASE_URL}?action=adminList&${params.toString()}&t=${Date.now()}`);
       if (listRes.ok) {
-        const listData = await listRes.json(); setAdminApplications(listData.data || listData);
+        try {
+          const listData = await listRes.json();
+          setAdminApplications(listData.data || listData);
+        } catch(e) { console.warn('Failed to parse list:', e); }
       }
     } catch (err) {
       console.log('Gagal mengambil data admin dari server:', err.message);
@@ -2153,15 +2156,15 @@ export default function App() {
                           return (
                             <tr key={app.id} className="hover:bg-white/5 transition-colors">
                               <td className="py-3.5 px-4 font-mono font-bold text-white whitespace-nowrap">
-                                {app.tracking_id}
+                                {app.tracking_id || app.id}
                               </td>
                               <td className="py-3.5 px-4">
-                                <p className="font-bold text-white drop-shadow-sm">{app.applicant_name}</p>
-                                <p className="text-[11px] text-white/50">{app.applicant_email}</p>
-                                <p className="text-[11px] text-white/40">WA: {app.applicant_phone || '-'}</p>
+                                <p className="font-bold text-white drop-shadow-sm">{app.applicant_name || app.name}</p>
+                                <p className="text-[11px] text-white/50">{app.applicant_email || app.email}</p>
+                                <p className="text-[11px] text-white/40">WA: {app.applicant_phone || app.phone || '-'}</p>
                               </td>
                               <td className="py-3.5 px-4 font-semibold text-white/90">
-                                {app.job_title}
+                                {app.job_title || `Job ID: ${app.job_id}`}
                               </td>
                               <td className="py-3.5 px-4">
                                 <span className="px-2.5 py-1 bg-white/10 rounded-lg text-[11px] font-semibold text-white/60 inline-block border border-white/10">
