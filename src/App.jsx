@@ -1155,7 +1155,7 @@ export default function App() {
                     {jobsLoading ? (
                       <div className="py-8 text-center flex flex-col items-center space-y-2">
                         <div className="w-16 h-16 flex items-center justify-center">
-                          <Lottie animationData={loadingDbAnimation} loop={true} autoplay={true} style={{ width: '100%', height: '100%' }} />
+                          <Lottie src={loadingDbAnimation} loop={true} autoplay={true} style={{ width: '100%', height: '100%' }} />
                         </div>
                         <p className="text-xs font-semibold text-slate-600">Memeriksa lowongan kerja...</p>
                       </div>
@@ -3358,14 +3358,14 @@ Jenjang karir profesional di DUSASPUN Group"
             {jobsLoading ? (
               <div className="text-center py-12 bg-white/[0.02] backdrop-blur-md rounded-2xl border border-white/10 p-8 shadow-xl flex flex-col items-center">
                 <div className="w-40 h-40 mb-2 flex items-center justify-center">
-                  <Lottie animationData={loadingDbAnimation} loop={true} autoplay={true} style={{ width: '100%', height: '100%' }} />
+                  <Lottie src={loadingDbAnimation} loop={true} autoplay={true} style={{ width: '100%', height: '100%' }} />
                 </div>
                 <p className="text-white/80 font-bold text-sm">Loading Formasi lowongan kerja</p>
               </div>
             ) : jobsError ? (
               <div className="text-center py-10 bg-red-950/20 backdrop-blur-md rounded-2xl border border-red-500/20 p-8 shadow-[0_8px_30px_rgb(220,38,38,0.1)] flex flex-col items-center">
                 <div className="w-48 h-48 mb-2 flex items-center justify-center">
-                  <Lottie animationData={error404Animation} loop={true} autoplay={true} style={{ width: '100%', height: '100%' }} />
+                  <Lottie src={error404Animation} loop={true} autoplay={true} style={{ width: '100%', height: '100%' }} />
                 </div>
                 <p className="text-red-400 font-bold text-sm mb-1">{jobsError}</p>
                 <p className="text-white/60 text-xs max-w-md mx-auto mb-5 leading-relaxed">
