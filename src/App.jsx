@@ -7,6 +7,10 @@ import bgFacadeHotel from '../assets/Facade-Hotel-Agogo-Surabaya-home.jpg'
 import bgFencePanel from '../assets/Fence-Panel-GG-Magetan-2021.jpg'
 import bgArch from '../assets/arch.jpg'
 
+import Lottie from 'lottie-react'
+import loadingDbAnimation from './assets/loading-db.json'
+import error404Animation from './assets/error-404.json'
+
 // Lisa Concrete Asset Slideshow untuk Hero Background
 const HERO_SLIDES = [
   {
@@ -1149,8 +1153,10 @@ export default function App() {
                     </div>
 
                     {jobsLoading ? (
-                      <div className="py-8 text-center space-y-2">
-                        <div className="w-6 h-6 border-2 border-brand border-t-transparent rounded-full animate-spin mx-auto"></div>
+                      <div className="py-8 text-center flex flex-col items-center space-y-2">
+                        <div className="w-16 h-16">
+                          <Lottie animationData={loadingDbAnimation} loop={true} />
+                        </div>
                         <p className="text-xs font-semibold text-slate-600">Memeriksa lowongan kerja...</p>
                       </div>
                     ) : jobs.length === 0 ? (
@@ -3350,14 +3356,18 @@ Jenjang karir profesional di DUSASPUN Group"
           {/* Job Listings Cards */}
           <div className="space-y-4">
             {jobsLoading ? (
-              <div className="text-center py-16 bg-white/[0.02] backdrop-blur-md rounded-2xl border border-white/10 p-8 shadow-xl">
-                <div className="w-8 h-8 border-3 border-red-500 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
+              <div className="text-center py-12 bg-white/[0.02] backdrop-blur-md rounded-2xl border border-white/10 p-8 shadow-xl flex flex-col items-center">
+                <div className="w-40 h-40 mb-2">
+                  <Lottie animationData={loadingDbAnimation} loop={true} />
+                </div>
                 <p className="text-white/80 font-bold text-sm">Menghubungkan ke Database MySQL...</p>
                 <p className="text-white/50 text-xs mt-1">Mengambil formasi lowongan kerja resmi</p>
               </div>
             ) : jobsError ? (
-              <div className="text-center py-12 bg-red-950/20 backdrop-blur-md rounded-2xl border border-red-500/20 p-8 shadow-[0_8px_30px_rgb(220,38,38,0.1)]">
-                <p className="text-3xl mb-2">⚠️</p>
+              <div className="text-center py-10 bg-red-950/20 backdrop-blur-md rounded-2xl border border-red-500/20 p-8 shadow-[0_8px_30px_rgb(220,38,38,0.1)] flex flex-col items-center">
+                <div className="w-48 h-48 mb-2">
+                  <Lottie animationData={error404Animation} loop={true} />
+                </div>
                 <p className="text-red-400 font-bold text-sm mb-1">{jobsError}</p>
                 <p className="text-white/60 text-xs max-w-md mx-auto mb-5 leading-relaxed">
                   Pastikan server backend Node.js aktif di <code>http://localhost:5000</code>. Jika membuka melalui GitHub Pages (HTTPS), browser memblokir request HTTP lokal (Mixed Content). Anda dapat membuka web secara lokal di <code>http://localhost:5173</code> atau mengizinkan Insecure Content di setelan browser.
