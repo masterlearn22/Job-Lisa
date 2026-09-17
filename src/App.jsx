@@ -7,7 +7,7 @@ import bgFacadeHotel from '../assets/Facade-Hotel-Agogo-Surabaya-home.jpg'
 import bgFencePanel from '../assets/Fence-Panel-GG-Magetan-2021.jpg'
 import bgArch from '../assets/arch.jpg'
 
-import Lottie from 'lottie-react'
+import { Lottie } from 'lottie-react'
 import loadingDbAnimation from './assets/loading-db.json'
 import error404Animation from './assets/error-404.json'
 
