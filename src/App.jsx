@@ -475,7 +475,7 @@ export default function App() {
       
       await fetch(`${API_BASE_URL}`, {
         method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify({ action: 'updateAppStatus', id: adminManageModal.id, status: newStatus })
+        body: JSON.stringify({ action: 'updateAppStatus', id: adminManageModal.id, status: adminTargetStatus, notes: adminTargetNotes })
       });
       const res = { ok: true, json: async () => ({ success: true }) };
   
