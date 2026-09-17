@@ -1098,7 +1098,7 @@ export default function App() {
         <div className="max-w-[1600px] mx-auto px-3 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16 sm:h-20 gap-2 sm:gap-4">
             {/* Logo */}
-            <a href="https://www.lisaconcrete.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 sm:gap-3 group shrink min-w-0">
+            <a href="https://www.lisaconcrete.com" className="flex items-center gap-2 sm:gap-3 group shrink min-w-0">
               <img 
                 src="https://www.lisaconcrete.com/wp-content/uploads/2020/08/logoweb-300x128.png" 
                 alt="PT Lisa Concrete Logo" 
