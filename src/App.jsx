@@ -383,19 +383,21 @@ export default function App() {
   const fetchAdminData = async () => {
     setAdminLoading(true);
     try {
-      // 1. Fetch Stats
-      const statsRes = await fetch(`${API_BASE_URL}?action=adminStats`);
-      if (statsRes.ok) {
-        const statsData = await statsRes.json(); setAdminStats(statsData.data || statsData);
-      }
-
-      // 2. Fetch Applications
       const params = new URLSearchParams();
       if (adminFilterDiv !== 'all') params.append('division', adminFilterDiv);
       if (adminFilterStatus !== 'all') params.append('status', adminFilterStatus);
       if (adminSearch.trim()) params.append('search', adminSearch.trim());
 
-      const listRes = await fetch(`${API_BASE_URL}?action=adminList&${params.toString()}`);
+      // Fetch Stats and Applications in parallel to save time
+      const [statsRes, listRes] = await Promise.all([
+        fetch(`${API_BASE_URL}?action=adminStats`),
+        fetch(`${API_BASE_URL}?action=adminList&${params.toString()}`)
+      ]);
+
+      if (statsRes.ok) {
+        const statsData = await statsRes.json(); setAdminStats(statsData.data || statsData);
+      }
+
       if (listRes.ok) {
         const listData = await listRes.json(); setAdminApplications(listData.data || listData);
       }
@@ -1079,16 +1081,6 @@ export default function App() {
             </span>
             <span className="hidden sm:inline text-slate-600">|</span>
             <span>Member of <strong>DUSASPUN Group</strong></span>
-            <span className="hidden sm:inline text-slate-600">|</span>
-            <a 
-              href="https://www.lisaconcrete.com" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="text-slate-300 hover:text-white transition-colors flex items-center gap-1 font-semibold"
-            >
-              <span>🌐 Web Utama: www.lisaconcrete.com</span>
-              <span>&rarr;</span>
-            </a>
           </div>
           <div className="flex items-center gap-5 text-slate-300">
             <a 
@@ -1106,7 +1098,7 @@ export default function App() {
         <div className="max-w-[1600px] mx-auto px-3 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16 sm:h-20 gap-2 sm:gap-4">
             {/* Logo */}
-            <a href="#home" onClick={(e) => { e.preventDefault(); handleToHome(); }} className="flex items-center gap-2 sm:gap-3 group shrink min-w-0">
+            <a href="https://www.lisaconcrete.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 sm:gap-3 group shrink min-w-0">
               <img 
                 src="https://www.lisaconcrete.com/wp-content/uploads/2020/08/logoweb-300x128.png" 
                 alt="PT Lisa Concrete Logo" 
