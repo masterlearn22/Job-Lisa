@@ -173,7 +173,7 @@ export default function App() {
     setJobsLoading(true);
     setJobsError(null);
     try {
-      const res = await fetch(`${API_BASE_URL}?action=getJobs`);
+      const res = await fetch(`${API_BASE_URL}?action=getJobs&t=${Date.now()}`);
       if (res.ok) {
         const data = await res.json();
         const formattedJobs = (data.data || data || []).map(j => ({
@@ -390,8 +390,8 @@ export default function App() {
 
       // Fetch Stats and Applications in parallel to save time
       const [statsRes, listRes] = await Promise.all([
-        fetch(`${API_BASE_URL}?action=adminStats`),
-        fetch(`${API_BASE_URL}?action=adminList&${params.toString()}`)
+        fetch(`${API_BASE_URL}?action=adminStats&t=${Date.now()}`),
+        fetch(`${API_BASE_URL}?action=adminList&${params.toString()}&t=${Date.now()}`)
       ]);
 
       if (statsRes.ok) {
@@ -412,7 +412,7 @@ export default function App() {
   const fetchAdminJobs = async () => {
     setAdminJobsLoading(true);
     try {
-      const res = await fetch(`${API_BASE_URL}?action=adminJobs`); if (res.ok) { const data = await res.json(); setAdminJobs(data.data || data);
+      const res = await fetch(`${API_BASE_URL}?action=adminJobs&t=${Date.now()}`); if (res.ok) { const data = await res.json(); setAdminJobs(data.data || data);
       }
     } catch (err) {
       console.warn('Gagal memuat lowongan admin:', err);
@@ -435,7 +435,7 @@ export default function App() {
     setAdminLoginLoading(true);
     setAdminLoginError('');
     try {
-      const res = await fetch(`${API_BASE_URL}?action=adminLogin&email=${encodeURIComponent(adminLoginEmail)}&password=${encodeURIComponent(adminLoginPassword)}`);
+      const res = await fetch(`${API_BASE_URL}?action=adminLogin&email=${encodeURIComponent(adminLoginEmail)}&password=${encodeURIComponent(adminLoginPassword)}&t=${Date.now()}`);
       const data = await res.json();
       if (res.ok && data.success) {
         setAdminUser(data.user);
@@ -924,7 +924,7 @@ export default function App() {
     }
 
     try {
-      const res = await fetch(`${API_BASE_URL}?action=adminList`);
+      const res = await fetch(`${API_BASE_URL}?action=adminList&t=${Date.now()}`);
       if (res.ok) {
         const data = await res.json();
         const tracked = buildTrackingState(data.application, data.history || []);
