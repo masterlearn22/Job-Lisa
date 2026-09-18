@@ -3401,7 +3401,7 @@ Jenjang karir profesional di DUSASPUN Group"
                 </div>
                 <p className="text-red-400 font-bold text-sm mb-1">{jobsError}</p>
                 <p className="text-white/60 text-xs max-w-md mx-auto mb-5 leading-relaxed">
-                  Pastikan server backend Node.js aktif di <code>http://localhost:5000</code>. Jika membuka melalui GitHub Pages (HTTPS), browser memblokir request HTTP lokal (Mixed Content). Anda dapat membuka web secara lokal di <code>http://localhost:5173</code> atau mengizinkan Insecure Content di setelan browser.
+                  Silakan periksa koneksi internet Anda atau muat ulang halaman.
                 </p>
                 <button
                   onClick={fetchJobs}
