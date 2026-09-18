@@ -372,11 +372,11 @@ export default function App() {
     id: null,
     title: '',
     division_id: 1,
-    location: 'Surabaya (Head Office)',
+    location: 'SF[Surabaya Factory]',
     type: 'Full Time',
     experience: 'Min. 2-3 Tahun',
     education: 'S1 Teknik Sipil',
-    deadline: '30 November 2026',
+    deadline: '2026-11-30',
     status: 'OPEN',
     description: '',
     requirements: '',
@@ -531,11 +531,11 @@ export default function App() {
       id: null,
       title: '',
       division_id: 1,
-      location: 'Surabaya (Head Office)',
+      location: 'SF[Surabaya Factory]',
       type: 'Full Time',
       experience: 'Min. 2-3 Tahun',
       education: 'S1 Teknik Sipil',
-      deadline: '30 November 2026',
+      deadline: '2026-11-30',
       status: 'OPEN',
       description: '',
       requirements: '',
@@ -554,11 +554,11 @@ export default function App() {
       id: job.id,
       title: job.title || '',
       division_id: job.division_id || 1,
-      location: job.location || 'Surabaya (Head Office)',
+      location: job.location || 'SF[Surabaya Factory]',
       type: job.type || 'Full Time',
       experience: job.experience || 'Min. 2 Tahun',
       education: job.education || 'S1',
-      deadline: job.deadline || 'Terbuka',
+      deadline: job.deadline || '2026-11-30',
       status: job.status || 'OPEN',
       description: job.description || '',
       requirements: reqText,
@@ -825,7 +825,7 @@ export default function App() {
       name: appData.applicant_name,
       jobTitle: appData.job_title,
       department: appData.division_name || 'Umum',
-      location: 'Surabaya (Head Office)',
+      location: appData.location || 'SF[Surabaya Factory]',
       submittedDate: new Date(appData.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }),
       status: isRejected ? 'Tidak Lolos Seleksi' : (currentStep === 6 ? 'Diterima - Onboarding' : `Tahap ${appData.status} (Sedang Berjalan)`),
       currentStep,
@@ -849,7 +849,7 @@ export default function App() {
         name: 'Budi Santoso, S.T.',
         jobTitle: 'Precast Civil Engineer & Drafter',
         department: 'Engineering & Technical',
-        location: 'Surabaya (Head Office)',
+        location: 'SF[Surabaya Factory]',
         submittedDate: '04 September 2026',
         status: 'Tahap Wawancara User (Sedang Berjalan)',
         currentStep: 3,
@@ -959,10 +959,27 @@ export default function App() {
     const formData = new FormData(e.target);
     
     let jobId = 1; 
-    if (applyModalJob && applyModalJob.id) {
-       const match = applyModalJob.id.toString().match(/\d+/);
-       if (match) jobId = parseInt(match[0], 10);
+    let jobLocation = '';
+    if (applyModalJob) {
+       if (applyModalJob.id) {
+           const match = applyModalJob.id.toString().match(/\d+/);
+           if (match) jobId = parseInt(match[0], 10);
+       }
+       jobLocation = applyModalJob.location || '';
     }
+    
+    let locPrefix = 'SF';
+    const locUpper = jobLocation.toUpperCase();
+    if (locUpper.includes('SO') || locUpper.includes('SURABAYA OFFICE')) {
+        locPrefix = 'SO';
+    } else if (locUpper.includes('BALI') || locUpper.includes('BF')) {
+        locPrefix = 'BF';
+    } else {
+        locPrefix = 'SF';
+    }
+
+    const randomNums = Math.floor(1000000 + Math.random() * 9000000);
+    const trackingCode = `Lisa${locPrefix}${randomNums}`;
     
     const applicantName = formData.get('name') || '';
 
@@ -1008,7 +1025,7 @@ export default function App() {
         });
         
         // Assume success because no-cors is opaque
-        setApplyTrackingResult("BISA-DICEK-DI-GOOGLE-SHEETS");
+        setApplyTrackingResult(trackingCode);
         setIsUpdateSuccess(false);
         setApplySuccess(true);
         setTimeout(() => {
@@ -2598,14 +2615,16 @@ export default function App() {
                         <label className="block font-bold text-slate-700 mb-1">
                           Lokasi Penempatan *
                         </label>
-                        <input
-                          type="text"
+                        <select
                           required
                           value={jobFormData.location}
                           onChange={(e) => setJobFormData({ ...jobFormData, location: e.target.value })}
-                          placeholder="Contoh: Surabaya / Proyek IKN"
-                          className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl font-semibold text-slate-800 focus:outline-none focus:border-brand"
-                        />
+                          className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl font-semibold text-slate-800 focus:outline-none focus:border-brand cursor-pointer"
+                        >
+                          <option value="SF[Surabaya Factory]">SF[Surabaya Factory]</option>
+                          <option value="SO[Surabaya Office]">SO[Surabaya Office]</option>
+                          <option value="Bali[Bali Factory]">Bali[Bali Factory]</option>
+                        </select>
                       </div>
 
                       <div>
@@ -2674,12 +2693,11 @@ export default function App() {
                           Batas Waktu Lamaran *
                         </label>
                         <input
-                          type="text"
+                          type="date"
                           required
                           value={jobFormData.deadline}
                           onChange={(e) => setJobFormData({ ...jobFormData, deadline: e.target.value })}
-                          placeholder="Contoh: 30 November 2026"
-                          className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl font-semibold text-slate-800 focus:outline-none focus:border-brand"
+                          className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl font-semibold text-slate-800 focus:outline-none focus:border-brand cursor-pointer"
                         />
                       </div>
                     </div>
@@ -3334,9 +3352,9 @@ Jenjang karir profesional di DUSASPUN Group"
                 className="w-full bg-transparent border-none focus:outline-none text-xs text-white/70 cursor-pointer"
               >
                 <option value="" className="bg-[#0a0a0a]">Semua Penempatan</option>
-                <option value="Surabaya" className="bg-[#0a0a0a]">Surabaya (Head Office)</option>
-                <option value="Ngoro" className="bg-[#0a0a0a]">Ngoro Plant (Mojokerto)</option>
-                <option value="Bali" className="bg-[#0a0a0a]">Bali (Karangasem Plant)</option>
+                <option value="SF[Surabaya Factory]" className="bg-[#0a0a0a]">SF [Surabaya Factory]</option>
+                <option value="SO[Surabaya Office]" className="bg-[#0a0a0a]">SO [Surabaya Office]</option>
+                <option value="Bali[Bali Factory]" className="bg-[#0a0a0a]">Bali [Bali Factory]</option>
               </select>
             </div>
 
@@ -3482,7 +3500,7 @@ Jenjang karir profesional di DUSASPUN Group"
                 Produsen beton pracetak terkemuka berstandar mutu ISO 9001 sejak 1994. Kanal ini dikhususkan sebagai portal resmi informasi karir dan rekrutmen pegawai.
               </p>
               <p className="text-slate-500 text-[11px]">
-                Surabaya (Head Office) • Ngoro (Plant) • Bali (Branch &amp; Plant)
+                Surabaya Factory (SF) • Surabaya Office (SO) • Bali Factory (BF)
               </p>
             </div>
 
