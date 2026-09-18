@@ -1014,7 +1014,7 @@ export default function App() {
 
         const payload = {
             action: 'apply',
-            id: trackingCode,
+            tracking_id: trackingCode,
             job_id: jobId,
             job_title: applyModalJob ? applyModalJob.title : '',
             division_name: applyModalJob ? applyModalJob.department : '',
