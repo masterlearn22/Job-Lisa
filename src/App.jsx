@@ -166,6 +166,13 @@ function getStageIcon(type) {
 // BASE API URL (Mendukung localhost saat dev, dan relative path di production)
 const API_BASE_URL = 'https://script.google.com/macros/s/AKfycbzZnoroEk0FwxPl_wacsIQTpClP5MwX6bK7npTrNduzvCk-9HJR1pKVGsjyPYoTjIPbYw/exec';
 
+async function sha256(message) {
+  const msgBuffer = new TextEncoder().encode(message);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
 export default function App() {
   const [activeTab, setActiveTab] = useState('home')
   const [jobs, setJobs] = useState([])
@@ -437,11 +444,13 @@ export default function App() {
     setAdminLoginLoading(true);
     setAdminLoginError('');
     try {
-      const res = await fetch(`${API_BASE_URL}?action=adminLogin&email=${encodeURIComponent(adminLoginEmail)}&password=${encodeURIComponent(adminLoginPassword)}&t=${Date.now()}`);
+      const hashedPassword = await sha256(adminLoginPassword);
+      const res = await fetch(`${API_BASE_URL}?action=adminLogin&email=${encodeURIComponent(adminLoginEmail)}&password=${encodeURIComponent(hashedPassword)}&t=${Date.now()}`);
       const data = await res.json();
       if (res.ok && data.success) {
-        setAdminUser(data.user);
-        try { localStorage.setItem('lisa_admin_user', JSON.stringify(data.user)); } catch {}
+        const loggedUser = data.data?.user || data.user;
+        setAdminUser(loggedUser);
+        try { localStorage.setItem('lisa_admin_user', JSON.stringify(loggedUser)); } catch {}
       } else {
         setAdminLoginError(data.error || 'Email atau password salah');
       }
@@ -473,7 +482,7 @@ export default function App() {
       
       await fetch(`${API_BASE_URL}`, {
         method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify({ action: 'updateAppStatus', id: adminManageModal.id, status: adminTargetStatus, notes: adminTargetNotes })
+        body: JSON.stringify({ action: 'updateAppStatus', id: adminManageModal.id, status: adminTargetStatus, notes: adminTargetNotes, edit_by: adminUser?.name })
       });
       const res = { ok: true, json: async () => ({ success: true }) };
   
@@ -507,7 +516,7 @@ export default function App() {
       const res = await fetch(API_BASE_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify({ action: 'deleteApplication', id: id })
+        body: JSON.stringify({ action: 'deleteApplication', id: id, edit_by: adminUser?.name })
       });
       if (res.ok) {
         fetchAdminData();
@@ -598,7 +607,8 @@ export default function App() {
         status: jobFormData.status,
         description: jobFormData.description.trim(),
         requirements: jobFormData.requirements.trim(),
-        benefits: jobFormData.benefits.trim()
+        benefits: jobFormData.benefits.trim(),
+        edit_by: adminUser?.name
       };
 
       const isEdit = jobModalMode === 'edit' && jobFormData.id;
@@ -641,7 +651,7 @@ export default function App() {
       
       await fetch(`${API_BASE_URL}`, {
         method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify({ action: 'updateJobStatus', id: job.id, status: nextStatus })
+        body: JSON.stringify({ action: 'updateJobStatus', id: job.id, status: nextStatus, edit_by: adminUser?.name })
       });
       const res = { ok: true, json: async () => ({ success: true }) };
   
@@ -664,7 +674,7 @@ export default function App() {
     try {
       await fetch(`${API_BASE_URL}`, {
           method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' },
-          body: JSON.stringify({ action: 'deleteJob', id: job.id })
+          body: JSON.stringify({ action: 'deleteJob', id: job.id, edit_by: adminUser?.name })
         });
         const res = { ok: true };
       if (res.ok) {
@@ -3513,6 +3523,7 @@ Jenjang karir profesional di DUSASPUN Group"
                 <li><a href="#tentang" className="hover:text-red-400 hover:translate-x-1.5 transition-all duration-200 inline-block">Tentang Perusahaan</a></li>
                 <li><a href="#karir" className="hover:text-red-400 hover:translate-x-1.5 transition-all duration-200 inline-block">Portal Karir &amp; Lowongan</a></li>
                 <li><button onClick={() => handleOpenTracking()} className="hover:text-red-400 hover:translate-x-1.5 transition-all duration-200 text-left cursor-pointer inline-block">Lacak Status Pelamar</button></li>
+                <li><button onClick={() => { setActiveTab('admin'); window.scrollTo(0,0); }} className="hover:text-red-400 hover:translate-x-1.5 transition-all duration-200 text-left cursor-pointer inline-block">Dashboard Admin</button></li>
               </ul>
             </div>
 
