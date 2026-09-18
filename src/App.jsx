@@ -821,7 +821,7 @@ export default function App() {
     }
 
     return {
-      code: appData.job_id || appData.id || 'N/A',
+      code: appData.tracking_id || appData.id || 'N/A',
       name: appData.name || appData.applicant_name || 'Tidak Diketahui',
       jobTitle: appData.job_title || 'Posisi Tidak Diketahui',
       department: appData.division_name || 'Umum',
@@ -937,7 +937,7 @@ export default function App() {
         const apps = data.data || data;
         const appData = Array.isArray(apps) ? apps.find(app => 
           (app.email && app.email.toLowerCase() === code.toLowerCase()) || 
-          (app.job_id && app.job_id.toString().toLowerCase() === code.toLowerCase()) ||
+          (app.tracking_id && app.tracking_id.toLowerCase() === code.toLowerCase()) ||
           (app.id === code)
         ) : null;
 
@@ -1014,7 +1014,8 @@ export default function App() {
 
         const payload = {
             action: 'apply',
-            job_id: trackingCode,
+            id: trackingCode,
+            job_id: jobId,
             job_title: applyModalJob ? applyModalJob.title : '',
             division_name: applyModalJob ? applyModalJob.department : '',
             location: applyModalJob ? applyModalJob.location : '',
