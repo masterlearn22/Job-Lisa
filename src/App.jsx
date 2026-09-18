@@ -164,7 +164,7 @@ function getStageIcon(type) {
 }
 
 // BASE API URL (Mendukung localhost saat dev, dan relative path di production)
-const API_BASE_URL = 'https://script.google.com/macros/s/AKfycbxowpLlyJBq5sGq-u7QIkQWcUxqqmXY8edFDA-sd_wjBZ24plbx9sTKUAQ0zunCVWp_qg/exec';
+const API_BASE_URL = 'https://script.google.com/macros/s/AKfycbzZnoroEk0FwxPl_wacsIQTpClP5MwX6bK7npTrNduzvCk-9HJR1pKVGsjyPYoTjIPbYw/exec';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('home')
