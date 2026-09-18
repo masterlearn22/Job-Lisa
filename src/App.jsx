@@ -1015,6 +1015,7 @@ export default function App() {
         const payload = {
             action: 'apply',
             job_id: jobId,
+            tracking_id: trackingCode,
             name: applicantName,
             email: formData.get('email') || '',
             phone: formData.get('phone') || '',
