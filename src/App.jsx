@@ -504,9 +504,11 @@ export default function App() {
   const handleAdminDeleteApp = async (id, name) => {
     if (!window.confirm(`Apakah Anda yakin ingin menghapus data pelamar ${name}? Berkas CV yang tersimpan di server juga akan dihapus permanen.`)) return;
     try {
-      
-      const res = { ok: true, json: async () => ({ success: true }) };
-  
+      const res = await fetch(API_BASE_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ action: 'deleteApplication', id: id })
+      });
       if (res.ok) {
         fetchAdminData();
       } else {
@@ -2221,7 +2223,7 @@ export default function App() {
                                     Kelola Status
                                   </button>
                                   <button
-                                    onClick={() => handleAdminDeleteApp(app.id, app.applicant_name)}
+                                    onClick={() => handleAdminDeleteApp(app.id, app.name)}
                                     className="p-1.5 bg-rose-500/20 hover:bg-rose-500/40 text-rose-200 border border-rose-500/30 rounded-xl transition-colors cursor-pointer"
                                     title="Hapus Data Pelamar"
                                   >
