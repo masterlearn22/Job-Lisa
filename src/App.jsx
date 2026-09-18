@@ -821,9 +821,9 @@ export default function App() {
     }
 
     return {
-      code: appData.tracking_id,
-      name: appData.applicant_name,
-      jobTitle: appData.job_title,
+      code: appData.tracking_id || appData.id || 'N/A',
+      name: appData.name || appData.applicant_name || 'Tidak Diketahui',
+      jobTitle: appData.job_title || 'Posisi Tidak Diketahui',
       department: appData.division_name || 'Umum',
       location: appData.location || 'SF[Surabaya Factory]',
       submittedDate: new Date(appData.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }),
@@ -934,10 +934,21 @@ export default function App() {
       const res = await fetch(`${API_BASE_URL}?action=adminList&t=${Date.now()}`);
       if (res.ok) {
         const data = await res.json();
-        const tracked = buildTrackingState(data.application, data.history || []);
-        setTrackedResult(tracked);
+        const apps = data.data || data;
+        const appData = Array.isArray(apps) ? apps.find(app => 
+          (app.email && app.email.toLowerCase() === code.toLowerCase()) || 
+          (app.tracking_id && app.tracking_id.toLowerCase() === code.toLowerCase()) ||
+          (app.id === code)
+        ) : null;
+
+        if (appData) {
+          const tracked = buildTrackingState(appData, appData.history || []);
+          setTrackedResult(tracked);
+        } else {
+          alert(`Lamaran dengan Email atau ID "${code}" tidak ditemukan di database.`);
+        }
       } else {
-        alert(`Kode Lacak "${code}" tidak ditemukan di database. Silakan periksa kembali Tracking ID Anda.`);
+        alert(`Gagal mengambil data dari database.`);
       }
     } catch (err) {
       console.warn('Backend tidak terhubung, menampilkan preview demo:', err);
