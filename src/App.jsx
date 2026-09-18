@@ -392,21 +392,16 @@ export default function App() {
       if (adminFilterStatus !== 'all') params.append('status', adminFilterStatus);
       if (adminSearch.trim()) params.append('search', adminSearch.trim());
 
-      // Fetch Stats and Applications sequentially to prevent Google Apps Script concurrent execution issues
-      const statsRes = await fetch(`${API_BASE_URL}?action=adminStats&t=${Date.now()}`);
-      if (statsRes.ok) {
+      // Fetch all admin data concurrently via a single optimized endpoint
+      const initRes = await fetch(`${API_BASE_URL}?action=adminInit&${params.toString()}&t=${Date.now()}`);
+      if (initRes.ok) {
         try {
-          const statsData = await statsRes.json();
-          setAdminStats(statsData.data || statsData);
-        } catch(e) { console.warn('Failed to parse stats:', e); }
-      }
-
-      const listRes = await fetch(`${API_BASE_URL}?action=adminList&${params.toString()}&t=${Date.now()}`);
-      if (listRes.ok) {
-        try {
-          const listData = await listRes.json();
-          setAdminApplications(listData.data || listData);
-        } catch(e) { console.warn('Failed to parse list:', e); }
+          const initData = await initRes.json();
+          const payload = initData.data || initData;
+          setAdminStats(payload.stats || {total:0});
+          setAdminApplications(payload.applications || []);
+          if (payload.jobs) setAdminJobs(payload.jobs);
+        } catch(e) { console.warn('Failed to parse adminInit:', e); }
       }
     } catch (err) {
       console.log('Gagal mengambil data admin dari server:', err.message);
@@ -931,24 +926,15 @@ export default function App() {
     }
 
     try {
-      const res = await fetch(`${API_BASE_URL}?action=adminList&t=${Date.now()}`);
-      if (res.ok) {
-        const data = await res.json();
-        const apps = data.data || data;
-        const appData = Array.isArray(apps) ? apps.find(app => 
-          (app.email && app.email.toLowerCase() === code.toLowerCase()) || 
-          (app.tracking_id && app.tracking_id.toLowerCase() === code.toLowerCase()) ||
-          (app.id === code)
-        ) : null;
-
-        if (appData) {
-          const tracked = buildTrackingState(appData, appData.history || []);
-          setTrackedResult(tracked);
-        } else {
-          alert(`Lamaran dengan Email atau ID "${code}" tidak ditemukan di database.`);
-        }
+      const res = await fetch(`${API_BASE_URL}?action=track&code=${encodeURIComponent(code)}&t=${Date.now()}`);
+      if (!res.ok) throw new Error('Network response was not ok');
+      
+      const data = await res.json();
+      
+      if (data && data.success && data.data) {
+        setTrackedResult(buildTrackingState(data.data, []));
       } else {
-        alert(`Gagal mengambil data dari database.`);
+        alert(`Lamaran dengan Email atau ID "${code}" tidak ditemukan di database.`);
       }
     } catch (err) {
       console.warn('Backend tidak terhubung, menampilkan preview demo:', err);
