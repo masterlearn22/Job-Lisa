@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react'
-
+import { supabase } from './supabase'
 import bgFactoryHome from '../assets/factory-home.jpg'
 import bgFactoryHome23 from '../assets/factory-home-23.jpg'
 import bgBoxCulvert from '../assets/Box-Culvert-Monolith-Project-Pakuwon.jpg'
@@ -184,49 +184,45 @@ export default function App() {
     setJobsLoading(true);
     setJobsError(null);
     try {
-      const res = await fetch(`${API_BASE_URL}?action=getJobs&t=${Date.now()}`);
-      if (res.ok) {
-        const data = await res.json();
-        const formattedJobs = (data.data || data || []).map(j => ({
-          id: j.id.toString(), // ID asli dari database MySQL
-          title: j.title,
-          department: j.department || 'Umum', // Dari relasi divisions di database
-          location: j.location,
-          type: j.type,
-          experience: j.experience,
-          education: j.education,
-          deadline: j.deadline,
-          description: j.description,
-          requirements: (() => {
-              if (Array.isArray(j.requirements)) return j.requirements;
-              if (typeof j.requirements === 'string') {
-                try { return JSON.parse(j.requirements); } catch(e) {}
-                if (j.requirements.includes('\n')) return j.requirements.split('\n').map(s=>s.trim()).filter(Boolean);
-                if (j.requirements.includes(',')) return j.requirements.split(',').map(s=>s.trim()).filter(Boolean);
-                if (j.requirements) return [j.requirements];
-              }
-              return [];
-            })(),
-            benefits: (() => {
-              if (Array.isArray(j.benefits)) return j.benefits;
-              if (typeof j.benefits === 'string') {
-                try { return JSON.parse(j.benefits); } catch(e) {}
-                if (j.benefits.includes('\n')) return j.benefits.split('\n').map(s=>s.trim()).filter(Boolean);
-                if (j.benefits.includes(',')) return j.benefits.split(',').map(s=>s.trim()).filter(Boolean);
-                if (j.benefits) return [j.benefits];
-              }
-              return [];
-            })()
-        }));
-        setJobs(formattedJobs);
-      } else {
-        setJobs([]);
-        setJobsError(`Gagal mengambil data dari database server (HTTP ${res.status})`);
-      }
+      const { data, error } = await supabase.from('jobs').select('*').eq('status', 'OPEN');
+      if (error) throw error;
+      
+      const formattedJobs = (data || []).map(j => ({
+        id: j.id.toString(),
+        title: j.title,
+        department: j.department || 'Umum',
+        location: j.location,
+        type: j.type,
+        experience: j.experience,
+        education: j.education,
+        deadline: j.deadline,
+        description: j.description,
+        requirements: (() => {
+            if (Array.isArray(j.requirements)) return j.requirements;
+            if (typeof j.requirements === 'string') {
+              try { return JSON.parse(j.requirements); } catch(e) {}
+              if (j.requirements.includes('\n')) return j.requirements.split('\n').map(s=>s.trim()).filter(Boolean);
+              if (j.requirements.includes(',')) return j.requirements.split(',').map(s=>s.trim()).filter(Boolean);
+              if (j.requirements) return [j.requirements];
+            }
+            return [];
+          })(),
+          benefits: (() => {
+            if (Array.isArray(j.benefits)) return j.benefits;
+            if (typeof j.benefits === 'string') {
+              try { return JSON.parse(j.benefits); } catch(e) {}
+              if (j.benefits.includes('\n')) return j.benefits.split('\n').map(s=>s.trim()).filter(Boolean);
+              if (j.benefits.includes(',')) return j.benefits.split(',').map(s=>s.trim()).filter(Boolean);
+              if (j.benefits) return [j.benefits];
+            }
+            return [];
+          })()
+      }));
+      setJobs(formattedJobs);
     } catch (err) {
-      console.warn('Gagal koneksi ke database API:', err);
+      console.warn('Gagal koneksi ke Supabase:', err);
       setJobs([]);
-      setJobsError('Tidak dapat terhubung ke database backend di ' + API_BASE_URL);
+      setJobsError('Tidak dapat terhubung ke database Supabase: ' + err.message);
     } finally {
       setJobsLoading(false);
     }
@@ -394,24 +390,56 @@ export default function App() {
   const fetchAdminData = async () => {
     setAdminLoading(true);
     try {
-      const params = new URLSearchParams();
-      if (adminFilterDiv !== 'all') params.append('division', adminFilterDiv);
-      if (adminFilterStatus !== 'all') params.append('status', adminFilterStatus);
-      if (adminSearch.trim()) params.append('search', adminSearch.trim());
-
-      // Fetch all admin data concurrently via a single optimized endpoint
-      const initRes = await fetch(`${API_BASE_URL}?action=adminInit&${params.toString()}&t=${Date.now()}`);
-      if (initRes.ok) {
-        try {
-          const initData = await initRes.json();
-          const payload = initData.data || initData;
-          setAdminStats(payload.stats || {total:0});
-          setAdminApplications(payload.applications || []);
-          if (payload.jobs) setAdminJobs(payload.jobs);
-        } catch(e) { console.warn('Failed to parse adminInit:', e); }
+      let query = supabase.from('applications').select('*, jobs!inner(title, department, location)');
+      
+      // Apply basic filters if any
+      if (adminFilterDiv !== 'all') {
+        query = query.eq('jobs.department', adminFilterDiv);
       }
+      if (adminFilterStatus !== 'all') {
+        query = query.eq('status', adminFilterStatus);
+      }
+      
+      const { data, error } = await query.order('created_at', { ascending: false });
+      if (error) throw error;
+      
+      const applications = data || [];
+      
+      // Quick manual search
+      let finalApps = applications;
+      if (adminSearch.trim()) {
+        const s = adminSearch.toLowerCase();
+        finalApps = applications.filter(a => 
+          (a.applicant_name || '').toLowerCase().includes(s) || 
+          (a.applicant_email || '').toLowerCase().includes(s) ||
+          (a.tracking_id || '').toLowerCase().includes(s)
+        );
+      }
+
+      const stats = {
+        total: finalApps.length,
+        administrasi: finalApps.filter(a => a.status.includes('Administrasi')).length,
+        wawancaraHR: finalApps.filter(a => a.status.includes('Wawancara HR')).length,
+        wawancaraUser: finalApps.filter(a => a.status.includes('Wawancara User')).length,
+        psikotes: finalApps.filter(a => a.status.includes('Psikotes')).length,
+        offering: finalApps.filter(a => a.status.includes('Offering')).length,
+        onboarding: finalApps.filter(a => a.status.includes('Onboarding') || a.status === 'Diterima').length,
+        ditolak: finalApps.filter(a => a.status.includes('Tolak') || a.status.includes('Tidak Lolos')).length,
+        divisions: []
+      };
+
+      setAdminStats(stats);
+      setAdminApplications(finalApps.map(app => ({
+        ...app,
+        name: app.applicant_name,
+        email: app.applicant_email,
+        job_title: app.jobs?.title,
+        division_name: app.jobs?.department,
+        location: app.jobs?.location
+      })));
+
     } catch (err) {
-      console.log('Gagal mengambil data admin dari server:', err.message);
+      console.log('Gagal mengambil data admin:', err.message);
     } finally {
       setAdminLoading(false);
     }
@@ -421,8 +449,9 @@ export default function App() {
   const fetchAdminJobs = async () => {
     setAdminJobsLoading(true);
     try {
-      const res = await fetch(`${API_BASE_URL}?action=adminJobs&t=${Date.now()}`); if (res.ok) { const data = await res.json(); setAdminJobs(data.data || data);
-      }
+      const { data, error } = await supabase.from('jobs').select('*').order('created_at', { ascending: false });
+      if (error) throw error;
+      setAdminJobs(data || []);
     } catch (err) {
       console.warn('Gagal memuat lowongan admin:', err);
     } finally {
@@ -938,18 +967,40 @@ export default function App() {
     }
 
     try {
-      const res = await fetch(`${API_BASE_URL}?action=track&code=${encodeURIComponent(code)}&t=${Date.now()}`);
-      if (!res.ok) throw new Error('Network response was not ok');
-      
-      const data = await res.json();
-      
-      if (data && data.success && data.data) {
-        setTrackedResult(buildTrackingState(data.data, []));
-      } else {
+      const { data: appData, error } = await supabase
+        .from('applications')
+        .select(`
+          *,
+          jobs (title, department, location)
+        `)
+        .or(`tracking_id.eq.${code},applicant_email.eq.${code}`)
+        .single();
+
+      if (error || !appData) {
         alert(`Lamaran dengan Email atau ID "${code}" tidak ditemukan di database.`);
+        return;
       }
+
+      // Fetch history
+      const { data: historyData } = await supabase
+        .from('applications_history')
+        .select('*')
+        .eq('application_id', appData.id)
+        .order('created_at', { ascending: false });
+
+      // Format data to match buildTrackingState requirements
+      const formattedData = {
+        ...appData,
+        name: appData.applicant_name,
+        job_title: appData.jobs?.title,
+        division_name: appData.jobs?.department,
+        location: appData.jobs?.location,
+      };
+
+      setTrackedResult(buildTrackingState(formattedData, historyData || []));
+      
     } catch (err) {
-      console.warn('Backend tidak terhubung, menampilkan preview demo:', err);
+      console.warn('Gagal koneksi ke database, menampilkan preview demo:', err);
       handleOpenTracking(true);
     }
   }
@@ -995,13 +1046,8 @@ export default function App() {
     try {
         const file = formData.get('cvFile');
         let cvBase64 = '';
-        let cvName = '';
-        let cvMimeType = '';
         
         if (file && file.size > 0) {
-            cvName = file.name;
-            cvMimeType = file.type;
-            
             cvBase64 = await new Promise((resolve, reject) => {
                 const reader = new FileReader();
                 reader.onload = () => resolve(reader.result);
@@ -1011,33 +1057,21 @@ export default function App() {
         }
 
         const payload = {
-            action: 'apply',
             tracking_id: trackingCode,
             job_id: jobId,
-            job_title: applyModalJob ? applyModalJob.title : '',
-            division_name: applyModalJob ? applyModalJob.department : '',
-            location: applyModalJob ? applyModalJob.location : '',
-            name: applicantName,
-            email: formData.get('email') || '',
+            applicant_name: applicantName,
+            applicant_email: formData.get('email') || '',
             phone: formData.get('phone') || '',
             expected_salary: formData.get('expected_salary') || '',
             cover_letter: formData.get('cover_letter') || '',
-            cvBase64: cvBase64,
-            cvName: cvName,
-            cvMimeType: cvMimeType
+            cv_file_url: cvBase64,
+            status: 'Administrasi & Verifikasi Dokumen',
+            notes: '-'
         };
 
-        // Bypassing CORS COMPLETELY with no-cors
-        await fetch(`${API_BASE_URL}`, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: {
-                'Content-Type': 'text/plain'
-            },
-            body: JSON.stringify(payload)
-        });
+        const { data, error } = await supabase.from('applications').insert([payload]);
+        if (error) throw error;
         
-        // Assume success because no-cors is opaque
         setApplyTrackingResult(trackingCode);
         setIsUpdateSuccess(false);
         setApplySuccess(true);
@@ -1049,7 +1083,7 @@ export default function App() {
 
     } catch (error) {
         console.error(error);
-        alert(`Tidak dapat terhubung ke database Google Sheets.`);
+        alert(`Tidak dapat menyimpan lamaran ke Supabase: ` + error.message);
     } finally {
         setIsSubmitting(false);
     }
