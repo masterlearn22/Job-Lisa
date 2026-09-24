@@ -2246,9 +2246,8 @@ export default function App() {
                               </td>
                               <td className="py-3.5 px-4 whitespace-nowrap">
                                 <a 
-                                  href={app.cv_url || app.cv_path}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
+                                  href={app.cv_file_url || '#'}
+                                  download={`CV_${app.name}.pdf`}
                                   className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-red-600/20 hover:bg-red-600/40 text-red-200 rounded-xl font-bold text-[11px] border border-red-500/30 transition-colors backdrop-blur-md"
                                 >
                                   <span>📄</span>
