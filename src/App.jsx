@@ -1045,15 +1045,32 @@ export default function App() {
 
     try {
         const file = formData.get('cvFile');
-        let cvBase64 = '';
+        
+        if (file && file.size > 1048576) { // 1MB limit
+            alert('Ukuran CV terlalu besar! Maksimal 1 MB. Silakan kompres file PDF Anda (misalnya di ilovepdf.com) sebelum mengupload.');
+            setIsSubmitting(false);
+            return;
+        }
+
+        let finalCvUrl = '';
         
         if (file && file.size > 0) {
-            cvBase64 = await new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = error => reject(error);
-                reader.readAsDataURL(file);
-            });
+            const divisionFolder = applyModalJob.department ? applyModalJob.department.replace(/[^a-zA-Z0-9]/g, '_') : 'Umum';
+            const safeName = applicantName.replace(/[^a-zA-Z0-9]/g, '_') || 'Pelamar';
+            const fileName = `${trackingCode}_${safeName}.pdf`;
+            const filePath = `${divisionFolder}/${fileName}`;
+            
+            const { error: uploadError } = await supabase.storage
+                .from('cv_files')
+                .upload(filePath, file, { upsert: true });
+                
+            if (uploadError) {
+                console.error("Upload error:", uploadError);
+                throw new Error("Gagal mengupload CV. Pastikan Bucket 'cv_files' sudah dibuat di Supabase dan disetel Public.");
+            }
+            
+            const { data: publicUrlData } = supabase.storage.from('cv_files').getPublicUrl(filePath);
+            finalCvUrl = publicUrlData.publicUrl;
         }
 
         const payload = {
@@ -1064,7 +1081,7 @@ export default function App() {
             phone: formData.get('phone') || '',
             expected_salary: formData.get('expected_salary') || '',
             cover_letter: formData.get('cover_letter') || '',
-            cv_file_url: cvBase64,
+            cv_file_url: finalCvUrl,
             status: 'Administrasi & Verifikasi Dokumen',
             notes: '-'
         };
@@ -3756,7 +3773,7 @@ Jenjang karir profesional di DUSASPUN Group"
                   </div>
 
                   <div>
-                    <label className="block font-bold text-slate-700 mb-1">Upload Resume / CV (Format PDF, Maks. 5MB) *</label>
+                    <label className="block font-bold text-slate-700 mb-1">Upload Resume / CV (Format PDF, Maks. 1MB) *</label>
                     <input 
                       required 
                       name="cvFile"
