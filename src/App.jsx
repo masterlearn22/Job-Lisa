@@ -1008,6 +1008,7 @@ export default function App() {
   // Handle Apply Form
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [applyTrackingResult, setApplyTrackingResult] = useState('')
+  const [applySubmittedData, setApplySubmittedData] = useState(null)
   const [isUpdateSuccess, setIsUpdateSuccess] = useState(false)
   const [duplicatePrompt, setDuplicatePrompt] = useState(null)
 
@@ -1073,12 +1074,14 @@ export default function App() {
         if (error) throw error;
         
         setApplyTrackingResult(trackingCode);
+        setApplySubmittedData(payload);
         setIsUpdateSuccess(false);
         setApplySuccess(true);
         setTimeout(() => {
             setApplySuccess(false);
             setApplyModalJob(null);
             setApplyTrackingResult('');
+            setApplySubmittedData(null);
         }, 8000);
 
     } catch (error) {
@@ -3679,7 +3682,11 @@ Jenjang karir profesional di DUSASPUN Group"
                 </div>
                 <div className="mt-6 flex flex-col items-center justify-center gap-2">
                   <a 
-                    href={`https://wa.me/6285730838491?text=${encodeURIComponent(`Halo Tim HRD PT Lisa Concrete, saya baru saja mengirimkan lamaran untuk posisi ${applyModalJob?.title || 'pekerjaan'}. Kode pelacakan saya adalah: ${applyTrackingResult || '-'}. Mohon info selanjutnya, terima kasih!`)}`} 
+                    href={`https://wa.me/6285730838491?text=${encodeURIComponent(
+                      applySubmittedData 
+                        ? `Halo Tim HRD PT Lisa Concrete,\n\nSaya baru saja mengirimkan lamaran kerja melalui website.\n\n*Posisi:* ${applyModalJob?.title || '-'}\n*Nama:* ${applySubmittedData.applicant_name}\n*Email:* ${applySubmittedData.applicant_email}\n*No. HP:* ${applySubmittedData.phone}\n*Ekspektasi Gaji:* ${applySubmittedData.expected_salary}\n*Kode Pelacakan:* ${applyTrackingResult}\n\nMohon diproses lebih lanjut. Terima kasih!` 
+                        : `Halo Tim HRD PT Lisa Concrete, saya baru saja mengirimkan lamaran untuk posisi ${applyModalJob?.title || 'pekerjaan'}. Kode pelacakan saya adalah: ${applyTrackingResult || '-'}. Mohon info selanjutnya, terima kasih!`
+                    )}`} 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 px-5 py-2.5 bg-green-500 hover:bg-green-600 text-white rounded-xl text-xs font-bold transition-colors cursor-pointer shadow-md shadow-green-500/20"
