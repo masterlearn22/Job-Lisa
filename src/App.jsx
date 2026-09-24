@@ -1113,7 +1113,7 @@ export default function App() {
         // Auto-redirect to WhatsApp
         const waText = `Halo Tim HRD PT Lisa Concrete,\n\nSaya baru saja mengirimkan lamaran kerja melalui website.\n\n*Posisi dilamar:* ${applyModalJob?.title || '-'}\n*Nama:* ${payload.applicant_name}\n*Email:* ${payload.applicant_email}\n*Pendidikan:* ${formData.get('education') || '-'}\n*No HP:* ${payload.phone}\n*Kode pelacakan:* ${trackingCode}\n\nMohon diproses lebih lanjut. Terima kasih!`;
         const waUrl = `https://wa.me/6281216996267?text=${encodeURIComponent(waText)}`;
-        window.location.href = waUrl;
+        window.open(waUrl, '_blank');
 
         setTimeout(() => {
             setApplySuccess(false);
