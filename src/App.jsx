@@ -508,31 +508,32 @@ export default function App() {
     if (!adminManageModal) return;
     setAdminStatusSaving(true);
     try {
+      // 1. Update application status
+      const { error: updateError } = await supabase
+        .from('applications')
+        .update({ status: adminTargetStatus, notes: adminTargetNotes })
+        .eq('id', adminManageModal.id);
+        
+      if (updateError) throw updateError;
       
-      await fetch(`${API_BASE_URL}`, {
-        method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify({ action: 'updateAppStatus', id: adminManageModal.id, status: adminTargetStatus, notes: adminTargetNotes, edit_by: adminUser?.name })
-      });
-      const res = { ok: true, json: async () => ({ success: true }) };
-  
-      if (res.ok) {
-        const resData = await res.json().catch(() => ({}));
-        if (resData.emailStatus?.sent) {
-          alert(`Status pelamar "${adminManageModal.applicant_name}" berhasil diperbarui menjadi "${adminTargetStatus}"!\n\nEmail notifikasi resmi telah berhasil dikirimkan ke: ${adminManageModal.applicant_email}`);
-        } else if (resData.emailStatus?.simulated) {
-          alert(`Status pelamar "${adminManageModal.applicant_name}" berhasil diperbarui menjadi "${adminTargetStatus}" di database!\n\n⚠️ Catatan Pengiriman Email:\nEmail ke "${adminManageModal.applicant_email}" belum terkirim ke internet karena akun email pengirim (SMTP_USER & SMTP_PASS) belum disetel di file server/.env.`);
-        } else {
-          alert(`Status pelamar "${adminManageModal.applicant_name}" berhasil diperbarui menjadi "${adminTargetStatus}"!`);
-        }
-        setAdminManageModal(null);
-        fetchAdminData();
-      } else {
-        const err = await res.json().catch(() => ({}));
-        alert(`Gagal memperbarui status: ${err.error || 'Terjadi kesalahan'}`);
-      }
+      // 2. Insert into history
+      const { error: historyError } = await supabase
+        .from('applications_history')
+        .insert([{
+           application_id: adminManageModal.id,
+           status: adminTargetStatus,
+           notes: adminTargetNotes || '-'
+        }]);
+        
+      if (historyError) throw historyError;
+
+      alert(`Status pelamar "${adminManageModal.applicant_name}" berhasil diperbarui menjadi "${adminTargetStatus}"!`);
+      
+      setAdminManageModal(null);
+      fetchAdminData();
     } catch (err) {
       console.error(err);
-      alert('Gagal menghubungi backend.');
+      alert(`Gagal memperbarui status: ${err.message || 'Terjadi kesalahan'}`);
     } finally {
       setAdminStatusSaving(false);
     }
@@ -542,19 +543,17 @@ export default function App() {
   const handleAdminDeleteApp = async (id, name) => {
     if (!window.confirm(`Apakah Anda yakin ingin menghapus data pelamar ${name}? Berkas CV yang tersimpan di server juga akan dihapus permanen.`)) return;
     try {
-      const res = await fetch(API_BASE_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify({ action: 'deleteApplication', id: id, edit_by: adminUser?.name })
-      });
-      if (res.ok) {
-        fetchAdminData();
-      } else {
-        alert('Gagal menghapus lamaran.');
-      }
+      const { error } = await supabase
+        .from('applications')
+        .delete()
+        .eq('id', id);
+        
+      if (error) throw error;
+      
+      fetchAdminData();
     } catch (err) {
       console.error(err);
-      alert('Gagal menghubungi backend.');
+      alert(`Gagal menghapus lamaran: ${err.message || 'Terjadi kesalahan'}`);
     }
   };
 
