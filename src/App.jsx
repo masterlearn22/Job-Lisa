@@ -511,7 +511,7 @@ export default function App() {
       // 1. Update application status
       const { error: updateError } = await supabase
         .from('applications')
-        .update({ status: adminTargetStatus, notes: adminTargetNotes })
+        .update({ status: adminTargetStatus })
         .eq('id', adminManageModal.id);
         
       if (updateError) throw updateError;
@@ -1095,11 +1095,8 @@ export default function App() {
             applicant_name: applicantName,
             applicant_email: formData.get('email') || '',
             phone: formData.get('phone') || '',
-            expected_salary: formData.get('expected_salary') || '',
-            cover_letter: formData.get('cover_letter') || '',
             cv_file_url: finalCvUrl,
-            status: 'Administrasi & Verifikasi Dokumen',
-            notes: '-'
+            status: 'Administrasi & Verifikasi Dokumen'
         };
 
         const { data, error } = await supabase.from('applications').insert([payload]);
