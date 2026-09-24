@@ -543,6 +543,22 @@ export default function App() {
   const handleAdminDeleteApp = async (id, name) => {
     if (!window.confirm(`Apakah Anda yakin ingin menghapus data pelamar ${name}? Berkas CV yang tersimpan di server juga akan dihapus permanen.`)) return;
     try {
+      // 1. Dapatkan URL file CV sebelum data dihapus
+      const { data: appData } = await supabase
+        .from('applications')
+        .select('cv_file_url')
+        .eq('id', id)
+        .single();
+        
+      // 2. Hapus file dari Storage jika ada
+      if (appData && appData.cv_file_url && appData.cv_file_url.includes('cv_files/')) {
+        const filePath = appData.cv_file_url.split('cv_files/')[1];
+        if (filePath) {
+           await supabase.storage.from('cv_files').remove([filePath]);
+        }
+      }
+
+      // 3. Hapus baris dari Database
       const { error } = await supabase
         .from('applications')
         .delete()
