@@ -3716,7 +3716,7 @@ Jenjang karir profesional di DUSASPUN Group"
                 </div>
                 <div className="mt-6 flex flex-col items-center justify-center gap-2">
                   <a 
-                    href={`https://wa.me/6285730838491?text=${encodeURIComponent(
+                    href={`https://wa.me/6281216996267?text=${encodeURIComponent(
                       applySubmittedData 
                         ? `Halo Tim HRD PT Lisa Concrete,\n\nSaya baru saja mengirimkan lamaran kerja melalui website.\n\n*Posisi dilamar:* ${applyModalJob?.title || '-'}\n*Nama:* ${applySubmittedData.applicant_name}\n*Email:* ${applySubmittedData.applicant_email}\n*Pendidikan:* ${applySubmittedData.education || '-'}\n*No HP:* ${applySubmittedData.phone}\n*Kode pelacakan:* ${applyTrackingResult}\n\nMohon diproses lebih lanjut. Terima kasih!` 
                         : `Halo Tim HRD PT Lisa Concrete, saya baru saja mengirimkan lamaran untuk posisi ${applyModalJob?.title || 'pekerjaan'}. Kode pelacakan saya adalah: ${applyTrackingResult || '-'}. Mohon info selanjutnya, terima kasih!`
