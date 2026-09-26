@@ -1047,13 +1047,22 @@ export default function App() {
     }
     
     let locPrefix = 'SF';
-    const locUpper = jobLocation.toUpperCase();
-    if (locUpper.includes('SO') || locUpper.includes('SURABAYA OFFICE')) {
+    const locStr = jobLocation || '';
+    if (locStr.includes('SO[')) {
         locPrefix = 'SO';
-    } else if (locUpper.includes('BALI') || locUpper.includes('BF')) {
+    } else if (locStr.includes('Bali[')) {
         locPrefix = 'BF';
-    } else {
+    } else if (locStr.includes('SF[')) {
         locPrefix = 'SF';
+    } else {
+        const locUpper = locStr.toUpperCase();
+        if (locUpper.includes('SURABAYA OFFICE') || locUpper.includes(' SO ')) {
+            locPrefix = 'SO';
+        } else if (locUpper.includes('BALI') || locUpper.includes('BF')) {
+            locPrefix = 'BF';
+        } else {
+            locPrefix = 'SF';
+        }
     }
 
     const randomNums = Math.floor(1000000 + Math.random() * 9000000);
