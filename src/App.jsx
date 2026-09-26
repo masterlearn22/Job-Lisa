@@ -1097,6 +1097,7 @@ export default function App() {
             applicant_name: applicantName,
             applicant_email: formData.get('email') || '',
             phone: formData.get('phone') || '',
+            education: formData.get('education') || '',
             cv_file_url: finalCvUrl,
             status: 'Administrasi & Verifikasi Dokumen'
         };
@@ -2262,6 +2263,7 @@ export default function App() {
                                 <p className="font-bold text-white drop-shadow-sm">{app.applicant_name || app.name}</p>
                                 <p className="text-[11px] text-white/50">{app.applicant_email || app.email}</p>
                                 <p className="text-[11px] text-white/40">WA: {app.applicant_phone || app.phone || '-'}</p>
+                                <p className="text-[11px] text-white/40">Pend: {app.education || '-'}</p>
                               </td>
                               <td className="py-3.5 px-4 font-semibold text-white/90">
                                 {app.job_title || `Job ID: ${app.job_id}`}
