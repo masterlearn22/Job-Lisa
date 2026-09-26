@@ -359,6 +359,7 @@ export default function App() {
 
   // Admin Sub-Tab: 'applications' (Kelola Pelamar) vs 'jobs' (Kelola Lowongan)
   const [adminActiveTab, setAdminActiveTab] = useState('applications');
+  const [adminSelectedDirectory, setAdminSelectedDirectory] = useState(null);
 
   // Admin Job Management States
   const [adminJobs, setAdminJobs] = useState([]);
@@ -2102,6 +2103,21 @@ export default function App() {
                   <span>💼</span>
                   <span>Kelola Lowongan Pekerjaan ({adminJobs.length})</span>
                 </button>
+
+                <button
+                  onClick={() => {
+                    setAdminActiveTab('cv_directory');
+                    setAdminSelectedDirectory(null);
+                  }}
+                  className={`px-5 py-2.5 rounded-2xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all cursor-pointer backdrop-blur-xl ${
+                    adminActiveTab === 'cv_directory'
+                      ? 'bg-red-600/80 text-white shadow-lg shadow-red-900/30 border border-red-500/50 ring-1 ring-white/20'
+                      : 'bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/10'
+                  }`}
+                >
+                  <span>📂</span>
+                  <span>Direktori CV</span>
+                </button>
               </div>
 
               {adminActiveTab === 'applications' ? (
@@ -2330,7 +2346,9 @@ export default function App() {
                 )}
               </div>
             </>
-          ) : (
+          )}
+          
+          {adminActiveTab === 'jobs' && (
             /* KELOLA LOWONGAN PEKERJAAN VIEW */
             <>
               {/* METRICS STATS CARDS UNTUK LOWONGAN */}
@@ -2540,6 +2558,81 @@ export default function App() {
                 )}
               </div>
             </>
+          )}
+
+          {adminActiveTab === 'cv_directory' && (
+            <div className="animate-fade-in mt-4">
+              <div className="mb-6 flex justify-between items-end">
+                <div>
+                  <h3 className="text-white text-lg sm:text-xl font-bold drop-shadow-sm">Direktori CV</h3>
+                  <p className="text-white/50 text-xs mt-1">Manajemen file CV pelamar dikelompokkan berdasarkan divisi.</p>
+                </div>
+              </div>
+
+              {!adminSelectedDirectory ? (
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                  {Array.from(new Set(adminApplications.map(app => app.division_name || 'Umum'))).map(div => {
+                    const count = adminApplications.filter(a => (a.division_name || 'Umum') === div).length;
+                    return (
+                      <button 
+                        key={div}
+                        onClick={() => setAdminSelectedDirectory(div)}
+                        className="bg-white/5 border border-white/10 p-6 rounded-3xl flex flex-col items-center justify-center gap-3 hover:bg-white/10 hover:border-red-500/30 transition-all cursor-pointer group backdrop-blur-xl shadow-lg shadow-black/20"
+                      >
+                        <span className="text-5xl group-hover:scale-110 transition-transform drop-shadow-lg">📁</span>
+                        <div className="text-center w-full">
+                          <p className="text-white font-bold text-sm truncate px-1">{div}</p>
+                          <p className="text-red-300 font-semibold text-[11px] mt-1 bg-red-500/10 px-2 py-0.5 rounded-full inline-block">{count} Berkas</p>
+                        </div>
+                      </button>
+                    )
+                  })}
+                  {adminApplications.length === 0 && (
+                     <div className="col-span-full p-8 text-center text-white/50 text-xs border border-white/10 rounded-2xl border-dashed">
+                       Belum ada data CV.
+                     </div>
+                  )}
+                </div>
+              ) : (
+                <div>
+                  <button 
+                    onClick={() => setAdminSelectedDirectory(null)}
+                    className="mb-4 px-3 py-1.5 bg-white/5 hover:bg-white/10 text-white/70 hover:text-white rounded-lg text-xs font-bold flex items-center gap-1.5 cursor-pointer border border-white/10 transition-colors"
+                  >
+                    <span>&larr;</span> <span>Kembali ke Direktori</span>
+                  </button>
+                  
+                  <div className="bg-white/5 border border-white/10 rounded-3xl overflow-hidden shadow-xl shadow-black/20 backdrop-blur-xl">
+                    <div className="p-4 sm:p-5 border-b border-white/10 bg-black/30 flex items-center gap-3">
+                      <span className="text-2xl drop-shadow-md">📂</span>
+                      <div>
+                        <h4 className="text-white font-black text-sm sm:text-base">{adminSelectedDirectory}</h4>
+                        <p className="text-[10px] text-white/50">{adminApplications.filter(a => (a.division_name || 'Umum') === adminSelectedDirectory).length} Berkas CV ditemukan</p>
+                      </div>
+                    </div>
+                    <div className="p-4 sm:p-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                      {adminApplications.filter(a => (a.division_name || 'Umum') === adminSelectedDirectory).map(app => (
+                        <a 
+                          key={app.id}
+                          href={app.cv_file_url || '#'}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="bg-black/40 border border-white/5 hover:border-red-500/30 p-3 sm:p-4 rounded-2xl flex items-center gap-3 hover:bg-white/10 transition-all group"
+                          title={`Buka CV ${app.applicant_name}`}
+                        >
+                          <span className="text-3xl shrink-0 group-hover:scale-110 transition-transform drop-shadow-md">📄</span>
+                          <div className="min-w-0 flex-1">
+                            <p className="text-white font-bold text-xs truncate">{app.applicant_name}</p>
+                            <p className="text-red-300 font-medium text-[10px] truncate mt-0.5">{app.job_title}</p>
+                            <p className="text-white/40 text-[9px] mt-1 font-mono">{new Date(app.created_at).toLocaleDateString('id-ID')} • {app.tracking_id}</p>
+                          </div>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
           )}
         </div>
 
