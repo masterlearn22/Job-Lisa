@@ -638,12 +638,21 @@ export default function App() {
         .map(b => b.trim())
         .filter(b => b.length > 0);
 
-            const isEditPayload = jobModalMode === 'edit' && jobFormData.id;
-      const payload = {
-        action: 'saveJob',
-        id: isEditPayload ? jobFormData.id : undefined,
+      const divId = parseInt(jobFormData.division_id, 10) || 1;
+      const divisionNames = {
+        1: 'Teknik Sipil & Rancang Bangun',
+        2: 'Produksi & Operasional Pabrik',
+        3: 'Quality Control (QC) & Laboratorium',
+        4: 'Logistik & Manajemen Supply Chain',
+        5: 'Kesehatan & Keselamatan Kerja (HSE)',
+        6: 'Pemasaran & Administrasi Proyek'
+      };
+      const departmentName = divisionNames[divId] || 'Umum';
+
+      const jobPayload = {
         title: jobFormData.title.trim(),
-        division_id: parseInt(jobFormData.division_id, 10) || 1,
+        department: departmentName,
+        division_id: divId,
         location: jobFormData.location.trim(),
         type: jobFormData.type,
         experience: jobFormData.experience.trim(),
@@ -651,35 +660,32 @@ export default function App() {
         deadline: jobFormData.deadline.trim(),
         status: jobFormData.status,
         description: jobFormData.description.trim(),
-        requirements: jobFormData.requirements.trim(),
-        benefits: jobFormData.benefits.trim(),
-        edit_by: adminUser?.name
+        requirements: reqList,
+        benefits: benList
       };
 
       const isEdit = jobModalMode === 'edit' && jobFormData.id;
-      const url = `${API_BASE_URL}`;
-        const method = 'POST';
-  
-        await fetch(url, {
-          method,
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'text/plain' },
-          body: JSON.stringify(payload)
-        });
-        const res = { ok: true, json: async () => ({ success: true }) };
+      
+      let error;
+      if (isEdit) {
+        const { error: updateErr } = await supabase.from('jobs').update(jobPayload).eq('id', jobFormData.id);
+        error = updateErr;
+      } else {
+        const { error: insertErr } = await supabase.from('jobs').insert([jobPayload]);
+        error = insertErr;
+      }
 
-      if (res.ok) {
+      if (!error) {
         alert(isEdit ? `Lowongan "${jobFormData.title}" berhasil diperbarui!` : `Lowongan baru "${jobFormData.title}" berhasil ditambahkan!`);
         setJobModalOpen(false);
         fetchAdminJobs();
-        fetchJobs(); // Update public listing
+        fetchJobs();
       } else {
-        const errJson = await res.json().catch(() => ({}));
-        alert(`Gagal menyimpan lowongan: ${errJson.error || 'Terjadi kesalahan'}`);
+        throw error;
       }
     } catch (err) {
       console.error(err);
-      alert('Gagal menghubungi server backend.');
+      alert(`Gagal menyimpan lowongan: ${err.message || 'Terjadi kesalahan'}`);
     } finally {
       setJobModalSaving(false);
     }
@@ -693,22 +699,17 @@ export default function App() {
     if (!window.confirm(`Apakah Anda yakin ingin ${actionLabel} "${job.title}"?`)) return;
 
     try {
-      
-      await fetch(`${API_BASE_URL}`, {
-        method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify({ action: 'updateJobStatus', id: job.id, status: nextStatus, edit_by: adminUser?.name })
-      });
-      const res = { ok: true, json: async () => ({ success: true }) };
+      const { error } = await supabase.from('jobs').update({ status: nextStatus }).eq('id', job.id);
   
-      if (res.ok) {
+      if (!error) {
         fetchAdminJobs();
         fetchJobs();
       } else {
-        alert('Gagal mengubah status lowongan.');
+        throw error;
       }
     } catch (err) {
       console.error(err);
-      alert('Gagal menghubungi backend.');
+      alert(`Gagal mengubah status lowongan: ${err.message}`);
     }
   };
 
@@ -717,21 +718,17 @@ export default function App() {
     if (!window.confirm(`Apakah Anda yakin ingin menghapus lowongan "${job.title}" secara permanen?`)) return;
 
     try {
-      await fetch(`${API_BASE_URL}`, {
-          method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' },
-          body: JSON.stringify({ action: 'deleteJob', id: job.id, edit_by: adminUser?.name })
-        });
-        const res = { ok: true };
-      if (res.ok) {
+      const { error } = await supabase.from('jobs').delete().eq('id', job.id);
+      if (!error) {
         alert(`Lowongan "${job.title}" berhasil dihapus.`);
         fetchAdminJobs();
         fetchJobs();
       } else {
-        alert('Gagal menghapus lowongan.');
+        throw error;
       }
     } catch (err) {
       console.error(err);
-      alert('Gagal menghubungi backend.');
+      alert(`Gagal menghapus lowongan: ${err.message}`);
     }
   };
 
