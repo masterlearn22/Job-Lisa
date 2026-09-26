@@ -2117,7 +2117,7 @@ export default function App() {
                 </button>
               </div>
 
-              {adminActiveTab === 'applications' ? (
+              {adminActiveTab === 'applications' && (
                 <>
                   {/* METRICS STATS CARDS (6 TAHAPAN RESMI REKRUTMEN + TOTAL & DITOLAK) */}
                   <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2.5 sm:gap-3">
