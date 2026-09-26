@@ -972,7 +972,7 @@ export default function App() {
     if (e) e.preventDefault()
     const code = trackingCode.trim()
     if (!code) {
-      handleOpenTracking(true)
+      setTrackedResult(null)
       return
     }
 
@@ -993,6 +993,7 @@ export default function App() {
 
       if (error || !appData) {
         alert(`Lamaran dengan Email atau ID "${code}" tidak ditemukan di database.`);
+        setTrackedResult(null);
         return;
       }
 
@@ -1015,8 +1016,9 @@ export default function App() {
       setTrackedResult(buildTrackingState(formattedData, historyData || []));
       
     } catch (err) {
-      console.warn('Gagal koneksi ke database, menampilkan preview demo:', err);
-      handleOpenTracking(true);
+      console.warn('Gagal koneksi ke database:', err);
+      alert('Gagal mengambil data dari database.');
+      setTrackedResult(null);
     }
   }
 
@@ -1571,13 +1573,6 @@ export default function App() {
                 </div>
                 <div className="flex flex-wrap items-center justify-between gap-2 pt-2 text-[11px] text-slate-700 font-medium">
                   <span>Format nomor registrasi: <code className="bg-white text-black border border-slate-200 px-1.5 py-0.5 rounded font-mono font-black">LISA-2026-0891</code></span>
-                  <button
-                    type="button"
-                    onClick={() => handleOpenTracking(true)}
-                    className="text-red-700 font-black hover:text-red-900 hover:underline cursor-pointer flex items-center gap-1 transition-colors"
-                  >
-                    <span>⚡ Coba Contoh Data Pelamar (Simulasi)</span>
-                  </button>
                 </div>
               </form>
             </div>
